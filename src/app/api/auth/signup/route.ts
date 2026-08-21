@@ -81,10 +81,39 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Signup error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    
+    // Check for specific database errors
+    if (error instanceof Error) {
+      const errorDetails = error.message;
+      
+      // Check if it's a connection error
+      if (errorDetails.includes('Can\'t reach database server') || 
+          errorDetails.includes('P1001') ||
+          errorDetails.includes('ENOTFOUND') ||
+          errorDetails.includes('ECONNREFUSED')) {
+        return NextResponse.json({ 
+          error: 'Database connection failed. Please try again later or contact support.',
+          details: 'Service temporarily unavailable'
+        }, { status: 503 });
+      }
+      
+      // Check if it's a table doesn't exist error
+      if (errorDetails.includes('relation') && errorDetails.includes('does not exist')) {
+        return NextResponse.json({ 
+          error: 'Database setup incomplete. Please contact support.',
+          details: 'Configuration error'
+        }, { status: 500 });
+      }
+      
+      return NextResponse.json({ 
+        error: 'Failed to create user', 
+        details: errorDetails 
+      }, { status: 500 });
+    }
+    
     return NextResponse.json({ 
       error: 'Failed to create user', 
-      details: errorMessage 
+      details: 'Unknown error occurred' 
     }, { status: 500 });
   }
 }

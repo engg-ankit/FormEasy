@@ -8,9 +8,10 @@ export async function POST(
 ) {
   try {
     await requireAdminAuth();
+    const { id } = await params;
 
     const payment = await prisma.payment.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { application: true },
     });
 
@@ -24,7 +25,7 @@ export async function POST(
 
     // Update payment status to REFUNDED
     await prisma.payment.update({
-      where: { id: params.id },
+      where: { id },
       data: { status: 'REFUNDED' },
     });
 

@@ -10,15 +10,18 @@ export const ThemeToggle = ({ className = '' }: { className?: string }) => {
 
   useEffect(() => setMounted(true), []);
 
-  if (!mounted) return null;
+  const isDark = mounted ? theme === 'dark' : false;
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors ${className}`}
+      onClick={() => {
+        if (!mounted) return;
+        setTheme(isDark ? 'light' : 'dark');
+      }}
+      className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition-colors ${className}`}
       aria-label="Toggle dark mode"
     >
-      {theme === 'dark' ? (
+      {isDark ? (
         <Sun className="h-5 w-5" />
       ) : (
         <Moon className="h-5 w-5" />

@@ -146,6 +146,70 @@ const translations = {
     'step3.desc': 'Upload required documents like photo, signature, ID proof.',
     'step4.title': 'Pay & Done',
     'step4.desc': 'Pay the fees and we\'ll submit your form to the official portal.',
+
+    // Contact
+    'contact.title': 'Contact Us',
+    'contact.subtitle': 'Have questions? We\'d love to hear from you.',
+    'contact.name': 'Your Name',
+    'contact.email': 'Email Address',
+    'contact.message': 'Your Message',
+    'contact.send': 'Send Message',
+    'contact.sending': 'Sending...',
+    'contact.sent': 'Message sent successfully!',
+    'contact.phone': 'Phone',
+    'contact.whatsapp': 'WhatsApp',
+    'contact.hours': 'Working Hours',
+
+    // About
+    'about.title': 'About FormEasy',
+    'about.mission': 'Our Mission',
+    'about.missionText': 'We help students across India by filling and submitting their exam application forms online — so they never have to visit a cyber café again.',
+    'about.why': 'Why Choose Us?',
+    'about.whyText': 'FormEasy was built because we saw students struggling with complicated online forms, long queues at cyber cafés, and missed deadlines. We wanted to make it simple.',
+    'about.values': 'Our Values',
+
+    // FAQ
+    'faq.title': 'Frequently Asked Questions',
+    'faq.subtitle': 'Find answers to common questions about our service.',
+    'faq.search': 'Search questions...',
+
+    // Terms
+    'terms.title': 'Terms & Conditions',
+    'terms.subtitle': 'Please read these terms carefully before using our services.',
+
+    // Privacy
+    'privacy.title': 'Privacy Policy',
+    'privacy.subtitle': 'Your privacy is important to us. Here\'s how we handle your data.',
+
+    // Forgot Password
+    'forgot.title': 'Reset Password',
+    'forgot.subtitle': 'Enter your email to receive a reset link.',
+    'forgot.sent': 'Reset link sent to your email!',
+
+    // Request Form
+    'request.title': 'Request a Form',
+    'request.subtitle': 'Can\'t find the form you need? Request it here and we\'ll add it.',
+    'request.formName': 'Form/Exam Name',
+    'request.category': 'Category',
+    'request.portal': 'Official Portal URL (if known)',
+    'request.details': 'Additional Details',
+    'request.phone': 'Your Phone Number',
+    'request.submit': 'Submit Request',
+    'request.submitted': 'Request submitted successfully!',
+    'request.myRequests': 'My Requests',
+
+    // Exam Detail
+    'exam.about': 'About this Form',
+    'exam.requiredDocs': 'Required Documents',
+    'exam.feeBreakdown': 'Fee Breakdown',
+    'exam.officialFee': 'Official Fee',
+    'exam.serviceFeeLabel': 'Service Fee',
+    'exam.totalFeeLabel': 'Total',
+    'exam.securePay': 'Secure payment powered by Razorpay',
+    'exam.needHelp': 'Need Help?',
+    'exam.helpText': 'Our team is available to help you with any questions about this form application.',
+    'exam.contactSupport': 'Contact Support',
+    'exam.viewDetails': 'View Details',
   },
   hi: {
     // Navigation
@@ -288,6 +352,70 @@ const translations = {
     'step3.desc': 'फोटो, सिग्नेचर, ID प्रूफ जैसे जरूरी दस्तावेज अपलोड करें।',
     'step4.title': 'भुगतान और हो गया',
     'step4.desc': 'शुल्क का भुगतान करें और हम आपका फॉर्म आधिकारिक पोर्टल पर जमा कर देंगे।',
+
+    // Contact
+    'contact.title': 'संपर्क करें',
+    'contact.subtitle': 'कोई सवाल है? हमसे बात करें।',
+    'contact.name': 'आपका नाम',
+    'contact.email': 'ईमेल पता',
+    'contact.message': 'आपका संदेश',
+    'contact.send': 'संदेश भेजें',
+    'contact.sending': 'भेजा जा रहा है...',
+    'contact.sent': 'संदेश सफलतापूर्वक भेजा गया!',
+    'contact.phone': 'फोन',
+    'contact.whatsapp': 'व्हाट्सएप',
+    'contact.hours': 'कार्य समय',
+
+    // About
+    'about.title': 'FormEasy के बारे में',
+    'about.mission': 'हमारा मिशन',
+    'about.missionText': 'हम भारत भर के छात्रों की मदद करते हैं — उनके परीक्षा आवेदन फॉर्म ऑनलाइन भरकर और जमा करके, ताकि उन्हें कभी साइबर कैफ़े न जाना पड़े।',
+    'about.why': 'हमें क्यों चुनें?',
+    'about.whyText': 'FormEasy इसलिए बना क्योंकि हमने देखा कि छात्र जटिल ऑनलाइन फॉर्म, साइबर कैफ़े में लंबी कतारों और समय सीमा छूटने से जूझ रहे थे। हम इसे आसान बनाना चाहते थे।',
+    'about.values': 'हमारे मूल्य',
+
+    // FAQ
+    'faq.title': 'अक्सर पूछे जाने वाले सवाल',
+    'faq.subtitle': 'हमारी सेवा के बारे में आम सवालों के जवाब खोजें।',
+    'faq.search': 'सवाल खोजें...',
+
+    // Terms
+    'terms.title': 'नियम और शर्तें',
+    'terms.subtitle': 'कृपया हमारी सेवाओं का उपयोग करने से पहले इन नियमों को ध्यान से पढ़ें।',
+
+    // Privacy
+    'privacy.title': 'गोपनीयता नीति',
+    'privacy.subtitle': 'आपकी गोपनीयता हमारे लिए महत्वपूर्ण है। यहाँ बताया गया है कि हम आपके डेटा को कैसे संभालते हैं।',
+
+    // Forgot Password
+    'forgot.title': 'पासवर्ड रीसेट करें',
+    'forgot.subtitle': 'रीसेट लिंक प्राप्त करने के लिए अपना ईमेल दर्ज करें।',
+    'forgot.sent': 'आपके ईमेल पर रीसेट लिंक भेजा गया!',
+
+    // Request Form
+    'request.title': 'फॉर्म का अनुरोध करें',
+    'request.subtitle': 'जो फॉर्म आपको चाहिए वो नहीं मिल रहा? यहाँ अनुरोध करें और हम उसे जोड़ देंगे।',
+    'request.formName': 'फॉर्म/परीक्षा का नाम',
+    'request.category': 'श्रेणी',
+    'request.portal': 'आधिकारिक पोर्टल URL (अगर पता हो)',
+    'request.details': 'अतिरिक्त विवरण',
+    'request.phone': 'आपका फोन नंबर',
+    'request.submit': 'अनुरोध जमा करें',
+    'request.submitted': 'अनुरोध सफलतापूर्वक जमा हो गया!',
+    'request.myRequests': 'मेरे अनुरोध',
+
+    // Exam Detail
+    'exam.about': 'इस फॉर्म के बारे में',
+    'exam.requiredDocs': 'आवश्यक दस्तावेज',
+    'exam.feeBreakdown': 'शुल्क विवरण',
+    'exam.officialFee': 'आधिकारिक शुल्क',
+    'exam.serviceFeeLabel': 'सेवा शुल्क',
+    'exam.totalFeeLabel': 'कुल',
+    'exam.securePay': 'Razorpay द्वारा सुरक्षित भुगतान',
+    'exam.needHelp': 'मदद चाहिए?',
+    'exam.helpText': 'हमारी टीम इस फॉर्म आवेदन के बारे में किसी भी सवाल में आपकी मदद के लिए उपलब्ध है।',
+    'exam.contactSupport': 'सहायता से संपर्क करें',
+    'exam.viewDetails': 'विवरण देखें',
   },
 } as const;
 

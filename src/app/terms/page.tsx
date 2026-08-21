@@ -1,7 +1,10 @@
+'use client';
+import { useTranslation } from '@/lib/i18n';
 import { PageHead } from '@/components/page-head';
 import { SiteNav } from '@/components/site-nav';
 
 export default function TermsPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-neutral-50">
       <PageHead title="Terms & Conditions | FormEasy" description="Terms and conditions for using FormEasy form filling service." />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import { useTranslation } from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ const CATEGORIES = [
 ];
 
 export default function RequestFormPage() {
+  const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [myRequests, setMyRequests] = useState<FormRequest[]>([]);
@@ -183,7 +185,7 @@ export default function RequestFormPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Title */}
         <div className="mb-8">
-          <h1 className="text-3xl font-display font-bold text-primary-900 mb-2">Request a Form</h1>
+          <h1 className="text-3xl font-display font-bold text-primary-900 mb-2">{t('request.title')}</h1>
           <p className="text-neutral-600">
             Can't find the form you need? Tell us about it and we'll add it for you!
           </p>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { PageHead } from '@/components/page-head';
 import { SiteNav } from '@/components/site-nav';
+import { useTranslation } from '@/lib/i18n';
 import { ChevronDown, ChevronUp, Search } from 'lucide-react';
 
 const FAQ_DATA = [
@@ -21,6 +22,7 @@ const FAQ_DATA = [
 ];
 
 export default function FAQPage() {
+  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [search, setSearch] = useState('');
 
@@ -36,7 +38,7 @@ export default function FAQPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-display font-bold text-primary-900 mb-4">Frequently Asked Questions</h1>
+          <h1 className="text-4xl font-display font-bold text-primary-900 mb-4">{t('faq.title')}</h1>
           <p className="text-lg text-neutral-600">Everything you need to know about FormEasy</p>
         </div>
 

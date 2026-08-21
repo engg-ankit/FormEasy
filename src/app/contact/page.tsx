@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslation } from '@/lib/i18n';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,7 @@ import { SiteNav } from '@/components/site-nav';
 import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle, Loader2, Clock } from 'lucide-react';
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -30,7 +32,7 @@ export default function ContactPage() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-display font-bold text-primary-900 mb-4">Contact Us</h1>
+          <h1 className="text-4xl font-display font-bold text-primary-900 mb-4">{t("contact.title")}</h1>
           <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
             Have a question? Need help with your application? We're here for you!
           </p>

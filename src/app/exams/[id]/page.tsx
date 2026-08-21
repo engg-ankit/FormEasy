@@ -21,17 +21,20 @@ interface Exam {
   requiredDocuments: string;
 }
 
-export default function ExamDetailPage({ params }: { params: { id: string } }) {
+export default function ExamDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [exam, setExam] = useState<Exam | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [examId, setExamId] = useState<string>(params.id);
+  const [examId, setExamId] = useState<string>('');
 
   useEffect(() => {
-    fetchExam(params.id);
-  }, [params.id]);
+    params.then(({ id }) => {
+      setExamId(id);
+      fetchExam(id);
+    });
+  }, [params]);
 
   const fetchExam = async (id: string) => {
     try {

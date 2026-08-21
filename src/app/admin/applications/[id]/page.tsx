@@ -31,9 +31,9 @@ interface ApplicationDetail {
   statusHistory: Array<{ id: string; oldStatus: string | null; newStatus: string; changedByName: string; note: string | null; createdAt: string }>;
 }
 
-export default function AdminApplicationDetailPage({ params }: { params: { id: string } }) {
+export default function AdminApplicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const [applicationId, setApplicationId] = useState<string>(params.id);
+  const [applicationId, setApplicationId] = useState<string>('');
   const [application, setApplication] = useState<ApplicationDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -41,8 +41,11 @@ export default function AdminApplicationDetailPage({ params }: { params: { id: s
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchApplication(params.id);
-  }, [params.id]);
+    params.then(({ id }) => {
+      setApplicationId(id);
+      fetchApplication(id);
+    });
+  }, [params]);
 
   const fetchApplication = async (id: string) => {
     try {

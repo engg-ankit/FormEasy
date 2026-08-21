@@ -10,9 +10,9 @@ import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { loadRazorpayScript, createRazorpayCheckout, type RazorpayOptions } from '@/lib/razorpay';
 
-export default function PaymentPage({ params }: { params: { applicationId: string } }) {
+export default function PaymentPage({ params }: { params: Promise<{ applicationId: string }> }) {
   const router = useRouter();
-  const [applicationId, setApplicationId] = useState<string>(params.applicationId);
+  const [applicationId, setApplicationId] = useState<string>('');
   const [amount, setAmount] = useState(0);
   const [orderId, setOrderId] = useState('');
   const [examTitle, setExamTitle] = useState('');
@@ -24,8 +24,11 @@ export default function PaymentPage({ params }: { params: { applicationId: strin
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    initiatePayment(params.applicationId);
-  }, [params.applicationId]);
+    params.then(({ applicationId: id }) => {
+      setApplicationId(id);
+      initiatePayment(id);
+    });
+  }, [params]);
 
   const initiatePayment = async (id: string) => {
     try {

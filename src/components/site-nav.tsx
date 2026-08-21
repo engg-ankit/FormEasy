@@ -1,0 +1,69 @@
+'use client';
+
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo';
+import { MobileMenu } from '@/components/mobile-menu';
+import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus } from 'lucide-react';
+import { LanguageToggle } from '@/components/language-toggle';
+
+export const SiteNav = () => {
+  const { data: session } = useSession();
+
+  const menuItems = session
+    ? [
+        { label: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
+        { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },
+        { label: 'Request Form', href: '/request-form', icon: <Plus className="h-5 w-5" /> },
+        { label: 'My Applications', href: '/dashboard', icon: <FileText className="h-5 w-5" /> },
+        { label: 'Contact Support', href: '/contact', icon: <Phone className="h-5 w-5" /> },
+        { label: 'How It Works', href: '/#how-it-works', icon: <BookOpen className="h-5 w-5" /> },
+      ]
+    : [
+        { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },
+        { label: 'How It Works', href: '/#how-it-works', icon: <BookOpen className="h-5 w-5" /> },
+        { label: 'Contact', href: '/contact', icon: <Phone className="h-5 w-5" /> },
+      ];
+
+  return (
+    <>
+      {/* Desktop buttons — hidden on mobile */}
+      <div className="hidden sm:flex items-center gap-4">
+        <LanguageToggle className="text-neutral-500 hover:text-primary-600" />
+        <Link href="/admin/login" className="text-sm text-neutral-500 hover:text-primary-600 transition-colors">
+          Admin
+        </Link>
+        {session ? (
+          <Link href="/dashboard">
+            <Button variant="primary">
+              <LayoutDashboard className="h-4 w-4 mr-2" />
+              My Dashboard
+            </Button>
+          </Link>
+        ) : (
+          <>
+            <Link href="/login">
+              <Button variant="ghost">Login</Button>
+            </Link>
+            <Link href="/signup">
+              <Button variant="primary">Sign Up</Button>
+            </Link>
+          </>
+        )}
+      </div>
+
+      {/* Mobile menu — hidden on desktop */}
+      <div className="sm:hidden">
+        <MobileMenu
+          items={menuItems}
+          cta={
+            session
+              ? undefined
+              : { label: 'Sign Up Free', href: '/signup' }
+          }
+        />
+      </div>
+    </>
+  );
+};

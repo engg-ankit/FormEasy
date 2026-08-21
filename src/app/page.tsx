@@ -1,69 +1,267 @@
-import Image from "next/image";
+import { prisma } from '@/lib/prisma';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Search, Edit, Upload, CheckCircle, Clock, Shield, Users, TrendingUp } from 'lucide-react';
+import { LogoIcon } from '@/components/logo-icon';
+import { HomepageHeader } from '@/components/homepage-header';
+import Link from 'next/link';
 
-export default function Home() {
+async function getActiveExams() {
+  try {
+    const exams = await prisma.exam.findMany({
+      where: { isActive: true },
+      take: 6,
+      orderBy: { createdAt: 'desc' },
+    });
+    return exams;
+  } catch (error) {
+    console.error('Error fetching exams:', error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const exams = await getActiveExams();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white dark:from-primary-950 dark:to-neutral-900">
+      {/* Navigation */}
+      <HomepageHeader />
+
+      {/* Hero Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary-900 dark:text-white mb-6">
+              Get Your Forms Filled Online
+            </h1>
+            <p className="text-xl text-neutral-600 mb-8 max-w-3xl mx-auto">
+              Professional form filling service for college registrations, exam applications, scholarships, government forms, and more. Skip the cyber café – we handle it all online.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/exams">
+                <Button variant="primary" size="lg" className="text-lg">
+                  Browse Forms
+                </Button>
+              </Link>
+              <Link href="/#how-it-works">
+                <Button variant="outline" size="lg" className="text-lg">
+                  How It Works
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
+            How It Works
+          </h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { icon: Search, title: 'Choose a Form', description: 'Browse and select the form you need filled – exam, registration, or scholarship' },
+              { icon: Edit, title: 'Fill Details', description: 'Complete your personal and educational details online' },
+              { icon: Upload, title: 'Upload Documents', description: 'Upload required documents securely' },
+              { icon: CheckCircle, title: 'We Submit', description: 'Our team submits your form on the official portal' },
+            ].map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <step.icon className="h-8 w-8 text-primary-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{step.title}</h3>
+                <p className="text-neutral-600">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Exams */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-50 dark:bg-primary-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-12">
+            <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white">
+              Featured Forms
+            </h2>
+            <Link href="/exams">
+              <Button variant="outline">View All</Button>
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {exams.map((exam) => (
+              <Card key={exam.id} className="hover:shadow-medium transition-shadow">
+                <CardHeader>
+                  <div className="flex justify-between items-start min-w-0">
+                    <div className="min-w-0">
+                      <span className="inline-block bg-accent-100 text-accent-700 text-xs font-semibold px-2 py-1 rounded mb-2 truncate max-w-full">
+                        {exam.category}
+                      </span>
+                      <h3 className="text-lg sm:text-xl font-semibold text-primary-900 dark:text-white truncate">{exam.title}</h3>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-neutral-600 mb-4 line-clamp-2">{exam.description}</p>
+                  <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
+                    <div className="flex items-center text-sm text-neutral-600">
+                      <Clock className="h-4 w-4 mr-1 flex-shrink-0" />
+                      <span className="truncate">Last Date: {new Date(exam.lastDate).toLocaleDateString()}</span>
+                    </div>
+                    <div className="text-lg font-semibold text-primary-900 dark:text-white whitespace-nowrap">
+                      ₹{(exam.officialFee + exam.serviceFee) / 100}
+                    </div>
+                  </div>
+                  <Link href={`/exams/${exam.id}`}>
+                    <Button variant="primary" className="w-full">
+                      Apply Now
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
+            Why Choose FormEasy?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: Shield, title: 'Secure & Reliable', description: 'Your data is encrypted and handled with utmost security' },
+              { icon: Users, title: 'Expert Team', description: 'Experienced professionals ensure accurate form submission' },
+              { icon: TrendingUp, title: 'Fast Processing', description: 'Quick turnaround with real-time status updates' },
+            ].map((feature, index) => (
+              <div key={index} className="text-center">
+                <div className="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <feature.icon className="h-8 w-8 text-primary-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
+                <p className="text-neutral-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-900 dark:bg-primary-950 text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: '5000+', label: 'Forms Filled' },
+              { value: '98%', label: 'Success Rate' },
+              { value: '24/7', label: 'Support' },
+              { value: '50+', label: 'Form Categories' },
+            ].map((stat, index) => (
+              <div key={index}>
+                <div className="text-4xl font-display font-bold mb-2">{stat.value}</div>
+                <div className="text-primary-200">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">What Our Students Say</h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400">Trusted by 2000+ students across India</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: 'Priya Sharma', exam: 'SSC CGL 2024', text: 'I was struggling with the SSC form portal. FormEasy filled it in 30 minutes! Saved me a trip to the cyber cafe. Amazing service! ⭐⭐⭐⭐⭐', city: 'Meerut' },
+              { name: 'Rahul Verma', exam: 'Bank PO 2024', text: 'The whole process was so smooth. I just filled my details, uploaded documents, and boom — form submitted! The dashboard tracking is very helpful. ⭐⭐⭐⭐⭐', city: 'Lucknow' },
+              { name: 'Sneha Gupta', exam: 'JEE Main 2025', text: 'I missed my college admission deadline last year. This year, FormEasy reminded me and filled the form on time. Got my admission! Thank you FormEasy! ⭐⭐⭐⭐⭐', city: 'Delhi' },
+            ].map((t, i) => (
+              <div key={i} className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 border border-neutral-200 dark:border-neutral-600">
+                <div className="flex items-center gap-1 mb-3">
+                  {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400">★</span>)}
+                </div>
+                <p className="text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary-100 dark:bg-primary-800 rounded-full w-10 h-10 flex items-center justify-center">
+                    <span className="font-bold text-primary-600 dark:text-primary-300">{t.name[0]}</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-primary-900 dark:text-white text-sm">{t.name}</p>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.exam} • {t.city}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-accent-500">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-display font-bold text-white mb-4">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-white mb-8">
+            Join thousands of students who have successfully submitted their forms through FormEasy
           </p>
+          <Link href="/exams">
+            <Button variant="secondary" size="lg" className="text-lg">
+              Browse Available Forms
+            </Button>
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-primary-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="mb-4">
+                <LogoIcon size={56} white />
+              </div>
+              <p className="text-primary-200 text-sm">
+                Professional form filling service for students across India.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-primary-200">
+                <li><Link href="/exams" className="hover:text-white">Browse Forms</Link></li>
+                <li><Link href="/request-form" className="hover:text-white">Request Form</Link></li>
+                <li><Link href="/about" className="hover:text-white">About Us</Link></li>
+                <li><Link href="/faq" className="hover:text-white">FAQ</Link></li>
+                <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-primary-200">
+                <li><Link href="/terms" className="hover:text-white">Terms & Conditions</Link></li>
+                <li><Link href="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/refund" className="hover:text-white">Refund Policy</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-primary-200">
+                <li>support@formeasy.com</li>
+                <li>+91 98765 43210</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-primary-800 mt-8 pt-8 text-center text-sm text-primary-200">
+            © {new Date().getFullYear()} FormEasy. All rights reserved.
+          </div>
         </div>
-      </main>
+      </footer>
     </div>
   );
 }

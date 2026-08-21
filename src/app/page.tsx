@@ -1,4 +1,3 @@
-import { prisma } from '@/lib/prisma';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Search, Edit, Upload, CheckCircle, Clock, Shield, Users, TrendingUp } from 'lucide-react';
@@ -6,22 +5,37 @@ import { LogoIcon } from '@/components/logo-icon';
 import { HomepageHeader } from '@/components/homepage-header';
 import Link from 'next/link';
 
-async function getActiveExams() {
-  try {
-    const exams = await prisma.exam.findMany({
-      where: { isActive: true },
-      take: 6,
-      orderBy: { createdAt: 'desc' },
-    });
-    return exams;
-  } catch (error) {
-    console.error('Error fetching exams:', error);
-    return [];
-  }
-}
-
-export default async function Home() {
-  const exams = await getActiveExams();
+export default function Home() {
+  // Static featured exams for display
+  const featuredExams = [
+    {
+      id: '1',
+      title: 'SSC CGL 2024',
+      category: 'Government',
+      description: 'Staff Selection Commission Combined Graduate Level Examination for various government posts.',
+      lastDate: '2024-12-15',
+      officialFee: 10000,
+      serviceFee: 5000,
+    },
+    {
+      id: '2', 
+      title: 'Bank PO 2024',
+      category: 'Banking',
+      description: 'Probationary Officer examination for leading public sector banks.',
+      lastDate: '2024-11-30',
+      officialFee: 8000,
+      serviceFee: 4000,
+    },
+    {
+      id: '3',
+      title: 'JEE Main 2025',
+      category: 'Engineering',
+      description: 'Joint Entrance Examination Main for engineering admissions in NITs, IIITs, and other institutions.',
+      lastDate: '2025-01-15',
+      officialFee: 12000,
+      serviceFee: 6000,
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white dark:from-primary-950 dark:to-neutral-900">
@@ -91,7 +105,7 @@ export default async function Home() {
             </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {exams.map((exam) => (
+            {featuredExams.map((exam) => (
               <Card key={exam.id} className="hover:shadow-medium transition-shadow">
                 <CardHeader>
                   <div className="flex justify-between items-start min-w-0">
@@ -108,10 +122,10 @@ export default async function Home() {
                   <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
                     <div className="flex items-center text-sm text-neutral-600">
                       <Clock className="h-4 w-4 mr-1 flex-shrink-0" />
-                      <span className="truncate">Last Date: {new Date(exam.lastDate).toLocaleDateString()}</span>
+                      <span className="truncate">Last Date: {exam.lastDate}</span>
                     </div>
                     <div className="text-lg font-semibold text-primary-900 dark:text-white whitespace-nowrap">
-                      ₹{(exam.officialFee + exam.serviceFee) / 100}
+                      ₹{(exam.officialFee + exam.serviceFee)}
                     </div>
                   </div>
                   <Link href={`/exams/${exam.id}`}>

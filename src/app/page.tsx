@@ -7,39 +7,28 @@ import { LogoIcon } from '@/components/logo-icon';
 import { HomepageHeader } from '@/components/homepage-header';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
+import { useState, useEffect } from 'react';
+
+interface Exam {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  lastDate: string;
+  officialFee: number;
+  serviceFee: number;
+}
 
 export default function Home() {
   const { t } = useTranslation();
-  // Static featured exams for display
-  const featuredExams = [
-    {
-      id: '1',
-      title: 'SSC CGL 2024',
-      category: 'Government',
-      description: 'Staff Selection Commission Combined Graduate Level Examination for various government posts.',
-      lastDate: '2024-12-15',
-      officialFee: 10000,
-      serviceFee: 5000,
-    },
-    {
-      id: '2', 
-      title: 'Bank PO 2024',
-      category: 'Banking',
-      description: 'Probationary Officer examination for leading public sector banks.',
-      lastDate: '2024-11-30',
-      officialFee: 8000,
-      serviceFee: 4000,
-    },
-    {
-      id: '3',
-      title: 'JEE Main 2025',
-      category: 'Engineering',
-      description: 'Joint Entrance Examination Main for engineering admissions in NITs, IIITs, and other institutions.',
-      lastDate: '2025-01-15',
-      officialFee: 12000,
-      serviceFee: 6000,
-    },
-  ];
+  const [featuredExams, setFeaturedExams] = useState<Exam[]>([]);
+
+  useEffect(() => {
+    fetch('/api/exams')
+      .then(r => r.json())
+      .then(data => setFeaturedExams((data.exams || []).slice(0, 3)))
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white dark:from-primary-950 dark:to-neutral-900">

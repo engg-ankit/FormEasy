@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type Language = 'en' | 'hi';
 
@@ -430,26 +430,21 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('formeasy-lang') as Language) || 'en';
-    }
-    return 'en';
-  });
+  const [lang] = useState<Language>('en');
 
-  const handleSetLang = (newLang: Language) => {
-    setLang(newLang);
+  // Clear any old Hindi preference from localStorage
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('formeasy-lang', newLang);
+      localStorage.removeItem('formeasy-lang');
     }
-  };
+  }, []);
 
   const t = (key: TranslationKey): string => {
-    return translations[lang]?.[key] || translations.en[key] || key;
+    return translations.en[key] || key;
   };
 
   return (
-    <I18nContext.Provider value={{ lang, setLang: handleSetLang, t }}>
+    <I18nContext.Provider value={{ lang, setLang: () => {}, t }}>
       {children}
     </I18nContext.Provider>
   );

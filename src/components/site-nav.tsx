@@ -7,6 +7,7 @@ import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
 import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus } from 'lucide-react';
 import { LanguageToggle } from '@/components/language-toggle';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export const SiteNav = () => {
   const { data: session } = useSession();
@@ -62,6 +63,8 @@ export const SiteNav = () => {
               ? undefined
               : { label: 'Sign Up Free', href: '/signup' }
           }
+          themeToggle={<ThemeToggle className="text-neutral-600 dark:text-neutral-400" />}
+          langToggle={<LanguageToggle className="text-neutral-600 dark:text-neutral-400" />}
         />
       </div>
     </>

@@ -18,6 +18,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageToggle } from '@/components/language-toggle';
 import { APPLICATION_STATUS } from '@/lib/types';
 import { ReferralPanel } from '@/components/referral-panel';
+import { useTranslation } from '@/lib/i18n';
 
 interface Application {
   id: string;
@@ -43,6 +44,7 @@ export default function DashboardPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>('overview');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (status === 'unauthenticated') {

@@ -1,11 +1,15 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Search, Edit, Upload, CheckCircle, Clock, Shield, Users, TrendingUp } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
 import { HomepageHeader } from '@/components/homepage-header';
 import Link from 'next/link';
+import { useTranslation } from '@/lib/i18n';
 
 export default function Home() {
+  const { t } = useTranslation();
   // Static featured exams for display
   const featuredExams = [
     {
@@ -47,20 +51,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary-900 dark:text-white mb-6">
-              Get Your Forms Filled Online
+              {t('hero.title')}
             </h1>
-            <p className="text-xl text-neutral-600 mb-8 max-w-3xl mx-auto">
-              Professional form filling service for college registrations, exam applications, scholarships, government forms, and more. Skip the cyber café – we handle it all online.
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl mx-auto">
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/exams">
                 <Button variant="primary" size="lg" className="text-lg">
-                  Browse Forms
+                  {t('hero.cta')}
                 </Button>
               </Link>
               <Link href="/#how-it-works">
                 <Button variant="outline" size="lg" className="text-lg">
-                  How It Works
+                  {t('hero.learn')}
                 </Button>
               </Link>
             </div>
@@ -72,21 +76,21 @@ export default function Home() {
       <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
-            How It Works
+            {t('steps.title')}
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { icon: Search, title: 'Choose a Form', description: 'Browse and select the form you need filled – exam, registration, or scholarship' },
-              { icon: Edit, title: 'Fill Details', description: 'Complete your personal and educational details online' },
-              { icon: Upload, title: 'Upload Documents', description: 'Upload required documents securely' },
-              { icon: CheckCircle, title: 'We Submit', description: 'Our team submits your form on the official portal' },
+              { icon: Search, title: t('step1.title'), description: t('step1.desc') },
+              { icon: Edit, title: t('step2.title'), description: t('step2.desc') },
+              { icon: Upload, title: t('step3.title'), description: t('step3.desc') },
+              { icon: CheckCircle, title: t('step4.title'), description: t('step4.desc') },
             ].map((step, index) => (
               <div key={index} className="text-center">
-                <div className="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <step.icon className="h-8 w-8 text-primary-600" />
+                <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <step.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
                 <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{step.title}</h3>
-                <p className="text-neutral-600">{step.description}</p>
+                <p className="text-neutral-600 dark:text-neutral-400">{step.description}</p>
               </div>
             ))}
           </div>
@@ -98,10 +102,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-12">
             <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white">
-              Featured Forms
+              {t('dash.recentApps')}
             </h2>
             <Link href="/exams">
-              <Button variant="outline">View All</Button>
+              <Button variant="outline">{t('dash.viewAll')}</Button>
             </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -110,7 +114,7 @@ export default function Home() {
                 <CardHeader>
                   <div className="flex justify-between items-start min-w-0">
                     <div className="min-w-0">
-                      <span className="inline-block bg-accent-100 text-accent-700 text-xs font-semibold px-2 py-1 rounded mb-2 truncate max-w-full">
+                      <span className="inline-block bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300 text-xs font-semibold px-2 py-1 rounded mb-2 truncate max-w-full">
                         {exam.category}
                       </span>
                       <h3 className="text-lg sm:text-xl font-semibold text-primary-900 dark:text-white truncate">{exam.title}</h3>
@@ -118,7 +122,7 @@ export default function Home() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-neutral-600 mb-4 line-clamp-2">{exam.description}</p>
+                  <p className="text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-2">{exam.description}</p>
                   <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
                     <div className="flex items-center text-sm text-neutral-600">
                       <Clock className="h-4 w-4 mr-1 flex-shrink-0" />
@@ -130,7 +134,7 @@ export default function Home() {
                   </div>
                   <Link href={`/exams/${exam.id}`}>
                     <Button variant="primary" className="w-full">
-                      Apply Now
+                      {t('exam.apply')}
                     </Button>
                   </Link>
                 </CardContent>
@@ -153,11 +157,11 @@ export default function Home() {
               { icon: TrendingUp, title: 'Fast Processing', description: 'Quick turnaround with real-time status updates' },
             ].map((feature, index) => (
               <div key={index} className="text-center">
-                <div className="bg-primary-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <feature.icon className="h-8 w-8 text-primary-600" />
+                <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <feature.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
                 <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
-                <p className="text-neutral-600">{feature.description}</p>
+                <p className="text-neutral-600 dark:text-neutral-400">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -195,19 +199,19 @@ export default function Home() {
               { name: 'Priya Sharma', exam: 'SSC CGL 2024', text: 'I was struggling with the SSC form portal. FormEasy filled it in 30 minutes! Saved me a trip to the cyber cafe. Amazing service! ⭐⭐⭐⭐⭐', city: 'Meerut' },
               { name: 'Rahul Verma', exam: 'Bank PO 2024', text: 'The whole process was so smooth. I just filled my details, uploaded documents, and boom — form submitted! The dashboard tracking is very helpful. ⭐⭐⭐⭐⭐', city: 'Lucknow' },
               { name: 'Sneha Gupta', exam: 'JEE Main 2025', text: 'I missed my college admission deadline last year. This year, FormEasy reminded me and filled the form on time. Got my admission! Thank you FormEasy! ⭐⭐⭐⭐⭐', city: 'Delhi' },
-            ].map((t, i) => (
+            ].map((testimonial, i) => (
               <div key={i} className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 border border-neutral-200 dark:border-neutral-600">
                 <div className="flex items-center gap-1 mb-3">
                   {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400">★</span>)}
                 </div>
-                <p className="text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">"{t.text}"</p>
+                <p className="text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">\u201C{testimonial.text}\u201D</p>
                 <div className="flex items-center gap-3">
                   <div className="bg-primary-100 dark:bg-primary-800 rounded-full w-10 h-10 flex items-center justify-center">
-                    <span className="font-bold text-primary-600 dark:text-primary-300">{t.name[0]}</span>
+                    <span className="font-bold text-primary-600 dark:text-primary-300">{testimonial.name[0]}</span>
                   </div>
                   <div>
-                    <p className="font-bold text-primary-900 dark:text-white text-sm">{t.name}</p>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{t.exam} • {t.city}</p>
+                    <p className="font-bold text-primary-900 dark:text-white text-sm">{testimonial.name}</p>
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400">{testimonial.exam} \u2022 {testimonial.city}</p>
                   </div>
                 </div>
               </div>
@@ -227,7 +231,7 @@ export default function Home() {
           </p>
           <Link href="/exams">
             <Button variant="secondary" size="lg" className="text-lg">
-              Browse Available Forms
+              {t('hero.cta')}
             </Button>
           </Link>
         </div>

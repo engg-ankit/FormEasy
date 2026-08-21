@@ -3,13 +3,33 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
   body {
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* Prevent horizontal overflow from images and media */
+  img, video, iframe, svg {
+    max-width: 100%;
+  }
+  img, video, svg {
+    max-width: 100%;
+    height: auto;
   }
   /* Dark mode base styles */
   .dark body,
   .dark {
     color-scheme: dark;
+  }
+  /* Ensure tables scroll on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -17,6 +37,12 @@
   /* Dark mode for cards */
   .dark .card-dark {
     @apply bg-neutral-800 border-neutral-700;
+  }
+  /* Fix mobile overflow for common components */
+  .overflow-fix {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
   }
 }
 

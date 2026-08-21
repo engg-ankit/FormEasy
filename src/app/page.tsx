@@ -39,7 +39,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary-900 dark:text-white mb-6">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-primary-900 dark:text-white mb-6">
               {t('hero.title')}
             </h1>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl mx-auto">
@@ -64,7 +64,7 @@ export default function Home() {
       {/* How It Works */}
       <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
+          <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
             {t('steps.title')}
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
@@ -78,7 +78,7 @@ export default function Home() {
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <step.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
-                <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{step.title}</h3>
+                <h3 className="text-base sm:text-xl font-semibold text-primary-900 dark:text-white mb-2">{step.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400">{step.description}</p>
               </div>
             ))}
@@ -90,7 +90,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-50 dark:bg-primary-950">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white">
+            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white">
               {t('dash.recentApps')}
             </h2>
             <Link href="/exams">
@@ -106,7 +106,7 @@ export default function Home() {
                       <span className="inline-block bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300 text-xs font-semibold px-2 py-1 rounded mb-2 truncate max-w-full">
                         {exam.category}
                       </span>
-                      <h3 className="text-lg sm:text-xl font-semibold text-primary-900 dark:text-white truncate">{exam.title}</h3>
+                      <h3 className="text-lg sm:text-base sm:text-xl font-semibold text-primary-900 dark:text-white truncate">{exam.title}</h3>
                     </div>
                   </div>
                 </CardHeader>
@@ -136,7 +136,7 @@ export default function Home() {
       {/* Trust Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
+          <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
             Why Choose FormEasy?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -149,7 +149,7 @@ export default function Home() {
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <feature.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
-                <h3 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
+                <h3 className="text-base sm:text-xl font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400">{feature.description}</p>
               </div>
             ))}
@@ -168,7 +168,7 @@ export default function Home() {
               { value: '50+', label: 'Form Categories' },
             ].map((stat, index) => (
               <div key={index}>
-                <div className="text-4xl font-display font-bold mb-2">{stat.value}</div>
+                <div className="text-2xl sm:text-4xl font-display font-bold mb-2">{stat.value}</div>
                 <div className="text-primary-200">{stat.label}</div>
               </div>
             ))}
@@ -180,7 +180,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">What Our Students Say</h2>
+            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">What Our Students Say</h2>
             <p className="text-lg text-neutral-600 dark:text-neutral-400">Trusted by 2000+ students across India</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -212,7 +212,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-accent-500">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-display font-bold text-white mb-4">
+          <h2 className="text-xl sm:text-3xl font-display font-bold text-white mb-4">
             Ready to Get Started?
           </h2>
           <p className="text-xl text-white mb-8">

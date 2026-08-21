@@ -150,24 +150,24 @@ export default function DashboardPage() {
             <Link href="/">
               <Logo size="md" white />
             </Link>
-            <div className="hidden sm:flex items-center gap-3 sm:gap-6">
+            <div className="hidden sm:flex items-center gap-2 sm:gap-4">
               <Link href="/exams">
-                <Button variant="ghost" className="text-white hover:bg-white/10">
-                  <Search className="h-4 w-4 mr-2" />
-                  Browse Forms
+                <Button variant="ghost" className="text-white hover:bg-white/10 text-xs sm:text-sm px-2 sm:px-4">
+                  <Search className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden md:inline">Browse Forms</span>
                 </Button>
               </Link>
-              <div className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2">
-                <div className="bg-primary-500 rounded-full p-1.5">
-                  <User className="h-4 w-4 text-white" />
+              <div className="hidden lg:flex items-center gap-2 bg-white/10 rounded-lg px-3 py-1.5">
+                <div className="bg-primary-500 rounded-full p-1">
+                  <User className="h-3 w-3 text-white" />
                 </div>
-                <span className="text-sm font-medium">{session?.user?.name}</span>
+                <span className="text-xs font-medium truncate max-w-[100px]">{session?.user?.name}</span>
               </div>
               <LanguageToggle className="text-white hover:bg-white/10" />
               <ThemeToggle className="text-white hover:bg-white/10" />
-              <Button variant="ghost" onClick={() => signOut()} className="text-white hover:bg-white/10">
+              <Button variant="ghost" onClick={() => signOut()} className="text-white hover:bg-white/10 px-2 sm:px-4">
                 <LogOut className="h-5 w-5" />
-                <span className="ml-2">Logout</span>
+                <span className="hidden md:inline ml-2">Logout</span>
               </Button>
             </div>
             <div className="sm:hidden">

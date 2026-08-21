@@ -21,7 +21,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
       height={height}
       viewBox="0 0 520 140"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={`max-w-full h-auto ${className}`}
       aria-label="FormEasy logo"
       style={{ display: 'block' }}
     >

@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { examId: string } }
+  context: { params: Promise<{ examId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { examId } = context.params;
+    const { examId } = await context.params;
     
     // Find existing draft application
     const draft = await prisma.application.findFirst({
@@ -38,7 +38,7 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  context: { params: { examId: string } }
+  context: { params: Promise<{ examId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -46,7 +46,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { examId } = context.params;
+    const { examId } = await context.params;
     const { formData } = await request.json();
 
     // Check if draft exists

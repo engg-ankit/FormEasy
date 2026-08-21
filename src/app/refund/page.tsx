@@ -123,7 +123,7 @@ export default function RefundPage() {
               </p>
               <ul className="list-none text-neutral-600 mt-3 space-y-1">
                 <li>Email: refunds@formeasy.com</li>
-                <li>Phone: +91 98765 43210</li>
+                <li>Phone: +91 9650X XXX95</li>
                 <li>Subject Line: Refund Request - [Your Application ID]</li>
               </ul>
             </section>

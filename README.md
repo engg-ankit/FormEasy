@@ -335,7 +335,7 @@ prisma/
 ## 📞 Support
 
 - **Email**: support@formeasy.com
-- **Phone**: +91 98765 43210
+- **Phone**: +91 9650X XXX95
 
 ---
 

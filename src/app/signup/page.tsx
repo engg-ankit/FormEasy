@@ -62,6 +62,9 @@ export default function SignupPage() {
 
       if (!response.ok) {
         setError(data.error || 'Signup failed');
+        if (data.details) {
+          console.error('Signup error details:', data.details);
+        }
         setIsLoading(false);
         return;
       }

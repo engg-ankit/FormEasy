@@ -13,13 +13,25 @@ export async function GET() {
   checks.hasBrackets = dbUrl.includes('[');
   checks.hasSslMode = dbUrl.includes('sslmode');
   
+  // Database URL analysis
+  checks.dbUrlPort = dbUrl.includes(':5432') ? '5432 (direct)' : dbUrl.includes(':6543') ? '6543 (pooler)' : 'unknown';
+  checks.dbUrlHasPassword = dbUrl.split('@')[0].split(':').slice(2).join(':').length > 0;
+  
   // Try Prisma connection
   try {
     await prisma.$queryRaw`SELECT 1 as alive`;
     checks.prismaConnection = 'OK';
   } catch (error) {
     checks.prismaConnection = 'FAILED';
-    checks.prismaError = error instanceof Error ? error.message : String(error);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    checks.prismaError = errMsg;
+    if (errMsg.includes('P1001')) {
+      checks.prismaErrorHint = 'Database server unreachable. Check if Supabase is paused or connection string is wrong.';
+    } else if (errMsg.includes('P1010')) {
+      checks.prismaErrorHint = 'Authentication failed. Check DATABASE_URL password (remove brackets if present).';
+    } else if (errMsg.includes('ECONNREFUSED')) {
+      checks.prismaErrorHint = 'Connection refused. Database may be paused in Supabase free tier.';
+    }
   }
   
   // Try to count exams

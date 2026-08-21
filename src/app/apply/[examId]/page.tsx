@@ -58,10 +58,10 @@ const STEPS = [
   { id: 5, title: 'Review & Pay' },
 ];
 
-export default function ApplicationWizardPage({ params }: { params: { examId: string } }) {
+export default function ApplicationWizardPage({ params }: { params: Promise<{ examId: string }> }) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [examId, setExamId] = useState<string>(params.examId);
+  const [examId, setExamId] = useState<string>('');
   const [currentStep, setCurrentStep] = useState(1);
   const [exam, setExam] = useState<Exam | null>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -107,9 +107,12 @@ export default function ApplicationWizardPage({ params }: { params: { examId: st
       return;
     }
 
-    fetchExam(params.examId);
-    loadDraft(params.examId);
-  }, [session, params.examId, router]);
+    params.then(({ examId: id }) => {
+      setExamId(id);
+      fetchExam(id);
+      loadDraft(id);
+    });
+  }, [session, params, router]);
 
   const fetchExam = async (id: string) => {
     try {

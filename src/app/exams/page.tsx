@@ -12,7 +12,6 @@ import { MobileMenu } from '@/components/mobile-menu';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { LanguageToggle } from '@/components/language-toggle';
 
 interface Exam {
   id: string;
@@ -95,7 +94,6 @@ export default function ExamsPage() {
               <Logo size="md" />
             </Link>
             <div className="hidden sm:flex items-center gap-4">
-              <LanguageToggle className="text-neutral-500 hover:text-primary-600" />
               <ThemeToggle className="text-neutral-500 hover:text-primary-600" />
               {session ? (
                 <Link href="/dashboard">
@@ -128,7 +126,6 @@ export default function ExamsPage() {
                 ]}
                 cta={session ? undefined : { label: 'Sign Up Free', href: '/signup' }}
                 themeToggle={<ThemeToggle className="text-neutral-600 dark:text-neutral-400" />}
-                langToggle={<LanguageToggle className="text-neutral-600 dark:text-neutral-400" />}
               />
             </div>
           </div>

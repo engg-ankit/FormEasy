@@ -18,10 +18,9 @@ interface MobileMenuProps {
   cta?: { label: string; href: string };
   footer?: React.ReactNode;
   themeToggle?: React.ReactNode;
-  langToggle?: React.ReactNode;
 }
 
-export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle, langToggle }: MobileMenuProps) => {
+export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Close on escape key
@@ -111,16 +110,6 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle,
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Dark Mode</span>
                 {themeToggle}
-              </div>
-            </div>
-          )}
-
-          {/* Language Toggle */}
-          {langToggle && (
-            <div className="px-5 py-3 border-t border-neutral-100 dark:border-neutral-700">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Language</span>
-                {langToggle}
               </div>
             </div>
           )}

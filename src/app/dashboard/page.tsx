@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { LanguageToggle } from '@/components/language-toggle';
 import { APPLICATION_STATUS } from '@/lib/types';
 import { ReferralPanel } from '@/components/referral-panel';
 import { useTranslation } from '@/lib/i18n';
@@ -163,7 +162,6 @@ export default function DashboardPage() {
                 </div>
                 <span className="text-xs font-medium truncate max-w-[100px]">{session?.user?.name}</span>
               </div>
-              <LanguageToggle className="text-white hover:bg-white/10" />
               <ThemeToggle className="text-white hover:bg-white/10" />
               <Button variant="ghost" onClick={() => signOut()} className="text-white hover:bg-white/10 px-2 sm:px-4">
                 <LogOut className="h-5 w-5" />
@@ -182,7 +180,6 @@ export default function DashboardPage() {
                   { label: 'Contact Support', href: '/contact', icon: <Phone className="h-5 w-5" /> },
                 ]}
                 themeToggle={<ThemeToggle />}
-                langToggle={<LanguageToggle />}
                 footer={
                   <button
                     onClick={() => signOut({ callbackUrl: '/' })}

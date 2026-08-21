@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
 import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus } from 'lucide-react';
-import { LanguageToggle } from '@/components/language-toggle';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 export const SiteNav = () => {
@@ -31,7 +30,6 @@ export const SiteNav = () => {
     <>
       {/* Desktop buttons — hidden on mobile */}
       <div className="hidden sm:flex items-center gap-4">
-        <LanguageToggle className="text-neutral-500 hover:text-primary-600" />
         <Link href="/admin/login" className="text-sm text-neutral-500 hover:text-primary-600 transition-colors">
           Admin
         </Link>
@@ -64,7 +62,6 @@ export const SiteNav = () => {
               : { label: 'Sign Up Free', href: '/signup' }
           }
           themeToggle={<ThemeToggle className="text-neutral-600 dark:text-neutral-400" />}
-          langToggle={<LanguageToggle className="text-neutral-600 dark:text-neutral-400" />}
         />
       </div>
     </>

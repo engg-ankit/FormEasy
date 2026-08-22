@@ -1,8 +1,6 @@
 import { prisma } from './prisma';
 
 // ─── Telegram Bot Config ───────────────────────────────────────
-// Admin ko Telegram pe instant notification bhejta hai
-// Setup: @BotFather pe /newbot banao, phir token yahan daalo
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
 
@@ -16,33 +14,51 @@ interface NotificationData {
   amount?: number;
 }
 
-// ─── Send to Telegram ──────────────────────────────────────────
-async function sendTelegram(message: string) {
+// ─── Send to Telegram with Retry ───────────────────────────────
+async function sendTelegram(message: string, retries = 3) {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.log('📱 [DEV] Telegram notification:', message);
     return;
   }
 
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'HTML',
-      }),
-    });
-    console.log('✅ Telegram notification sent');
-  } catch (error) {
-    console.error('❌ Telegram notification failed:', error);
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (res.ok) {
+        console.log('✅ Telegram notification sent');
+        return;
+      }
+
+      const err = await res.json();
+      console.error(`❌ Telegram API error (attempt ${attempt}):`, err.description);
+    } catch (error: any) {
+      console.error(`❌ Telegram attempt ${attempt}/${retries} failed:`, error.message);
+      if (attempt < retries) {
+        // Wait before retry: 1s, 2s, 4s
+        await new Promise(r => setTimeout(r, Math.pow(2, attempt - 1) * 1000));
+      }
+    }
   }
 }
 
 // ─── Main Notification Function ────────────────────────────────
 export async function createNotification(data: NotificationData) {
   try {
-    // 1. Save to database
+    // 1. ALWAYS save to database (this always works)
     const notification = await prisma.notification.create({
       data: {
         type: data.type,
@@ -55,18 +71,20 @@ export async function createNotification(data: NotificationData) {
       },
     });
 
-    // 2. Send to Telegram
-    const emoji = {
+    // 2. Send to Telegram (with retry, don't block response)
+    const emoji: Record<string, string> = {
       SIGNUP: '🎉',
       FORM_SUBMIT: '📝',
       PAYMENT: '💳',
       STATUS_CHANGE: '📋',
       FORM_REQUEST: '📩',
       OTP_RELAY: '🔑',
-    }[data.type] || '📢';
+    };
 
-    const telegramMessage = `${emoji} <b>${data.title}</b>\n\n${data.message}`;
-    await sendTelegram(telegramMessage);
+    const telegramMessage = `${emoji[data.type] || '📢'} ${data.title}\n\n${data.message}`;
+    sendTelegram(telegramMessage).catch(err => {
+      console.error('Telegram delivery failed (saved to DB):', err);
+    });
 
     return notification;
   } catch (error) {

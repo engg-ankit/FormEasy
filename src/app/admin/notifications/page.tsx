@@ -21,6 +21,8 @@ export default function AdminNotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [retrying, setRetrying] = useState(false);
+  const [retryResult, setRetryResult] = useState('');
 
   useEffect(() => {
     fetchNotifications();
@@ -122,6 +124,27 @@ export default function AdminNotificationsPage() {
     );
   }
 
+  const retryTelegram = async () => {
+    setRetrying(true);
+    setRetryResult('');
+    try {
+      const res = await fetch('/api/admin/notifications/retry', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setRetryResult(`Sent ${data.sent}/${data.total} notifications to Telegram`);
+      } else {
+        setRetryResult(data.error || 'Failed to retry');
+      }
+    } catch {
+      setRetryResult('Network error');
+    } finally {
+      setRetrying(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -139,19 +162,27 @@ export default function AdminNotificationsPage() {
                 <p className="text-sm text-gray-500">{unreadCount} unread</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap justify-end">
               <Button variant="outline" size="sm" onClick={fetchNotifications}>
                 <RefreshCw className="h-4 w-4 mr-1" />
                 Refresh
               </Button>
               {unreadCount > 0 && (
-                <Button variant="primary" size="sm" onClick={markAllAsRead}>
-                  <CheckCheck className="h-4 w-4 mr-1" />
-                  Mark All Read
-                </Button>
+                <>
+                  <Button variant="outline" size="sm" onClick={retryTelegram} disabled={retrying}>
+                    {retrying ? 'Sending...' : 'Retry to Telegram'}
+                  </Button>
+                  <Button variant="primary" size="sm" onClick={markAllAsRead}>
+                    <CheckCheck className="h-4 w-4 mr-1" />
+                    Mark All Read
+                  </Button>
+                </>
               )}
             </div>
           </div>
+          {retryResult && (
+            <div className="mt-2 text-sm text-blue-600 bg-blue-50 px-3 py-2 rounded-lg">{retryResult}</div>
+          )}
         </div>
       </div>
 

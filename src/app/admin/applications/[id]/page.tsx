@@ -577,57 +577,6 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           </CardContent>
         </Card>
 
-        {/* WhatsApp Quick Actions */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <Smartphone className="h-5 w-5 text-green-600" />
-              <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">WhatsApp to User</h2>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">Send quick WhatsApp updates to {application.user.fullName}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <a
-                href={`https://wa.me/91${application.user.mobile}?text=${encodeURIComponent(`Hi ${application.user.fullName}! Your application for ${application.exam.title} is being processed. Track: formeasy.in/dashboard`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 text-sm font-medium hover:bg-green-100 transition-colors"
-              >
-                <Smartphone className="h-4 w-4" />
-                Status Update
-              </a>
-              <a
-                href={`https://wa.me/91${application.user.mobile}?text=${encodeURIComponent(`Hi ${application.user.fullName}! Payment of ₹${(application.payment?.amount || 0) / 100} confirmed for ${application.exam.title}. Thank you! 🙏`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 text-sm font-medium hover:bg-green-100 transition-colors"
-              >
-                <Smartphone className="h-4 w-4" />
-                Payment Confirmed
-              </a>
-              <a
-                href={`https://wa.me/91${application.user.mobile}?text=${encodeURIComponent(`Hi ${application.user.fullName}! Your form for ${application.exam.title} has been submitted to the portal. ✅`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 text-sm font-medium hover:bg-green-100 transition-colors"
-              >
-                <Smartphone className="h-4 w-4" />
-                Form Filled
-              </a>
-              <a
-                href={`https://wa.me/91${application.user.mobile}?text=${encodeURIComponent(`Hi ${application.user.fullName}! 🎊 Your application for ${application.exam.title} is COMPLETED! Thank you for choosing FormEasy!`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-400 text-sm font-medium hover:bg-green-100 transition-colors"
-              >
-                <Smartphone className="h-4 w-4" />
-                Completed
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Notes / Comments */}
         <NotesSection applicationId={applicationId} />
       </div>

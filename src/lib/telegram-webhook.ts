@@ -31,12 +31,8 @@ export async function sendTelegramInstant(data: TelegramMessage) {
 
     const text = `${emojiMap[data.type] || '📢'} ${data.title}\n\n${data.message}`;
 
-    // Call Edge API route - better network access from Vercel
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
-
-    const res = await fetch(`${baseUrl}/api/edge/telegram`, {
+    // Call Edge API route directly
+    const res = await fetch(`https://formeasy2.vercel.app/api/edge/telegram`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

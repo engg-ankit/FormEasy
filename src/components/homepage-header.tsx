@@ -13,7 +13,7 @@ export const HomepageHeader = () => {
             <Logo size="md" />
           </div>
           <div className="flex items-center gap-2">
-            <ThemeToggle className="w-9 h-9 rounded-full bg-neutral-100 dark:bg-neutral-800 hover:bg-neutral-200 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-300" />
+            <ThemeToggle className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-primary-700 dark:text-primary-300 border border-neutral-200 dark:border-neutral-600 shadow-sm" />
             <SiteNav />
           </div>
         </div>

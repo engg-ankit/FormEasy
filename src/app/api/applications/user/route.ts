@@ -14,6 +14,7 @@ export async function GET() {
       where: { userId: session.user.id },
       include: {
         exam: true,
+        payment: true,
       },
       orderBy: { createdAt: 'desc' },
     });

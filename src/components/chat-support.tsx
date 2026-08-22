@@ -191,11 +191,18 @@ function getAIResponse(input: string): string {
 export function ChatSupport() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   // Only show on public/user-facing pages, hide on admin/dashboard/api pages
   const hiddenPrefixes = ['/admin', '/dashboard', '/api'];
-  const shouldHide = hiddenPrefixes.some(p => pathname.startsWith(p));
+  const shouldHide = mounted && pathname ? hiddenPrefixes.some(p => pathname.startsWith(p)) : false;
   if (shouldHide) return null;
+
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) return null;
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);

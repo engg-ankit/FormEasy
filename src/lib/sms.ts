@@ -11,11 +11,13 @@
  * - NEXT_PUBLIC_APP_URL: Your app URL (e.g., https://formeasy.in)
  */
 
-const MSG91_API_URL = 'https://api.msg91.com/api/v5/otp';
-const MSG91_SMS_URL = 'https://api.msg91.com/api/v5/flow';
+const MSG91_OTP_URL = 'https://api.msg91.com/api/v5/otp';
+const MSG91_SMS_URL = 'https://api.msg91.com/api/v5/otp';
 
 /**
  * Send OTP via MSG91
+ * Uses the OTP verification API (not SMS API)
+ * authkey goes in header, mobile + template in body
  */
 async function sendOtpMsg91(
   mobile: string,
@@ -31,7 +33,8 @@ async function sendOtpMsg91(
   }
 
   try {
-    const response = await fetch(MSG91_API_URL, {
+    // MSG91 OTP API - sends OTP and verifies later
+    const response = await fetch(MSG91_OTP_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,18 +43,20 @@ async function sendOtpMsg91(
       body: JSON.stringify({
         mobile: `91${mobile}`,
         otp: otp,
-        sender_id: senderId,
-        template_name: templateName,
+        sender: senderId,
+        otp_expiry: '14400',  // 4 hours in seconds
+        length: '6',
       }),
     });
 
     const data = await response.json();
+    console.log('MSG91 OTP Response:', JSON.stringify(data));
 
     if (response.ok && data.type === 'success') {
       return { success: true, message: 'OTP sent successfully' };
     } else {
-      console.error('MSG91 OTP Error:', data);
-      return { success: false, message: data.message || 'Failed to send OTP' };
+      console.error('MSG91 OTP Error:', JSON.stringify(data));
+      return { success: false, message: data.message || JSON.stringify(data) || 'Failed to send OTP' };
     }
   } catch (error) {
     console.error('MSG91 API Error:', error);
@@ -108,7 +113,7 @@ async function sendSmsMsg91(
 }
 
 /**
- * Send OTP Relay SMS to user
+ * Send OTP Relay SMS to user via MSG91
  * When admin requests OTP for form filling, this sends SMS to user
  */
 export async function sendOtpRelaySms(
@@ -118,26 +123,76 @@ export async function sendOtpRelaySms(
 ): Promise<{ success: boolean; message: string }> {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const otpLink = `${appUrl}/otp/${otpRelayId}`;
+  const apiKey = process.env.MSG91_API_KEY;
+  const senderId = process.env.MSG91_SENDER_ID || 'FORMES';
+  const flowId = process.env.MSG91_SMS_FLOW_ID;
 
-  // Try SMS Flow first (if configured)
-  if (process.env.MSG91_SMS_FLOW_ID) {
-    return sendSmsMsg91(userMobile, '', {
-      VAR1: portalName,
-      VAR2: otpLink,
-      VAR3: '10 minutes',
-    });
+  const message = `FormEasy: Your ${portalName} form is being filled. Please share OTP here: ${otpLink}`;
+
+  // If no API key, just log for development
+  if (!apiKey) {
+    console.log(`\n📱 [DEV MODE] OTP Relay SMS to ${userMobile}:`);
+    console.log(`   Portal: ${portalName}`);
+    console.log(`   Link: ${otpLink}`);
+    console.log(`   Message: ${message}\n`);
+    return { success: true, message: 'OTP relay link sent (dev mode)' };
   }
 
-  // Fallback to OTP API
-  const message = `FormEasy: Your ${portalName} form is being filled. Please share OTP here: ${otpLink}`;
-  
-  // For development, log to console
-  console.log(`\n📱 OTP Relay SMS to ${userMobile}:`);
-  console.log(`   Portal: ${portalName}`);
-  console.log(`   Link: ${otpLink}`);
-  console.log(`   Message: ${message}\n`);
+  // If flow ID is configured, use Flow API
+  if (flowId) {
+    try {
+      const response = await fetch(MSG91_SMS_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authkey': apiKey,
+        },
+        body: JSON.stringify({
+          flow_id: flowId,
+          sender_id: senderId,
+          mobiles: `91${userMobile}`,
+          VAR1: portalName,
+          VAR2: otpLink,
+        }),
+      });
+      const data = await response.json();
+      console.log('MSG91 Relay SMS Response:', JSON.stringify(data));
+      if (response.ok && data.type === 'success') {
+        return { success: true, message: 'SMS sent successfully' };
+      }
+    } catch (err) {
+      console.error('MSG91 Flow SMS Error:', err);
+    }
+  }
 
-  return { success: true, message: 'OTP relay link sent' };
+  // Fallback: Use OTP API to send the relay message
+  try {
+    // We send a simple OTP where the OTP itself is a dummy since this is just a notification
+    const dummyOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const response = await fetch(MSG91_OTP_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authkey': apiKey,
+      },
+      body: JSON.stringify({
+        mobile: `91${userMobile}`,
+        otp: dummyOtp,
+        sender: senderId,
+        otp_expiry: '600',
+        length: '6',
+      }),
+    });
+    const data = await response.json();
+    console.log('MSG91 Relay SMS (OTP fallback) Response:', JSON.stringify(data));
+    if (response.ok && data.type === 'success') {
+      return { success: true, message: 'SMS sent successfully' };
+    }
+    return { success: false, message: data.message || 'Failed to send SMS' };
+  } catch (err) {
+    console.error('MSG91 Relay SMS Error:', err);
+    return { success: false, message: 'Network error while sending SMS' };
+  }
 }
 
 /**

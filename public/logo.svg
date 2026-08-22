@@ -1,0 +1,40 @@
+<svg width="620" height="160" viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .sq { transform-origin: 68px 80px; animation: sqIn 0.55s cubic-bezier(.22,1,.36,1) both; }
+      @keyframes sqIn { 0% { transform: scale(0.5) rotate(8deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+
+      .b1 { opacity: 0; animation: pop2 0.35s ease-out forwards; animation-delay: 0.45s; }
+      .b2 { opacity: 0; animation: pop2 0.35s ease-out forwards; animation-delay: 0.55s; }
+      .b3 { opacity: 0; animation: pop2 0.35s ease-out forwards; animation-delay: 0.65s; }
+      .b4 { opacity: 0; animation: pop2 0.35s ease-out forwards; animation-delay: 0.75s; }
+      @keyframes pop2 { 0% { opacity: 0; transform: scale(0.4); } 100% { opacity: 1; transform: scale(1); } }
+
+      .word6 { opacity: 0; transform: translateY(6px); animation: wIn6 0.5s ease-out forwards; animation-delay: 0.95s; }
+      @keyframes wIn6 { to { opacity: 1; transform: translateY(0); } }
+      .tag6 { opacity: 0; animation: fIn6 0.5s ease-out forwards; animation-delay: 1.15s; }
+      @keyframes fIn6 { to { opacity: 1; } }
+    </style>
+  </defs>
+
+  <!-- ICON: badge gets a subtle lighter fill + border so it doesn't blend into a dark page background -->
+  <g class="sq">
+    <rect x="8" y="20" width="120" height="120" rx="30" fill="#242E63"/>
+    <rect x="8" y="20" width="120" height="120" rx="30" fill="none" stroke="#3F4A8C" stroke-width="1.5"/>
+
+    <rect x="46" y="50" width="9" height="60" rx="3" fill="#F5F4FF"/>
+
+    <g style="transform-origin:50.5px 55px;" class="b1"><rect x="46" y="50" width="30" height="10" rx="3" fill="#F5F4FF"/></g>
+    <g style="transform-origin:50.5px 75px;" class="b2"><rect x="46" y="70" width="22" height="10" rx="3" fill="#F5F4FF"/></g>
+    <g style="transform-origin:50.5px 95px;" class="b3"><rect x="46" y="90" width="30" height="10" rx="3" fill="#2DD4BF"/></g>
+    <g style="transform-origin:50.5px 115px;" class="b4"><rect x="46" y="110" width="22" height="10" rx="3" fill="#2DD4BF"/></g>
+  </g>
+
+  <!-- WORDMARK: light text for dark backgrounds -->
+  <g transform="translate(200,0)">
+    <g class="word6" font-family="'Poppins','Sora',sans-serif" font-weight="700">
+      <text x="0" y="88" font-size="48" fill="#F5F4FF">Form<tspan fill="#2DD4BF">Easy</tspan></text>
+    </g>
+    <text class="tag6" x="2" y="114" font-size="13" font-weight="500" letter-spacing="2.3" fill="#9CA3AF" font-family="'Inter',sans-serif">EVERY FORM. ONE PLATFORM.</text>
+  </g>
+</svg>

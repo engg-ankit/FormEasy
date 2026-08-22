@@ -1,10 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bell, BellOff, Check, CheckCheck, ArrowLeft, User, CreditCard, FileText, MessageSquare, Key, RefreshCw } from 'lucide-react';
+import { Bell, BellOff, CheckCheck, ArrowLeft, User, CreditCard, FileText, MessageSquare, Key, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
 interface Notification {
@@ -21,29 +18,25 @@ interface Notification {
 }
 
 export default function AdminNotificationsPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/admin/login');
-      return;
-    }
-    if (status === 'authenticated') {
-      fetchNotifications();
-    }
-  }, [status]);
+    fetchNotifications();
+  }, []);
 
   const fetchNotifications = async () => {
     try {
-      const res = await fetch('/api/admin/notifications?limit=100');
+      const res = await fetch('/api/admin/notifications?limit=100', { credentials: 'include' });
+      if (res.status === 401) {
+        window.location.href = '/admin/login';
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
-        setNotifications(data.notifications);
-        setUnreadCount(data.unreadCount);
+        setNotifications(data.notifications || []);
+        setUnreadCount(data.unreadCount || 0);
       }
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -57,9 +50,9 @@ export default function AdminNotificationsPage() {
       await fetch('/api/admin/notifications', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ ids }),
       });
-      // Update local state
       setNotifications(prev =>
         prev.map(n => (ids.includes(n.id) ? { ...n, status: 'READ' } : n))
       );
@@ -74,6 +67,7 @@ export default function AdminNotificationsPage() {
       await fetch('/api/admin/notifications', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ markAll: true }),
       });
       setNotifications(prev => prev.map(n => ({ ...n, status: 'READ' })));
@@ -164,15 +158,15 @@ export default function AdminNotificationsPage() {
       {/* Notification List */}
       <div className="max-w-4xl mx-auto px-4 py-6">
         {notifications.length === 0 ? (
-          <Card>
-            <CardContent className="text-center py-12">
+          <div className="bg-white rounded-lg border border-neutral-200 overflow-hidden">
+            <div className="text-center py-12">
               <BellOff className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">No notifications yet</p>
               <p className="text-sm text-gray-400 mt-1">
                 Notifications will appear here when users signup, submit forms, or make payments.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ) : (
           <div className="space-y-3">
             {notifications.map((notification) => (

@@ -46,10 +46,11 @@ export default function ExamsPage() {
     try {
       const response = await fetch('/api/exams');
       const data = await response.json();
-      setExams(data.exams);
+      const examList = data.exams || [];
+      setExams(examList);
       
       // Extract unique categories
-      const uniqueCategories = Array.from(new Set(data.exams.map((exam: Exam) => exam.category))) as string[];
+      const uniqueCategories = Array.from(new Set(examList.map((exam: Exam) => exam.category))) as string[];
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error fetching exams:', error);

@@ -7,6 +7,7 @@ import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
 import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { UserNotificationBell } from '@/components/user-notification-bell';
 
 export const SiteNav = () => {
   const { data: session } = useSession();
@@ -35,12 +36,15 @@ export const SiteNav = () => {
           Admin
         </Link>
         {session ? (
-          <Link href="/dashboard">
-            <Button variant="primary">
-              <LayoutDashboard className="h-4 w-4 mr-2" />
-              My Dashboard
-            </Button>
-          </Link>
+          <div className="flex items-center gap-3">
+            <UserNotificationBell />
+            <Link href="/dashboard">
+              <Button variant="primary">
+                <LayoutDashboard className="h-4 w-4 mr-2" />
+                My Dashboard
+              </Button>
+            </Link>
+          </div>
         ) : (
           <>
             <Link href="/login">

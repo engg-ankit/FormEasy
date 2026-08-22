@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { notifyWelcome } from '@/lib/notifications';
 import { notifyNewSignup } from '@/lib/admin-notifications';
+import { notifyUserWelcome } from '@/lib/user-notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -71,9 +72,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send welcome email + admin notification
+    // Send welcome email + admin + user notification
     notifyWelcome(user.email, user.fullName).catch(console.error);
     notifyNewSignup(user.id, user.fullName, user.email).catch(console.error);
+    notifyUserWelcome(user.id).catch(console.error);
 
     return NextResponse.json({
       success: true,

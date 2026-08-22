@@ -3,6 +3,7 @@ import { requireAdminAuth } from '@/lib/admin-auth';
 import { prisma } from '@/lib/prisma';
 import { notifyStatusChanged } from '@/lib/notifications';
 import { notifyStatusUpdated } from '@/lib/admin-notifications';
+import { notifyUserStatusUpdate } from '@/lib/user-notifications';
 
 export async function GET(
   request: NextRequest,
@@ -88,6 +89,7 @@ export async function PATCH(
       if (fullApp) {
         notifyStatusChanged(fullApp.user.email, fullApp.user.fullName, fullApp.exam.title, body.status).catch(console.error);
         notifyStatusUpdated(fullApp.exam.title, fullApp.user.fullName, body.status).catch(console.error);
+        notifyUserStatusUpdate(fullApp.userId, fullApp.exam.title, body.status).catch(console.error);
       }
     }
 

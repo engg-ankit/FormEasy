@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/prisma';
 import { notifyApplicationSubmitted } from '@/lib/notifications';
 import { notifyFormSubmitted } from '@/lib/admin-notifications';
+import { notifyUserFormSubmitted } from '@/lib/user-notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
     if (user && exam) {
       notifyApplicationSubmitted(user.email, user.fullName, exam.title).catch(console.error);
       notifyFormSubmitted(user.id, user.fullName, exam.title).catch(console.error);
+      notifyUserFormSubmitted(user.id, exam.title).catch(console.error);
     }
 
     return NextResponse.json({ applicationId: application.id });

@@ -24,6 +24,7 @@ model User {
   referralsGiven Referral[]     @relation("Referrer")
   referralsGot   Referral[]     @relation("ReferredUser")
   formRequests   FormRequest[]
+  userNotifications UserNotification[]
 }
 
 model Exam {
@@ -165,6 +166,20 @@ model FormRequest {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// User Notifications - In-app notifications for users
+model UserNotification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // 'WELCOME', 'FORM_SUBMITTED', 'PAYMENT_RECEIVED', 'STATUS_UPDATE', 'FORM_AVAILABLE'
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
 }
 
 // Notifications - Activity tracking for admin dashboard

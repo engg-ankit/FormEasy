@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/prisma';
 import { notifyFormRequestSubmitted } from '@/lib/notifications';
 import { notifyFormRequest } from '@/lib/admin-notifications';
+import { notifyUserFormRequestReceived } from '@/lib/user-notifications';
 
 // User submits a form request
 export async function POST(request: NextRequest) {
@@ -35,6 +36,7 @@ export async function POST(request: NextRequest) {
     if (user) {
       notifyFormRequestSubmitted(user.email, user.fullName, formName, category).catch(console.error);
       notifyFormRequest(user.id, user.fullName, formName, category).catch(console.error);
+      notifyUserFormRequestReceived(user.id, formName).catch(console.error);
     }
 
     return NextResponse.json({ success: true, request: formRequest });

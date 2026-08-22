@@ -1,7 +1,5 @@
-// Instant Telegram notifications via Pipedream webhook
-// Pipedream is free and forwards webhooks to Telegram instantly
-
-const PIPEDREAM_WEBHOOK_URL = process.env.TELEGRAM_WEBHOOK_URL || '';
+// Instant Telegram notifications via Edge API route
+// Edge Runtime has better external API access on Vercel
 
 interface TelegramMessage {
   type: string;
@@ -12,10 +10,13 @@ interface TelegramMessage {
   amount?: number;
 }
 
-// Send to Telegram via Pipedream webhook (INSTANT - no Vercel network issues)
+// Send to Telegram via Edge API (INSTANT - works from Vercel)
 export async function sendTelegramInstant(data: TelegramMessage) {
-  if (!PIPEDREAM_WEBHOOK_URL) {
-    console.log('📱 [DEV] Telegram would send:', data.title, data.message);
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!botToken || !chatId) {
+    console.log('📱 [DEV] Telegram would send:', data.title);
     return;
   }
 
@@ -30,24 +31,31 @@ export async function sendTelegramInstant(data: TelegramMessage) {
 
     const text = `${emojiMap[data.type] || '📢'} ${data.title}\n\n${data.message}`;
 
-    const res = await fetch(PIPEDREAM_WEBHOOK_URL, {
+    // Call Edge API route - better network access from Vercel
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000';
+
+    const res = await fetch(`${baseUrl}/api/edge/telegram`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: text,
-        chat_id: process.env.TELEGRAM_CHAT_ID,
-        bot_token: process.env.TELEGRAM_BOT_TOKEN,
+        chat_id: chatId,
+        bot_token: botToken,
       }),
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(15000),
     });
 
-    if (!res.ok) {
-      console.error(`❌ Telegram webhook HTTP ${res.status}`);
+    if (res.ok) {
+      const result = await res.json();
+      console.log(`✅ Telegram instant sent: ${data.title}`);
+      return result;
+    } else {
+      const err = await res.json();
+      console.error(`❌ Edge Telegram error:`, err.error);
     }
-
-    console.log(`✅ Telegram instant: ${data.title}`);
   } catch (error: any) {
     console.error(`❌ Telegram instant failed:`, error.message);
-    // Save to DB for cron retry (fallback)
   }
 }

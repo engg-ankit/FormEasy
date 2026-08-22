@@ -176,12 +176,12 @@ export default function AdminNotificationsPage() {
         ) : (
           <div className="space-y-3">
             {notifications.map((notification) => (
-              <Card
+              <div
                 key={notification.id}
-                className={`cursor-pointer transition-all hover:shadow-md ${
+                className={`cursor-pointer transition-all hover:shadow-md rounded-lg border overflow-hidden ${
                   notification.status === 'UNREAD'
                     ? `${getTypeColor(notification.type)} border-l-4`
-                    : 'bg-white'
+                    : 'bg-white border-neutral-200'
                 }`}
                 onClick={() => {
                   if (notification.status === 'UNREAD') {
@@ -189,7 +189,7 @@ export default function AdminNotificationsPage() {
                   }
                 }}
               >
-                <CardContent className="p-4">
+                <div className="p-4">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-1">
                       {getTypeIcon(notification.type)}
@@ -218,8 +218,8 @@ export default function AdminNotificationsPage() {
                       </div>
                     )}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         )}

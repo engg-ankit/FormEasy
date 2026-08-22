@@ -551,6 +551,50 @@ export default function ApplicationDetailPage() {
           </Card>
         </div>
 
+        {/* Cancel Application */}
+        {application.status === 'SUBMITTED' && (
+          <Card className="mt-6 border-red-200">
+            <CardContent className="p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="bg-red-100 rounded-xl p-3">
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-red-800">Cancel Application</h3>
+                  <p className="text-sm text-neutral-500">
+                    You can cancel this application if you no longer need it. This action cannot be undone.
+                  </p>
+                </div>
+                <Button
+                  variant="danger"
+                  onClick={async () => {
+                    if (!confirm('Are you sure you want to cancel this application? This cannot be undone.')) return;
+                    try {
+                      const res = await fetch('/api/applications/cancel', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ applicationId: application.id }),
+                      });
+                      if (res.ok) {
+                        alert('Application cancelled successfully.');
+                        router.push('/dashboard');
+                      } else {
+                        const data = await res.json();
+                        alert(data.error || 'Failed to cancel application.');
+                      }
+                    } catch (err) {
+                      alert('Network error. Please try again.');
+                    }
+                  }}
+                >
+                  Cancel Application
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Help Section */}
         <Card className="mt-6">
           <CardContent className="p-6">

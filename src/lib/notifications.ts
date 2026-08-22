@@ -1,11 +1,16 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
-  : null;
+// Gmail SMTP Configuration (Free - No Domain Needed!)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER || '',
+    pass: process.env.GMAIL_APP_PASSWORD || '',
+  },
+});
 
-// Use verified domain if available, otherwise Resend's default for testing
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FormEasy <onboarding@resend.dev>';
+const FROM_EMAIL = process.env.GMAIL_USER || 'noreply@formeasy.in';
+const FROM_NAME = 'FormEasy';
 
 interface EmailOptions {
   to: string;
@@ -14,20 +19,23 @@ interface EmailOptions {
 }
 
 async function sendEmail({ to, subject, html }: EmailOptions) {
-  if (!resend) {
-    console.log(`📧 [DEV] Email to: ${to} | Subject: ${subject}`);
+  // Check if Gmail is configured
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    console.log(`📧 [DEV MODE] Email would be sent to: ${to}`);
+    console.log(`   Subject: ${subject}`);
+    console.log(`   Configure GMAIL_USER and GMAIL_APP_PASSWORD in .env to send real emails`);
     return { success: true, dev: true };
   }
 
   try {
-    const result = await resend.emails.send({
-      from: FROM_EMAIL,
+    const result = await transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to,
       subject,
       html,
     });
-    console.log(`✅ Email sent to ${to}: ${subject} (id: ${result.data?.id})`);
-    return { success: true, id: result.data?.id };
+    console.log(`✅ Email sent to ${to}: ${subject} (id: ${result.messageId})`);
+    return { success: true, id: result.messageId };
   } catch (error) {
     console.error(`❌ Email failed to ${to}:`, error);
     return { success: false, error };

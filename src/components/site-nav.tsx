@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
-import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus } from 'lucide-react';
+import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 export const SiteNav = () => {
@@ -16,7 +16,8 @@ export const SiteNav = () => {
         { label: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
         { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },
         { label: 'Request Form', href: '/request-form', icon: <Plus className="h-5 w-5" /> },
-        { label: 'My Applications', href: '/dashboard', icon: <FileText className="h-5 w-5" /> },
+        { label: 'My Applications', href: '/dashboard?tab=applications', icon: <FileText className="h-5 w-5" /> },
+        { label: 'Payment History', href: '/dashboard?tab=payments', icon: <CreditCard className="h-5 w-5" /> },
         { label: 'Contact Support', href: '/contact', icon: <Phone className="h-5 w-5" /> },
         { label: 'How It Works', href: '/#how-it-works', icon: <BookOpen className="h-5 w-5" /> },
       ]

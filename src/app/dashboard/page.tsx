@@ -3,7 +3,7 @@ import { PageHead } from '@/components/page-head';
 
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -43,7 +43,11 @@ export default function DashboardPage() {
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>('overview');
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>(
+    (tabParam as 'applications' | 'payments' | 'profile' | 'referrals') || 'overview'
+  );
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -185,8 +189,8 @@ export default function DashboardPage() {
                   { label: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
                   { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },
                   { label: 'Request Form', href: '/request-form', icon: <Plus className="h-5 w-5" /> },
-                  { label: 'My Applications', href: '/dashboard', icon: <FileText className="h-5 w-5" /> },
-                  { label: 'Payment History', href: '/dashboard', icon: <CreditCard className="h-5 w-5" /> },
+                  { label: 'My Applications', href: '/dashboard?tab=applications', icon: <FileText className="h-5 w-5" /> },
+                  { label: 'Payment History', href: '/dashboard?tab=payments', icon: <CreditCard className="h-5 w-5" /> },
                   { label: 'Contact Support', href: '/contact', icon: <Phone className="h-5 w-5" /> },
                 ]}
                 themeToggle={<ThemeToggle />}

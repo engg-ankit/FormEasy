@@ -16,32 +16,6 @@ async function main() {
     },
   });
 
-  // Create staff users
-  const staffPassword = await bcrypt.hash('staff123', 10);
-  const staff1 = await prisma.staff.upsert({
-    where: { mobile: '9876543210' },
-    update: {},
-    create: {
-      name: 'Raj Kumar',
-      email: 'raj@formeasy.com',
-      mobile: '9876543210',
-      role: 'FORM_FILLER',
-      passwordHash: staffPassword,
-    },
-  });
-
-  const staff2 = await prisma.staff.upsert({
-    where: { mobile: '9876543211' },
-    update: {},
-    create: {
-      name: 'Priya Singh',
-      email: 'priya@formeasy.com',
-      mobile: '9876543211',
-      role: 'VERIFIER',
-      passwordHash: staffPassword,
-    },
-  });
-
   // Create sample exams
   const examsData = [
     { title: 'SSC CGL 2024', category: 'Government', officialFee: 10000, serviceFee: 5000, lastDate: new Date('2025-12-31'), requiredDocuments: JSON.stringify(['Aadhar Card', '10th Marksheet', '12th Marksheet', 'Passport Size Photo']), description: 'Staff Selection Commission Combined Graduate Level Examination for recruitment to various Group B and Group C posts in government departments.' },
@@ -93,7 +67,6 @@ async function main() {
 
   console.log('Database seeded successfully!');
   console.log('Admin: admin@formeasy.com / admin123');
-  console.log('Staff: 9876543210, 9876543211');
   console.log('Coupons: FIRST10, FLAT50');
 }
 

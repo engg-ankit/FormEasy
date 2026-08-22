@@ -46,17 +46,14 @@ model Application {
   examId         String
   formData       String
   status         String @default("SUBMITTED")
-  assignedStaffId String?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   exam           Exam        @relation(fields: [examId], references: [id], onDelete: Cascade)
-  staff          Staff?      @relation(fields: [assignedStaffId], references: [id])
   documents      Document[]
   payment        Payment?
   statusHistory  StatusHistory[]
   notes          Note[]
-  commissions    Commission[]
   otpRelays      OtpRelay[]
 }
 
@@ -81,19 +78,6 @@ model Payment {
   application      Application    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 }
 
-model Staff {
-  id            String        @id @default(cuid())
-  name          String
-  email         String        @unique
-  mobile        String        @unique
-  role          String
-  passwordHash  String
-  isActive      Boolean       @default(true)
-  totalEarnings Int           @default(0) // Total commission earned in paise
-  createdAt     DateTime      @default(now())
-  applications  Application[]
-  commissions   Commission[]
-}
 
 model Admin {
   id           String   @id @default(cuid())
@@ -149,27 +133,6 @@ model Referral {
   referredUser User     @relation("ReferredUser", fields: [referredId], references: [id])
 }
 
-// Commission earned by agents per completed application
-model Commission {
-  id              String   @id @default(cuid())
-  agentId         String
-  applicationId   String
-  // Base commission amount in paise (determined by tier)
-  amount          Int
-  // Tier: BRONZE, SILVER, GOLD, PLATINUM
-  tier            String
-  // Optional bonus type: PERFECT_COMPLETION, FAST_TURNAROUND, HIGH_VOLUME
-  bonusType       String?
-  // Bonus amount in paise
-  bonusAmount     Int      @default(0)
-  // Total = amount + bonusAmount
-  totalPayout     Int
-  // PENDING or PAID
-  status          String   @default("PENDING")
-  createdAt       DateTime @default(now())
-  agent           Staff    @relation(fields: [agentId], references: [id])
-  application     Application @relation(fields: [applicationId], references: [id])
-}
 
 // OTP Verification records
 model OtpVerification {

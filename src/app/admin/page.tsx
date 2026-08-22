@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
       </nav>
 
       {/* Admin Tabs */}
-      <div className="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 dark:border-neutral-700 shadow-sm">
+      <div className="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-1 overflow-x-auto no-scrollbar -mb-px">
             {[

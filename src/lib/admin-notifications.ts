@@ -73,6 +73,7 @@ export async function createNotification(data: NotificationData) {
     });
 
     // 2. Send INSTANTLY via Pipedream webhook (no Vercel network issues)
+    console.log(`📱 Sending Telegram: ${data.title}`);
     sendTelegramInstant({
       type: data.type,
       title: data.title,
@@ -80,7 +81,8 @@ export async function createNotification(data: NotificationData) {
       userName: data.userName,
       examName: data.examName,
       amount: data.amount,
-    }).catch(() => {
+    }).catch((err: any) => {
+      console.error(`❌ Telegram webhook error:`, err.message || err);
       // Fallback: try direct Telegram API
       const emojiMap: Record<string, string> = {
         SIGNUP: '🎉', FORM_SUBMIT: '📝', PAYMENT: '💳',

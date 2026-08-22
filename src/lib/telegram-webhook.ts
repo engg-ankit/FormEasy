@@ -30,7 +30,7 @@ export async function sendTelegramInstant(data: TelegramMessage) {
 
     const text = `${emojiMap[data.type] || '📢'} ${data.title}\n\n${data.message}`;
 
-    await fetch(PIPEDREAM_WEBHOOK_URL, {
+    const res = await fetch(PIPEDREAM_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -38,8 +38,12 @@ export async function sendTelegramInstant(data: TelegramMessage) {
         chat_id: process.env.TELEGRAM_CHAT_ID,
         bot_token: process.env.TELEGRAM_BOT_TOKEN,
       }),
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(10000),
     });
+
+    if (!res.ok) {
+      console.error(`❌ Telegram webhook HTTP ${res.status}`);
+    }
 
     console.log(`✅ Telegram instant: ${data.title}`);
   } catch (error: any) {

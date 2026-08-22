@@ -1,4 +1,5 @@
 import { prisma } from './prisma';
+import { sendTelegramInstant } from './telegram-webhook';
 
 // ─── Telegram Bot Config ───────────────────────────────────────
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
@@ -71,19 +72,22 @@ export async function createNotification(data: NotificationData) {
       },
     });
 
-    // 2. Send to Telegram (with retry, don't block response)
-    const emoji: Record<string, string> = {
-      SIGNUP: '🎉',
-      FORM_SUBMIT: '📝',
-      PAYMENT: '💳',
-      STATUS_CHANGE: '📋',
-      FORM_REQUEST: '📩',
-      OTP_RELAY: '🔑',
-    };
-
-    const telegramMessage = `${emoji[data.type] || '📢'} ${data.title}\n\n${data.message}`;
-    sendTelegram(telegramMessage).catch(err => {
-      console.error('Telegram delivery failed (saved to DB):', err);
+    // 2. Send INSTANTLY via Pipedream webhook (no Vercel network issues)
+    sendTelegramInstant({
+      type: data.type,
+      title: data.title,
+      message: data.message,
+      userName: data.userName,
+      examName: data.examName,
+      amount: data.amount,
+    }).catch(() => {
+      // Fallback: try direct Telegram API
+      const emojiMap: Record<string, string> = {
+        SIGNUP: '🎉', FORM_SUBMIT: '📝', PAYMENT: '💳',
+        STATUS_CHANGE: '📋', FORM_REQUEST: '📩', OTP_RELAY: '🔑',
+      };
+      const msg = `${emojiMap[data.type] || '📢'} ${data.title}\n\n${data.message}`;
+      sendTelegram(msg).catch(() => {});
     });
 
     return notification;

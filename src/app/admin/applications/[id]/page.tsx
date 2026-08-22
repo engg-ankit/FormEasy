@@ -801,17 +801,25 @@ function OtpRelaySection({ applicationId, portalName }: { applicationId: string;
             )}
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button
-              onClick={copyLink}
-              className="flex items-center justify-center gap-2 bg-white border border-amber-300 text-amber-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors"
-            >
-              {copiedLink ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy OTP Link</>}
-            </button>
-            <span className="text-xs text-amber-600 flex items-center">
-              Share this link with user via WhatsApp/SMS
-            </span>
+          {/* OTP Link Box - Easy to copy */}
+          <div className="bg-white border border-amber-300 rounded-lg p-3 mb-3">
+            <p className="text-xs text-amber-700 mb-2 font-medium">📋 Copy this link and send to user on WhatsApp:</p>
+            <div className="flex items-center gap-2">
+              <code className="flex-1 text-xs bg-amber-50 px-2 py-2 rounded border border-amber-200 break-all text-amber-900">
+                {typeof window !== 'undefined' ? `${window.location.origin}/otp/${otpRelayId}` : `/otp/${otpRelayId}`}
+              </code>
+              <button
+                onClick={copyLink}
+                className="flex items-center justify-center gap-1 bg-amber-600 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors whitespace-nowrap"
+              >
+                {copiedLink ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy</>}
+              </button>
+            </div>
           </div>
+          
+          <p className="text-xs text-amber-600">
+            💡 Share this link with user via WhatsApp and ask them to open it and enter the OTP they received on their phone.
+          </p>
         </div>
       )}
 

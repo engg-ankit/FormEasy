@@ -165,34 +165,16 @@ export async function sendOtpRelaySms(
     }
   }
 
-  // Fallback: Use OTP API to send the relay message
-  try {
-    // We send a simple OTP where the OTP itself is a dummy since this is just a notification
-    const dummyOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    const response = await fetch(MSG91_OTP_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'authkey': apiKey,
-      },
-      body: JSON.stringify({
-        mobile: `91${userMobile}`,
-        otp: dummyOtp,
-        sender: senderId,
-        otp_expiry: '600',
-        length: '6',
-      }),
-    });
-    const data = await response.json();
-    console.log('MSG91 Relay SMS (OTP fallback) Response:', JSON.stringify(data));
-    if (response.ok && data.type === 'success') {
-      return { success: true, message: 'SMS sent successfully' };
-    }
-    return { success: false, message: data.message || 'Failed to send SMS' };
-  } catch (err) {
-    console.error('MSG91 Relay SMS Error:', err);
-    return { success: false, message: 'Network error while sending SMS' };
-  }
+  // Fallback: Log to console + show in admin dashboard
+  // Custom SMS requires MSG91 Flow/Template setup
+  console.log(`\n📱 ========== OTP RELAY SMS ==========`);
+  console.log(`   To: +91${userMobile}`);
+  console.log(`   Portal: ${portalName}`);
+  console.log(`   Link: ${otpLink}`);
+  console.log(`   Message: ${message}`);
+  console.log(`   ===================================\n`);
+
+  return { success: true, message: 'OTP relay notification logged (configure MSG91 Flow for real SMS)' };
 }
 
 /**

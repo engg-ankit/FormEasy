@@ -100,7 +100,7 @@ export function UserNotificationBell() {
       {/* Bell Button */}
       <button
         onClick={() => { setIsOpen(!isOpen); if (!isOpen) fetchNotifications(); }}
-        className="relative p-2 text-neutral-500 hover:text-primary-600 transition-colors"
+        className="relative p-2 text-current opacity-80 hover:opacity-100 transition-opacity"
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (

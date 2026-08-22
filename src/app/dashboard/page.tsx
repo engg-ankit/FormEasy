@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { UserNotificationBell } from '@/components/user-notification-bell';
 import { APPLICATION_STATUS } from '@/lib/types';
 import { ReferralPanel } from '@/components/referral-panel';
 import { useTranslation } from '@/lib/i18n';
@@ -189,6 +190,7 @@ export default function DashboardPage() {
                 <span className="text-xs font-medium truncate max-w-[100px]">{session?.user?.name}</span>
               </div>
               <ThemeToggle className="text-white hover:bg-white/10" />
+              <div className="text-white"><UserNotificationBell /></div>
               <Button variant="ghost" onClick={() => signOut()} className="text-white hover:bg-white/10 px-2 sm:px-4">
                 <LogOut className="h-5 w-5" />
                 <span className="hidden md:inline ml-2">Logout</span>

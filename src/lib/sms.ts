@@ -44,7 +44,7 @@ async function sendOtpMsg91(
         mobile: `91${mobile}`,
         otp: otp,
         sender: senderId,
-        otp_expiry: '14400',  // 4 hours in seconds
+        otp_expiry: '300',  // 5 minutes in seconds (max 10800)
         length: '6',
       }),
     });

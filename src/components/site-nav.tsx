@@ -8,6 +8,7 @@ import { MobileMenu } from '@/components/mobile-menu';
 import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { UserNotificationBell } from '@/components/user-notification-bell';
+import { LanguageToggle } from '@/components/language-toggle';
 
 export const SiteNav = () => {
   const { data: session } = useSession();
@@ -32,6 +33,7 @@ export const SiteNav = () => {
     <>
       {/* Desktop buttons — hidden on mobile */}
       <div className="hidden sm:flex items-center gap-4">
+        <LanguageToggle />
         <Link href="/admin/login" className="text-sm text-neutral-500 hover:text-primary-600 transition-colors">
           Admin
         </Link>
@@ -66,7 +68,12 @@ export const SiteNav = () => {
               ? undefined
               : { label: 'Sign Up Free', href: '/signup' }
           }
-          themeToggle={<ThemeToggle className="w-full justify-center bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800 rounded-lg gap-2" />}
+          themeToggle={
+            <div className="flex gap-2">
+              <LanguageToggle className="flex-1 justify-center bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800 rounded-lg" />
+              <ThemeToggle className="flex-1 justify-center bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800 rounded-lg gap-2" />
+            </div>
+          }
         />
       </div>
     </>

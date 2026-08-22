@@ -199,6 +199,20 @@ model Notification {
   @@index([createdAt])
 }
 
+// Contact Messages - From the contact form
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  status    String   @default("NEW") // NEW, READ, REPLIED, ARCHIVED
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // OTP Relay - When admin/staff fills form on government portal and needs OTP from user
 model OtpRelay {
   id              String   @id @default(cuid())

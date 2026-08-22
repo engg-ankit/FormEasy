@@ -430,21 +430,31 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang] = useState<Language>('en');
+  const [lang, setLangState] = useState<Language>('en');
 
-  // Clear any old Hindi preference from localStorage
+  // Load saved language preference
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('formeasy-lang');
+      const saved = localStorage.getItem('formeasy-lang') as Language | null;
+      if (saved && (saved === 'en' || saved === 'hi')) {
+        setLangState(saved);
+      }
     }
   }, []);
 
+  const setLang = (newLang: Language) => {
+    setLangState(newLang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('formeasy-lang', newLang);
+    }
+  };
+
   const t = (key: TranslationKey): string => {
-    return translations.en[key] || key;
+    return translations[lang][key] || translations.en[key] || key;
   };
 
   return (
-    <I18nContext.Provider value={{ lang, setLang: () => {}, t }}>
+    <I18nContext.Provider value={{ lang, setLang, t }}>
       {children}
     </I18nContext.Provider>
   );

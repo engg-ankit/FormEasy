@@ -14,23 +14,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
 
-    // For now, we'll just log the contact message
-    // In production, you might want to:
-    // 1. Save to database
-    // 2. Send email
-    // 3. Store in a separate contact messages table
-    
-    console.log('Contact form submission:', {
-      name,
-      email,
-      subject,
-      message,
-      timestamp: new Date().toISOString(),
+    // Save to database
+    const contactMessage = await prisma.contactMessage.create({
+      data: { name, email, subject, message },
     });
 
-    // If you want to save to database, you could create a ContactMessage model
-    // For now, we'll just return success
-    
+    // Notify admin via Telegram (best effort)
+    try {
+      const botToken = process.env.TELEGRAM_BOT_TOKEN;
+      const chatId = process.env.TELEGRAM_CHAT_ID;
+      if (botToken && chatId) {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: `📩 New Contact Message\n\n👤 ${name}\n📧 ${email}\n📋 ${subject}\n\n💬 ${message}`,
+          }),
+        });
+      }
+    } catch {}
+
     return NextResponse.json({ 
       success: true,
       message: 'Contact form submitted successfully'

@@ -216,6 +216,7 @@ export default function AdminDashboardPage() {
               { href: '/admin/coupons', label: 'Coupons', icon: FileText },
               { href: '/admin/form-requests', label: 'Requests', icon: FileText },
               { href: '/admin/notifications', label: 'Notifications', icon: Bell },
+              { href: '/admin/contacts', label: 'Contacts', icon: Mail },
             ].map((tab) => (
               <Link key={tab.href} href={tab.href} className="whitespace-nowrap">
                 <button className="flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 transition-colors min-h-[52px]">

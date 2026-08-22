@@ -3,6 +3,7 @@ import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ChatSupport } from "@/components/chat-support";
+import { SplashScreen } from "@/components/splash-screen";
 
 const sora = Sora({
   variable: "--font-display",
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${sora.variable} ${inter.variable} min-h-full flex flex-col`}>
+        <SplashScreen />
         <Providers>{children}</Providers>
         <ChatSupport />
       </body>

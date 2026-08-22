@@ -73,7 +73,7 @@ export default function AdminAnalyticsPage() {
       <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading analytics...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-300">Loading analytics...</p>
         </div>
       </div>
     );
@@ -97,7 +97,7 @@ export default function AdminAnalyticsPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Admin Navigation */}
-      <nav className="bg-white shadow-sm border-b border-neutral-200 py-2">
+      <nav className="bg-white shadow-sm border-b border-neutral-200 dark:border-neutral-700 py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center min-h-[72px]">
             <div className="flex items-center gap-4">
@@ -142,7 +142,7 @@ export default function AdminAnalyticsPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-neutral-600">Total Applications</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Total Applications</p>
                   <p className="text-2xl font-bold text-primary-900">{analytics.summary.totalApplications}</p>
                 </div>
                 <Users className="h-8 w-8 text-primary-600" />
@@ -153,7 +153,7 @@ export default function AdminAnalyticsPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-neutral-600">Total Revenue</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Total Revenue</p>
                   <p className="text-2xl font-bold text-green-600">₹{analytics.summary.totalRevenue / 100}</p>
                 </div>
                 <IndianRupee className="h-8 w-8 text-green-600" />
@@ -164,7 +164,7 @@ export default function AdminAnalyticsPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-neutral-600">Success Rate</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Success Rate</p>
                   <p className="text-2xl font-bold text-blue-600">{analytics.summary.successRate}%</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-blue-600" />
@@ -175,7 +175,7 @@ export default function AdminAnalyticsPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-neutral-600">Active Users</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Active Users</p>
                   <p className="text-2xl font-bold text-purple-600">{analytics.summary.activeUsers}</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-purple-600" />

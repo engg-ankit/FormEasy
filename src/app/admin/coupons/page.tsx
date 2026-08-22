@@ -191,7 +191,7 @@ export default function AdminCouponsPage() {
       <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading coupons...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-300">Loading coupons...</p>
         </div>
       </div>
     );
@@ -200,7 +200,7 @@ export default function AdminCouponsPage() {
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Admin Navigation */}
-      <nav className="bg-white shadow-sm border-b border-neutral-200 py-2">
+      <nav className="bg-white shadow-sm border-b border-neutral-200 dark:border-neutral-700 py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center min-h-[72px]">
             <div className="flex items-center gap-4">
@@ -231,7 +231,7 @@ export default function AdminCouponsPage() {
             <CardContent>
               <form onSubmit={editingCoupon ? handleUpdateCoupon : handleAddCoupon} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Coupon Code</label>
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1">Coupon Code</label>
                   <Input
                     placeholder="e.g., FIRST10"
                     value={formData.code}
@@ -240,7 +240,7 @@ export default function AdminCouponsPage() {
                     disabled={!!editingCoupon}
                   />
                 </div>
-                <div>                    <label className="block text-sm font-medium text-neutral-700 mb-1">Discount Type</label>
+                <div>                    <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1">Discount Type</label>
                   <select
                     value={formData.discountType}
                     onChange={(e) => setFormData({ ...formData, discountType: e.target.value })}
@@ -251,7 +251,7 @@ export default function AdminCouponsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1">
                     Discount Value ({formData.discountType === 'PERCENTAGE' ? '%' : '₹'})
                   </label>
                   <Input
@@ -264,7 +264,7 @@ export default function AdminCouponsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Expiry Date</label>
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1">Expiry Date</label>
                   <Input
                     type="date"
                     value={formData.expiryDate}
@@ -273,7 +273,7 @@ export default function AdminCouponsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">Usage Limit</label>
+                  <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1">Usage Limit</label>
                   <Input
                     type="number"
                     placeholder="e.g., 100"
@@ -318,11 +318,11 @@ export default function AdminCouponsPage() {
           </CardHeader>
           <CardContent>
             {coupons.length === 0 ? (
-              <p className="text-neutral-600 text-center py-8">No coupons found</p>
+              <p className="text-neutral-600 dark:text-neutral-300 text-center py-8">No coupons found</p>
             ) : (
               <div className="space-y-4">
                 {coupons.map((coupon) => (
-                  <div key={coupon.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={coupon.id} className="border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2 min-w-0">
@@ -333,18 +333,18 @@ export default function AdminCouponsPage() {
                             <p className="font-semibold text-primary-900 truncate">{coupon.code}</p>
                             <div className="flex items-center gap-2 flex-wrap">
                               {coupon.discountType === 'PERCENTAGE' ? (
-                                <span className="text-sm text-neutral-600 flex items-center">
+                                <span className="text-sm text-neutral-600 dark:text-neutral-300 flex items-center">
                                   <Percent className="h-3 w-3 mr-1" />
                                   {coupon.discountValue}% off
                                 </span>
                               ) : (
-                                <span className="text-sm text-neutral-600 flex items-center">
+                                <span className="text-sm text-neutral-600 dark:text-neutral-300 flex items-center">
                                   <IndianRupee className="h-3 w-3 mr-1" />
                                   {coupon.discountValue} off
                                 </span>
                               )}
                               <span className="text-sm text-neutral-400">•</span>
-                              <span className="text-sm text-neutral-600">
+                              <span className="text-sm text-neutral-600 dark:text-neutral-300">
                                 {coupon.usedCount}/{coupon.usageLimit} used
                               </span>
                             </div>
@@ -353,7 +353,7 @@ export default function AdminCouponsPage() {
                         <div className="flex items-center gap-4 mt-3">
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-neutral-400" />
-                            <span className="text-sm text-neutral-600">
+                            <span className="text-sm text-neutral-600 dark:text-neutral-300">
                               Expires: {new Date(coupon.expiryDate).toLocaleDateString()}
                             </span>
                           </div>

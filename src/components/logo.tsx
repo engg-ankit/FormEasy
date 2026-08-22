@@ -15,13 +15,14 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
 
   const { width, height } = sizes[size];
 
-  // Colors based on white prop
+  // Colors based on white prop and dark mode
+  const isLightBadge = !white;
   const badgeBg = white ? 'rgba(255,255,255,0.15)' : '#242E63';
   const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#3F4A8C';
   const barColor = white ? '#FFFFFF' : '#F5F4FF';
   const tealColor = '#2DD4BF';
-  const textColor = white ? '#FFFFFF' : '#F5F4FF';
-  const tagColor = white ? 'rgba(255,255,255,0.7)' : '#9CA3AF';
+  const textColor = white ? '#FFFFFF' : '#1B2559';
+  const tagColor = white ? 'rgba(255,255,255,0.7)' : '#6B7280';
 
   return (
     <svg

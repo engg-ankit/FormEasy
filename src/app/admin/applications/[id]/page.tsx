@@ -152,7 +152,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
       <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading application details...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-300">Loading application details...</p>
         </div>
       </div>
     );
@@ -178,7 +178,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* Admin Navigation */}
-      <nav className="bg-white shadow-sm border-b border-neutral-200 py-2">
+      <nav className="bg-white shadow-sm border-b border-neutral-200 dark:border-neutral-700 py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center min-h-[72px]">
             <div className="flex items-center gap-4">
@@ -225,7 +225,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">Current Status</label>
+                <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-2">Current Status</label>
                 <select
                   value={application.status}
                   onChange={(e) => handleStatusChange(e.target.value)}
@@ -257,31 +257,31 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm text-neutral-600">Full Name</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Full Name</p>
                 <p className="font-medium text-primary-900">{formData.fullName || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Mobile</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Mobile</p>
                 <p className="font-medium text-primary-900">{formData.mobile || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Email</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Email</p>
                 <p className="font-medium text-primary-900">{formData.email || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Date of Birth</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Date of Birth</p>
                 <p className="font-medium text-primary-900">{formData.dateOfBirth || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Gender</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Gender</p>
                 <p className="font-medium text-primary-900">{formData.gender || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Father's Name</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Father's Name</p>
                 <p className="font-medium text-primary-900">{formData.fatherName || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Mother's Name</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Mother's Name</p>
                 <p className="font-medium text-primary-900">{formData.motherName || 'N/A'}</p>
               </div>
             </div>
@@ -299,19 +299,19 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm text-neutral-600">Qualification</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Qualification</p>
                 <p className="font-medium text-primary-900">{formData.qualification || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Board/University</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Board/University</p>
                 <p className="font-medium text-primary-900">{formData.board || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Year of Passing</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Year of Passing</p>
                 <p className="font-medium text-primary-900">{formData.yearOfPassing || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Percentage/CGPA</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Percentage/CGPA</p>
                 <p className="font-medium text-primary-900">{formData.percentage || 'N/A'}</p>
               </div>
             </div>
@@ -326,23 +326,23 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <p className="text-sm text-neutral-600">Address Line 1</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Address Line 1</p>
                 <p className="font-medium text-primary-900">{formData.addressLine1 || 'N/A'}</p>
               </div>
               <div className="md:col-span-2">
-                <p className="text-sm text-neutral-600">Address Line 2</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Address Line 2</p>
                 <p className="font-medium text-primary-900">{formData.addressLine2 || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">City</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">City</p>
                 <p className="font-medium text-primary-900">{formData.city || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">State</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">State</p>
                 <p className="font-medium text-primary-900">{formData.state || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Pincode</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Pincode</p>
                 <p className="font-medium text-primary-900">{formData.pincode || 'N/A'}</p>
               </div>
             </div>
@@ -359,11 +359,11 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           </CardHeader>
           <CardContent>
             {(!application.documents || application.documents.length === 0) ? (
-              <p className="text-neutral-600 text-center py-4">No documents uploaded</p>
+              <p className="text-neutral-600 dark:text-neutral-300 text-center py-4">No documents uploaded</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-4">
                 {(application.documents || []).map((doc) => (
-                  <div key={doc.id} className="border border-neutral-200 rounded-lg p-4">
+                  <div key={doc.id} className="border border-neutral-200 dark:border-neutral-700 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-medium text-primary-900">{doc.docType}</span>
                       <a
@@ -394,7 +394,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                         />
                       )}
                       <div className="hidden h-48 flex items-center justify-center">
-                        <span className="text-sm text-neutral-500">Preview not available</span>
+                        <span className="text-sm text-neutral-500 dark:text-neutral-400">Preview not available</span>
                       </div>
                     </div>
                   </div>
@@ -416,11 +416,11 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <p className="text-sm text-neutral-600">Amount</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Amount</p>
                   <p className="font-medium text-primary-900">₹{application.payment.amount / 100}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-neutral-600">Status</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Status</p>
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                     application.payment.status === 'SUCCESS' ? 'bg-green-100 text-green-700' :
                     application.payment.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' :
@@ -431,20 +431,20 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                   </span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-neutral-600">Razorpay Order ID</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Razorpay Order ID</p>
                   <p className="font-medium text-primary-900 text-sm truncate">{application.payment.razorpayOrderId}</p>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-neutral-600">Payment ID</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Payment ID</p>
                   <p className="font-medium text-primary-900 text-sm truncate">{application.payment.razorpayPaymentId || 'N/A'}</p>
                 </div>
                 <div className="md:col-span-2">
-                  <p className="text-sm text-neutral-600">Payment Date</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">Payment Date</p>
                   <p className="font-medium text-primary-900">{new Date(application.payment.createdAt).toLocaleString()}</p>
                 </div>
               </div>
               {application.payment.status === 'SUCCESS' && (
-                <div className="mt-4 pt-4 border-t border-neutral-200">
+                <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
                   <Button
                     variant="danger"
                     onClick={handleRefund}
@@ -466,27 +466,27 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm text-neutral-600">Exam Title</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Exam Title</p>
                 <p className="font-medium text-primary-900">{application.exam.title}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Category</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Category</p>
                 <p className="font-medium text-primary-900">{application.exam.category}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Official Fee</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Official Fee</p>
                 <p className="font-medium text-primary-900">₹{application.exam.officialFee / 100}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600">Service Fee</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Service Fee</p>
                 <p className="font-medium text-primary-900">₹{application.exam.serviceFee / 100}</p>
               </div>
               <div className="md:col-span-2">
-                <p className="text-sm text-neutral-600">Application Date</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Application Date</p>
                 <p className="font-medium text-primary-900">{new Date(application.createdAt).toLocaleString()}</p>
               </div>
               <div className="md:col-span-2">
-                <p className="text-sm text-neutral-600">Last Updated</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Last Updated</p>
                 <p className="font-medium text-primary-900">{new Date(application.updatedAt).toLocaleString()}</p>
               </div>
             </div>
@@ -529,7 +529,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                         <span className="text-xs font-medium">{index + 1}</span>
                       )}
                     </div>
-                    <span className="text-[10px] sm:text-xs mt-2 text-center text-neutral-600">
+                    <span className="text-[10px] sm:text-xs mt-2 text-center text-neutral-600 dark:text-neutral-300">
                       {step.label}
                     </span>
                   </div>
@@ -551,7 +551,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
             {application.statusHistory && application.statusHistory.length > 0 ? (
               <div className="space-y-3">
                 {application.statusHistory.map((entry: any) => (
-                  <div key={entry.id} className="flex items-start gap-3 p-3 bg-neutral-50 rounded-lg">
+                  <div key={entry.id} className="flex items-start gap-3 p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
                     <div className="bg-primary-100 rounded-full p-2 flex-shrink-0">
                       <CheckCircle className="h-4 w-4 text-primary-600" />
                     </div>
@@ -560,7 +560,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                         <span className="text-sm font-medium text-primary-900">
                           {entry.oldStatus ? `${entry.oldStatus} → ${entry.newStatus}` : entry.newStatus}
                         </span>
-                        <span className="text-xs text-neutral-500">
+                        <span className="text-xs text-neutral-500 dark:text-neutral-400">
                           by {entry.changedByName}
                         </span>
                       </div>
@@ -572,7 +572,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                 ))}
               </div>
             ) : (
-              <p className="text-neutral-500 text-sm text-center py-4">No status changes recorded yet</p>
+              <p className="text-neutral-500 dark:text-neutral-400 text-sm text-center py-4">No status changes recorded yet</p>
             )}
           </CardContent>
         </Card>
@@ -643,7 +643,7 @@ function NotesSection({ applicationId }: { applicationId: string }) {
         {notes.length > 0 ? (
           <div className="space-y-3">
             {notes.map(note => (
-              <div key={note.id} className="p-3 bg-neutral-50 rounded-lg">
+              <div key={note.id} className="p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-medium text-primary-900">{note.authorName}</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
@@ -657,12 +657,12 @@ function NotesSection({ applicationId }: { applicationId: string }) {
                     {new Date(note.createdAt).toLocaleString('en-IN')}
                   </span>
                 </div>
-                <p className="text-sm text-neutral-700">{note.content}</p>
+                <p className="text-sm text-neutral-700 dark:text-neutral-200">{note.content}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-neutral-500 text-sm text-center py-4">No notes yet</p>
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm text-center py-4">No notes yet</p>
         )}
       </CardContent>
     </Card>
@@ -806,7 +806,7 @@ function OtpRelaySection({ applicationId, portalName }: { applicationId: string;
           </div>
           
           {/* OTP Link Box - Easy to copy */}
-          <div className="bg-white border border-amber-300 rounded-lg p-3 mb-3">
+          <div className="bg-white dark:bg-neutral-800 border border-amber-300 rounded-lg p-3 mb-3">
             <p className="text-xs text-amber-700 mb-2 font-medium">📋 Copy this link and send to user on WhatsApp:</p>
             <div className="flex items-center gap-2">
               <code className="flex-1 text-xs bg-amber-50 px-2 py-2 rounded border border-amber-200 break-all text-amber-900">
@@ -835,7 +835,7 @@ function OtpRelaySection({ applicationId, portalName }: { applicationId: string;
             <span className="text-sm font-medium text-green-800">OTP Received!</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="flex-1 bg-white border border-green-300 rounded-lg px-4 py-3">
+            <div className="flex-1 bg-white dark:bg-neutral-800 border border-green-300 rounded-lg px-4 py-3">
               <span className="text-2xl font-mono font-bold text-green-800 tracking-widest">
                 {otp}
               </span>
@@ -905,7 +905,7 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
             <h2 className="text-xl font-display font-bold text-primary-900">Portal Processing</h2>
           </div>
         </div>
-        <p className="text-sm text-neutral-600">
+        <p className="text-sm text-neutral-600 dark:text-neutral-300">
           Open the official portal, copy data from below, and fill the form.
         </p>
       </CardHeader>
@@ -933,11 +933,11 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
         <OtpRelaySection applicationId={applicationId} portalName={portal.name} />
 
         {/* Copy-Ready Fields */}
-        <div className="bg-white rounded-xl border border-neutral-200 divide-y divide-neutral-100">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 divide-y divide-neutral-100">
           {fieldsToShow.map(([key, value]) => (
-            <div key={key} className="flex items-center justify-between px-4 py-2.5 hover:bg-neutral-50 group">
+            <div key={key} className="flex items-center justify-between px-4 py-2.5 hover:bg-neutral-50 dark:bg-neutral-900 group">
               <div className="flex-1 min-w-0">
-                <span className="text-xs text-neutral-500 block">{FORM_FIELD_LABELS[key] || key}</span>
+                <span className="text-xs text-neutral-500 dark:text-neutral-400 block">{FORM_FIELD_LABELS[key] || key}</span>
                 <span className="text-sm font-medium text-primary-900 break-all">{String(value)}</span>
               </div>
               <button
@@ -958,7 +958,7 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
         {/* Workflow Steps */}
         <div className="mt-5 p-4 bg-accent-50 rounded-xl">
           <h3 className="font-bold text-primary-900 mb-2">📋 Processing Steps:</h3>
-          <ol className="text-sm text-neutral-700 space-y-1.5 list-decimal list-inside">
+          <ol className="text-sm text-neutral-700 dark:text-neutral-200 space-y-1.5 list-decimal list-inside">
             <li>Click &quot;Open {portal.name}&quot; to open the official portal</li>
             <li>Login with portal credentials (if required)</li>
             <li>Click &quot;Copy All Fields&quot; or copy individual fields</li>

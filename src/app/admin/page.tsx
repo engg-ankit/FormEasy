@@ -8,6 +8,7 @@ import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, Layou
 import { Logo } from '@/components/logo';
 import { LogoIcon } from '@/components/logo-icon';
 import { MobileMenu } from '@/components/mobile-menu';
+import { ThemeToggle } from '@/components/theme-toggle';
 import Link from 'next/link';
 
 interface Admin {
@@ -125,7 +126,7 @@ export default function AdminDashboardPage() {
       <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary-600 mx-auto" />
-          <p className="mt-4 text-neutral-600">Loading dashboard...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-300">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -166,7 +167,8 @@ export default function AdminDashboardPage() {
                 <p className="text-sm text-primary-200">Welcome, {admin.name}</p>
               </div>
             </div>
-            <div className="hidden sm:block">
+            <div className="hidden sm:flex items-center gap-2">
+              <ThemeToggle className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white" />
               <button 
                 onClick={handleLogout}
                 className="text-white hover:bg-white/10 font-medium flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-lg transition-colors"
@@ -202,7 +204,7 @@ export default function AdminDashboardPage() {
       </nav>
 
       {/* Admin Tabs */}
-      <div className="bg-white border-b border-neutral-200 shadow-sm">
+      <div className="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 dark:border-neutral-700 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-1 overflow-x-auto no-scrollbar -mb-px">
             {[
@@ -214,7 +216,7 @@ export default function AdminDashboardPage() {
               { href: '/admin/form-requests', label: 'Requests', icon: FileText },
             ].map((tab) => (
               <Link key={tab.href} href={tab.href} className="whitespace-nowrap">
-                <button className="flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300 transition-colors min-h-[52px]">
+                <button className="flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 transition-colors min-h-[52px]">
                   {tab.label}
                 </button>
               </Link>
@@ -230,12 +232,12 @@ export default function AdminDashboardPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <Users className="h-5 w-5 text-primary-600" />
-                <span className="text-sm text-neutral-600">Today</span>
+                <span className="text-sm text-neutral-600 dark:text-neutral-300">Today</span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary-900">{stats.todayApplications}</div>
-              <p className="text-sm text-neutral-600">New Applications</p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">New Applications</p>
             </CardContent>
           </Card>
 
@@ -243,12 +245,12 @@ export default function AdminDashboardPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <Clock className="h-5 w-5 text-yellow-600" />
-                <span className="text-sm text-neutral-600">Pending</span>
+                <span className="text-sm text-neutral-600 dark:text-neutral-300">Pending</span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary-900">{stats.pendingApplications}</div>
-              <p className="text-sm text-neutral-600">Awaiting Review</p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">Awaiting Review</p>
             </CardContent>
           </Card>
 
@@ -256,12 +258,12 @@ export default function AdminDashboardPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <FileText className="h-5 w-5 text-blue-600" />
-                <span className="text-sm text-neutral-600">In Process</span>
+                <span className="text-sm text-neutral-600 dark:text-neutral-300">In Process</span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary-900">{stats.inProcessApplications}</div>
-              <p className="text-sm text-neutral-600">Being Processed</p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">Being Processed</p>
             </CardContent>
           </Card>
 
@@ -269,12 +271,12 @@ export default function AdminDashboardPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CheckCircle className="h-5 w-5 text-green-600" />
-                <span className="text-sm text-neutral-600">This Week</span>
+                <span className="text-sm text-neutral-600 dark:text-neutral-300">This Week</span>
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-primary-900">{stats.completedThisWeek}</div>
-              <p className="text-sm text-neutral-600">Completed</p>
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">Completed</p>
             </CardContent>
           </Card>
         </div>
@@ -291,7 +293,7 @@ export default function AdminDashboardPage() {
             <div className="text-3xl font-bold text-primary-900">
               ₹{stats.revenueThisMonth / 100}
             </div>
-            <p className="text-sm text-neutral-600 mt-1">
+            <p className="text-sm text-neutral-600 dark:text-neutral-300 mt-1">
               Total from {stats.completedApplications} completed applications
             </p>
           </CardContent>
@@ -322,7 +324,7 @@ export default function AdminDashboardPage() {
               <div className="text-center py-6">
                 <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-3" />
                 <p className="text-green-700 font-medium">All caught up! No pending forms.</p>
-                <p className="text-sm text-neutral-500 mt-1">New applications will appear here when users submit them.</p>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">New applications will appear here when users submit them.</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -330,25 +332,25 @@ export default function AdminDashboardPage() {
                   .filter(a => a.status === 'SUBMITTED' || a.status === 'IN_PROCESS')
                   .slice(0, 5)
                   .map((app) => (
-                  <div key={app.id} className="bg-white rounded-xl p-4 sm:p-5 border border-neutral-200 hover:border-primary-300 transition-all">
+                  <div key={app.id} className="bg-white dark:bg-neutral-800 rounded-xl p-4 sm:p-5 border border-neutral-200 dark:border-neutral-700 hover:border-primary-300 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
                           <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${getStatusColor(app.status)}`}>
                             {app.status.replace('_', ' ')}
                           </span>
-                          <span className="text-xs text-neutral-500">
+                          <span className="text-xs text-neutral-500 dark:text-neutral-400">
                             {new Date(app.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                           </span>
                         </div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
                           <div>
                             <p className="font-bold text-primary-900">{app.user.fullName}</p>
-                            <p className="text-xs text-neutral-500">{app.user.mobile} • {app.user.email}</p>
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">{app.user.mobile} • {app.user.email}</p>
                           </div>
                           <div className="sm:border-l sm:pl-4">
                             <p className="font-medium text-primary-700 text-sm">{app.exam.title}</p>
-                            <p className="text-xs text-neutral-500">{app.exam.category} • Fee: ₹{(app.exam.officialFee + app.exam.serviceFee) / 100}</p>
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">{app.exam.category} • Fee: ₹{(app.exam.officialFee + app.exam.serviceFee) / 100}</p>
                           </div>
                           <div className="sm:border-l sm:pl-4">
                             {app.payment?.status === 'SUCCESS' ? (
@@ -393,15 +395,15 @@ export default function AdminDashboardPage() {
             <CardContent>
               <div className="space-y-3">
                 {formRequests.filter(r => r.status === 'PENDING').slice(0, 3).map((req) => (
-                  <div key={req.id} className="bg-white rounded-xl p-4 border border-neutral-200">
+                  <div key={req.id} className="bg-white dark:bg-neutral-800 rounded-xl p-4 border border-neutral-200 dark:border-neutral-700">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-bold text-primary-900">{req.formName}</h3>
                           <span className="bg-yellow-100 text-yellow-700 text-xs px-2 py-0.5 rounded-full font-medium">Pending</span>
                         </div>
-                        <p className="text-sm text-neutral-600">{req.category} • Requested by {req.user.fullName} ({req.user.mobile})</p>
-                        {req.portalName && <p className="text-xs text-neutral-500 mt-1">Portal: {req.portalName}</p>}
+                        <p className="text-sm text-neutral-600 dark:text-neutral-300">{req.category} • Requested by {req.user.fullName} ({req.user.mobile})</p>
+                        {req.portalName && <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Portal: {req.portalName}</p>}
                       </div>
                       <Link href="/admin/form-requests">
                         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors min-h-[40px] whitespace-nowrap">
@@ -430,7 +432,7 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             {recentApplications.length === 0 ? (
-              <p className="text-neutral-600 text-center py-8">No applications yet</p>
+              <p className="text-neutral-600 dark:text-neutral-300 text-center py-8">No applications yet</p>
             ) : (
               <div className="space-y-4">
                 {recentApplications.map((app) => (
@@ -439,11 +441,11 @@ export default function AdminDashboardPage() {
                       <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                         <div className="min-w-0">
                           <p className="font-medium text-primary-900 truncate">{app.user.fullName}</p>
-                          <p className="text-sm text-neutral-600">{app.user.mobile}</p>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-300">{app.user.mobile}</p>
                         </div>
                         <div className="min-w-0">
                           <p className="font-medium text-primary-900 truncate">{app.exam.title}</p>
-                          <p className="text-sm text-neutral-600">{app.exam.category}</p>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-300">{app.exam.category}</p>
                         </div>
                       </div>
                     </div>

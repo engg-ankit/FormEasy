@@ -1,34 +1,21 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 export async function GET() {
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailPass = process.env.GMAIL_APP_PASSWORD;
+  const apiKey = process.env.RESEND_API_KEY;
 
-  if (!gmailUser || !gmailPass) {
+  if (!apiKey) {
     return NextResponse.json({ 
-      error: 'Gmail env variables not set',
-      hasUser: !!gmailUser,
-      hasPass: !!gmailPass 
+      error: 'RESEND_API_KEY not set' 
     }, { status: 500 });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: gmailUser,
-      pass: gmailPass,
-    },
-  });
+  const resend = new Resend(apiKey);
 
   try {
-    // Verify connection first
-    await transporter.verify();
-    
-    // Send test email
-    const result = await transporter.sendMail({
-      from: `"FormEasy" <${gmailUser}>`,
-      to: gmailUser, // Send to same email for testing
+    const result = await resend.emails.send({
+      from: 'FormEasy <onboarding@resend.dev>',
+      to: ['delivered@resend.dev'], // Resend test email
       subject: '🎉 Welcome to FormEasy - Test Email!',
       html: `
         <div style="max-width:600px;margin:0 auto;padding:20px;font-family:sans-serif;">
@@ -37,7 +24,7 @@ export async function GET() {
           </div>
           <div style="background:#fff;padding:30px;border-radius:0 0 12px 12px;">
             <h2 style="color:#1B2559;">Email Notifications Working! ✅</h2>
-            <p style="color:#374151;">Agar ye email aa gayi hai toh sab kuch sahi hai!</p>
+            <p style="color:#374151;">Agar ye email aayi hai toh sab kuch sahi hai!</p>
             <p style="color:#374151;">Ab har event pe email jayega:</p>
             <ul style="color:#374151;">
               <li>🎉 New Signup</li>
@@ -54,17 +41,13 @@ export async function GET() {
 
     return NextResponse.json({ 
       success: true, 
-      messageId: result.messageId,
-      from: gmailUser,
-      message: 'Email sent successfully!'
+      emailId: result.data?.id,
+      message: 'Email sent via Resend HTTP API!'
     });
   } catch (error: any) {
-    console.error('Email test failed:', error);
     return NextResponse.json({ 
-      error: 'Email send failed',
-      details: error.message,
-      code: error.code,
-      command: error.command
+      error: 'Email failed',
+      details: error.message
     }, { status: 500 });
   }
 }

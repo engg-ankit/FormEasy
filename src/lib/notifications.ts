@@ -1,16 +1,12 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-// Gmail SMTP Configuration (Free - No Domain Needed!)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER || '',
-    pass: process.env.GMAIL_APP_PASSWORD || '',
-  },
-});
+// Resend HTTP API - Works on Vercel (HTTPS, not SMTP)
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
-const FROM_EMAIL = process.env.GMAIL_USER || 'noreply@formeasy.in';
-const FROM_NAME = 'FormEasy';
+// Use verified domain if available, otherwise Resend's default
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'FormEasy <onboarding@resend.dev>';
 
 interface EmailOptions {
   to: string;
@@ -19,26 +15,23 @@ interface EmailOptions {
 }
 
 async function sendEmail({ to, subject, html }: EmailOptions) {
-  // Check if Gmail is configured
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    console.log(`📧 [DEV MODE] Email would be sent to: ${to}`);
-    console.log(`   Subject: ${subject}`);
-    console.log(`   Configure GMAIL_USER and GMAIL_APP_PASSWORD in .env to send real emails`);
+  if (!resend) {
+    console.log(`📧 [DEV MODE] Email to: ${to} | Subject: ${subject}`);
     return { success: true, dev: true };
   }
 
   try {
-    const result = await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to,
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [to],
       subject,
       html,
     });
-    console.log(`✅ Email sent to ${to}: ${subject} (id: ${result.messageId})`);
-    return { success: true, id: result.messageId };
-  } catch (error) {
-    console.error(`❌ Email failed to ${to}:`, error);
-    return { success: false, error };
+    console.log(`✅ Email sent to ${to}: ${subject} (id: ${result.data?.id})`);
+    return { success: true, id: result.data?.id };
+  } catch (error: any) {
+    console.error(`❌ Email failed to ${to}:`, error.message || error);
+    return { success: false, error: error.message };
   }
 }
 

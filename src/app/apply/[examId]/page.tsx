@@ -10,7 +10,6 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight, Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
-import { OtpVerification } from '@/components/otp-verification';
 
 interface Exam {
   id: string;
@@ -91,8 +90,6 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
   const [error, setError] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [isMobileVerified, setIsMobileVerified] = useState(false);
-  const [showOtpVerification, setShowOtpVerification] = useState(false);
 
   // Auto-save every 30 seconds
   useEffect(() => {
@@ -172,7 +169,6 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
     if (step === 1) {
       if (!formData.fullName) newErrors.fullName = 'Full name is required';
       if (!formData.mobile || formData.mobile.length !== 10) newErrors.mobile = 'Valid 10-digit mobile number required';
-      if (!isMobileVerified) newErrors.mobile = 'Please verify your mobile number';
       if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Valid email is required';
       if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
       if (!formData.gender) newErrors.gender = 'Gender is required';
@@ -207,12 +203,6 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
   };
 
   const handleNext = () => {
-    // Check OTP verification for Step 1
-    if (currentStep === 1 && !isMobileVerified) {
-      setError('Please verify your mobile number before proceeding.');
-      return;
-    }
-    
     if (validateStep(currentStep)) {
       saveDraft();
       setCurrentStep(Math.min(currentStep + 1, STEPS.length));
@@ -394,58 +384,10 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                   label="Mobile Number"
                   type="tel"
                   value={formData.mobile}
-                  onChange={(e) => {
-                    setFormData({ ...formData, mobile: e.target.value });
-                    // Reset verification when mobile changes
-                    if (isMobileVerified) {
-                      setIsMobileVerified(false);
-                    }
-                  }}
+                  onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                   error={errors.mobile}
                   maxLength={10}
                 />
-                
-                {/* OTP Verification Section */}
-                {formData.mobile.length === 10 && !isMobileVerified && (
-                  <div className="border border-neutral-200 rounded-lg p-4 bg-neutral-50">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-medium text-neutral-800">Verify Mobile Number</h4>
-                      {!showOtpVerification && (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowOtpVerification(true)}
-                        >
-                          Verify Now
-                        </Button>
-                      )}
-                    </div>
-                    {showOtpVerification && (
-                      <OtpVerification
-                        mobile={formData.mobile}
-                        purpose="FORM_FILL"
-                        onVerified={() => {
-                          setIsMobileVerified(true);
-                          setShowOtpVerification(false);
-                        }}
-                        onError={(err) => setError(err)}
-                      />
-                    )}
-                  </div>
-                )}
-                
-                {/* Show verification success */}
-                {isMobileVerified && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="h-5 w-5 text-green-600" />
-                      <span className="text-sm font-medium text-green-800">
-                        Mobile number verified successfully!
-                      </span>
-                    </div>
-                  </div>
-                )}
                 
                 <Input
                   label="Email"

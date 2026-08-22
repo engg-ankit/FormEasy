@@ -46,13 +46,20 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>('overview');
   const { t } = useTranslation();
 
-  // Read tab from URL query params
+  // Read tab from URL query params - runs on mount AND on URL change
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get('tab');
-    if (tab && ['overview', 'applications', 'payments', 'profile', 'referrals'].includes(tab)) {
-      setActiveTab(tab as 'overview' | 'applications' | 'payments' | 'profile' | 'referrals');
-    }
+    const checkTab = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get('tab');
+      if (tab && ['overview', 'applications', 'payments', 'profile', 'referrals'].includes(tab)) {
+        setActiveTab(tab as 'overview' | 'applications' | 'payments' | 'profile' | 'referrals');
+      }
+    };
+    // Initial check
+    checkTab();
+    // Listen for URL changes (back/forward + same-page navigation)
+    window.addEventListener('popstate', checkTab);
+    return () => window.removeEventListener('popstate', checkTab);
   }, []);
 
   useEffect(() => {
@@ -194,8 +201,8 @@ export default function DashboardPage() {
                   { label: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
                   { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },
                   { label: 'Request Form', href: '/request-form', icon: <Plus className="h-5 w-5" /> },
-                  { label: 'My Applications', href: '/dashboard?tab=applications', icon: <FileText className="h-5 w-5" /> },
-                  { label: 'Payment History', href: '/dashboard?tab=payments', icon: <CreditCard className="h-5 w-5" /> },
+                  { label: 'My Applications', onClick: () => setActiveTab('applications'), icon: <FileText className="h-5 w-5" /> },
+                  { label: 'Payment History', onClick: () => setActiveTab('payments'), icon: <CreditCard className="h-5 w-5" /> },
                   { label: 'Contact Support', href: '/contact', icon: <Phone className="h-5 w-5" /> },
                 ]}
                 themeToggle={<ThemeToggle />}

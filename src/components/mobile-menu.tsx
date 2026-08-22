@@ -7,8 +7,9 @@ import { Logo } from '@/components/logo';
 
 interface MenuItem {
   label: string;
-  href: string;
+  href?: string;
   icon?: React.ReactNode;
+  onClick?: () => void;
 }
 
 interface MobileMenuProps {
@@ -77,17 +78,38 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
 
         {/* Nav Items */}
         <nav className="overflow-y-auto py-4" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-          {items.map((item, index) => (
-            <Link
-              key={index}
-              href={item.href}
-              onClick={closeMenu}
-              className="flex items-center gap-3 px-5 py-3.5 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950 hover:text-primary-700 transition-colors min-h-[48px] block"
-            >
-              {item.icon && <span className="text-neutral-400">{item.icon}</span>}
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          ))}
+          {items.map((item, index) => {
+            const handleClick = () => {
+              closeMenu();
+              item.onClick?.();
+            };
+
+            // If item has onClick, use button; otherwise use Link
+            if (item.onClick) {
+              return (
+                <button
+                  key={index}
+                  onClick={handleClick}
+                  className="flex items-center gap-3 px-5 py-3.5 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950 hover:text-primary-700 transition-colors min-h-[48px] w-full text-left"
+                >
+                  {item.icon && <span className="text-neutral-400">{item.icon}</span>}
+                  <span className="font-medium">{item.label}</span>
+                </button>
+              );
+            }
+
+            return (
+              <Link
+                key={index}
+                href={item.href || '#'}
+                onClick={closeMenu}
+                className="flex items-center gap-3 px-5 py-3.5 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950 hover:text-primary-700 transition-colors min-h-[48px] block"
+              >
+                {item.icon && <span className="text-neutral-400">{item.icon}</span>}
+                <span className="font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA */}

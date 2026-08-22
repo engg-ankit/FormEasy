@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
+import { OtpVerification } from '@/components/otp-verification';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -23,6 +24,8 @@ export default function SignupPage() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobileVerified, setIsMobileVerified] = useState(false);
+  const [showOtpVerification, setShowOtpVerification] = useState(false);
   const { t } = useTranslation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +46,12 @@ export default function SignupPage() {
 
     if (formData.mobile.length !== 10) {
       setError('Mobile number must be 10 digits');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!isMobileVerified) {
+      setError('Please verify your mobile number before signing up');
       setIsLoading(false);
       return;
     }
@@ -119,10 +128,60 @@ export default function SignupPage() {
               type="tel"
               placeholder="Enter your 10-digit mobile number"
               value={formData.mobile}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                // Reset verification when mobile changes
+                if (isMobileVerified) {
+                  setIsMobileVerified(false);
+                }
+              }}
               required
               maxLength={10}
             />
+            
+            {/* OTP Verification Section */}
+            {formData.mobile.length === 10 && !isMobileVerified && (
+              <div className="border border-neutral-200 rounded-lg p-4 bg-neutral-50">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-medium text-neutral-800">Verify Mobile Number</h4>
+                  {!showOtpVerification && (
+                    <button
+                      type="button"
+                      className="text-sm text-primary-600 hover:underline"
+                      onClick={() => setShowOtpVerification(true)}
+                    >
+                      Verify Now
+                    </button>
+                  )}
+                </div>
+                {showOtpVerification && (
+                  <OtpVerification
+                    mobile={formData.mobile}
+                    purpose="SIGNUP"
+                    onVerified={() => {
+                      setIsMobileVerified(true);
+                      setShowOtpVerification(false);
+                    }}
+                    onError={(err) => setError(err)}
+                  />
+                )}
+              </div>
+            )}
+            
+            {/* Show verification success */}
+            {isMobileVerified && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                <div className="flex items-center gap-2">
+                  <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm font-medium text-green-800">
+                    Mobile number verified!
+                  </span>
+                </div>
+              </div>
+            )}
+            
             <Input
               label="Email"
               name="email"

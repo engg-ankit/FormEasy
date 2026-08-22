@@ -118,7 +118,7 @@ export default function Home() {
                       <span className="truncate">Last Date: {exam.lastDate}</span>
                     </div>
                     <div className="text-lg font-semibold text-primary-900 dark:text-white whitespace-nowrap">
-                      ₹{(exam.officialFee + exam.serviceFee)}
+                      ₹{(exam.officialFee + exam.serviceFee) / 100}
                     </div>
                   </div>
                   <Link href={`/exams/${exam.id}`}>
@@ -193,7 +193,7 @@ export default function Home() {
                 <div className="flex items-center gap-1 mb-3">
                   {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400">★</span>)}
                 </div>
-                <p className="text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">\u201C{testimonial.text}\u201D</p>
+                <p className="text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">&ldquo;{testimonial.text}&rdquo;</p>
                 <div className="flex items-center gap-3">
                   <div className="bg-primary-100 dark:bg-primary-800 rounded-full w-10 h-10 flex items-center justify-center">
                     <span className="font-bold text-primary-600 dark:text-primary-300">{testimonial.name[0]}</span>

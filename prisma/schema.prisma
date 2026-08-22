@@ -57,6 +57,7 @@ model Application {
   statusHistory  StatusHistory[]
   notes          Note[]
   commissions    Commission[]
+  otpRelays      OtpRelay[]
 }
 
 model Document {
@@ -170,6 +171,22 @@ model Commission {
   application     Application @relation(fields: [applicationId], references: [id])
 }
 
+// OTP Verification records
+model OtpVerification {
+  id          String   @id @default(cuid())
+  mobile      String
+  otp         String   // Hashed OTP
+  purpose     String   // 'SIGNUP', 'FORM_FILL', 'LOGIN'
+  expiresAt   DateTime
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(5)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([mobile, purpose])
+  @@index([expiresAt])
+}
+
 // User requests a form that is not listed in the catalog
 model FormRequest {
   id            String   @id @default(cuid())
@@ -185,4 +202,25 @@ model FormRequest {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// OTP Relay - When admin/staff fills form on government portal and needs OTP from user
+model OtpRelay {
+  id              String   @id @default(cuid())
+  applicationId   String
+  portalName      String   // e.g., 'SSC', 'IBPS', 'Railway'
+  requestedBy     String   // Admin name who requested
+  requestedById   String   // Admin ID
+  userMobile      String   // User's mobile number
+  otp             String?  // The OTP submitted by user
+  status          String   @default("PENDING") // PENDING, SUBMITTED, EXPIRED, CANCELLED
+  smsSent         Boolean  @default(false)
+  smsSentAt       DateTime?
+  submittedAt     DateTime?
+  expiresAt       DateTime // OTP request expires after 10 minutes
+  createdAt       DateTime @default(now())
+  application     Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([applicationId])
+  @@index([status])
 }

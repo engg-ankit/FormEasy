@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, CheckCircle, Clock, FileText, Download, User, Upload, Calendar, IndianRupee, AlertCircle, ExternalLink, Copy, Check } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Clock, FileText, Download, User, Upload, Calendar, IndianRupee, AlertCircle, ExternalLink, Copy, Check, Smartphone } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
 import { PdfExport } from '@/components/pdf-export';
 import { getPortalLink, FORM_FIELD_LABELS } from '@/lib/portal-links';
@@ -665,6 +665,200 @@ function NotesSection({ applicationId }: { applicationId: string }) {
   );
 }
 
+// OTP Relay Section Component
+function OtpRelaySection({ applicationId, portalName }: { applicationId: string; portalName: string }) {
+  const [otpRelayId, setOtpRelayId] = useState<string | null>(null);
+  const [otp, setOtp] = useState<string | null>(null);
+  const [status, setStatus] = useState<'idle' | 'pending' | 'submitted' | 'expired'>('idle');
+  const [isRequesting, setIsRequesting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedOtp, setCopiedOtp] = useState(false);
+
+  // Polling for OTP status
+  useEffect(() => {
+    if (!otpRelayId || status === 'submitted' || status === 'expired') return;
+
+    const pollInterval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/otp-relay/status/${otpRelayId}`);
+        const data = await response.json();
+
+        if (response.ok && data.otpRelay) {
+          setStatus(data.otpRelay.status.toLowerCase());
+          if (data.otpRelay.status === 'SUBMITTED' && data.otpRelay.otp) {
+            setOtp(data.otpRelay.otp);
+            setTimeLeft(0);
+          } else if (data.otpRelay.status === 'EXPIRED') {
+            setTimeLeft(0);
+          }
+        }
+      } catch (err) {
+        console.error('Polling error:', err);
+      }
+    }, 3000); // Poll every 3 seconds
+
+    return () => clearInterval(pollInterval);
+  }, [otpRelayId, status]);
+
+  // Timer countdown
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setStatus('expired');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const handleRequestOtp = async () => {
+    setIsRequesting(true);
+    try {
+      const response = await fetch('/api/otp-relay/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicationId, portalName }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setOtpRelayId(data.otpRelayId);
+        setStatus('pending');
+        setTimeLeft(600); // 10 minutes
+      } else {
+        alert(data.error || 'Failed to request OTP');
+      }
+    } catch (err) {
+      alert('Network error. Please try again.');
+    } finally {
+      setIsRequesting(false);
+    }
+  };
+
+  const copyLink = () => {
+    if (!otpRelayId) return;
+    const url = `${window.location.origin}/otp/${otpRelayId}`;
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
+  const copyOtp = () => {
+    if (!otp) return;
+    navigator.clipboard.writeText(otp);
+    setCopiedOtp(true);
+    setTimeout(() => setCopiedOtp(false), 2000);
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  return (
+    <div className="mb-5 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+      <div className="flex items-center gap-2 mb-3">
+        <Smartphone className="h-5 w-5 text-amber-600" />
+        <h3 className="font-bold text-amber-900">OTP Relay</h3>
+      </div>
+
+      {/* Idle state - Request OTP */}
+      {status === 'idle' && (
+        <div>
+          <p className="text-sm text-amber-800 mb-3">
+            Need OTP from user during form filling? Send them a link to submit it.
+          </p>
+          <button
+            onClick={handleRequestOtp}
+            disabled={isRequesting}
+            className="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:opacity-50"
+          >
+            <Smartphone className="h-4 w-4" />
+            {isRequesting ? 'Sending...' : 'Request OTP from User'}
+          </button>
+        </div>
+      )}
+
+      {/* Pending state - Waiting for user */}
+      {status === 'pending' && (
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="animate-pulse w-2 h-2 bg-amber-500 rounded-full"></div>
+            <span className="text-sm font-medium text-amber-800">Waiting for user to submit OTP...</span>
+            {timeLeft > 0 && (
+              <span className="text-xs text-amber-600 ml-auto">
+                {formatTime(timeLeft)} remaining
+              </span>
+            )}
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-2">
+            <button
+              onClick={copyLink}
+              className="flex items-center justify-center gap-2 bg-white border border-amber-300 text-amber-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors"
+            >
+              {copiedLink ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy OTP Link</>}
+            </button>
+            <span className="text-xs text-amber-600 flex items-center">
+              Share this link with user via WhatsApp/SMS
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Submitted state - OTP received */}
+      {status === 'submitted' && otp && (
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <CheckCircle className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium text-green-800">OTP Received!</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex-1 bg-white border border-green-300 rounded-lg px-4 py-3">
+              <span className="text-2xl font-mono font-bold text-green-800 tracking-widest">
+                {otp}
+              </span>
+            </div>
+            <button
+              onClick={copyOtp}
+              className="flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+            >
+              {copiedOtp ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy</>}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Expired state */}
+      {status === 'expired' && (
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <AlertCircle className="h-5 w-5 text-red-600" />
+            <span className="text-sm font-medium text-red-800">OTP request expired</span>
+          </div>
+          <button
+            onClick={handleRequestOtp}
+            disabled={isRequesting}
+            className="flex items-center gap-2 bg-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-amber-700 transition-colors disabled:opacity-50"
+          >
+            <Smartphone className="h-4 w-4" />
+            {isRequesting ? 'Sending...' : 'Request New OTP'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Portal Processing Component
 function PortalProcessingCard({ formData, examCategory, applicationId }: { formData: any; examCategory: string; applicationId: string }) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -722,6 +916,9 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
             {copiedField === 'ALL' ? <><Check className="h-5 w-5" /> Copied!</> : <><Copy className="h-5 w-5" /> Copy All Fields</>}
           </button>
         </div>
+
+        {/* OTP Relay Section */}
+        <OtpRelaySection applicationId={applicationId} portalName={portal.name} />
 
         {/* Copy-Ready Fields */}
         <div className="bg-white rounded-xl border border-neutral-200 divide-y divide-neutral-100">

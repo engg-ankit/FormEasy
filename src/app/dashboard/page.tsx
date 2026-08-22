@@ -22,6 +22,7 @@ import { useTranslation } from '@/lib/i18n';
 interface Application {
   id: string;
   exam: {
+    id: string;
     title: string;
     category: string;
     officialFee: number;

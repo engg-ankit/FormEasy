@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 
 interface Message {
@@ -189,19 +188,19 @@ function getAIResponse(input: string): string {
 }
 
 export function ChatSupport() {
-  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isHidden, setIsHidden] = useState(true);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    // Check path after mount to avoid SSR issues
+    const path = window.location.pathname;
+    const hiddenPrefixes = ['/admin', '/dashboard', '/api'];
+    setIsHidden(hiddenPrefixes.some(p => path.startsWith(p)));
+  }, []);
 
-  // Only show on public/user-facing pages, hide on admin/dashboard/api pages
-  const hiddenPrefixes = ['/admin', '/dashboard', '/api'];
-  const shouldHide = mounted && pathname ? hiddenPrefixes.some(p => pathname.startsWith(p)) : false;
-  if (shouldHide) return null;
-
-  // Don't render anything until mounted to avoid hydration mismatch
-  if (!mounted) return null;
+  if (!mounted || isHidden) return null;
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');

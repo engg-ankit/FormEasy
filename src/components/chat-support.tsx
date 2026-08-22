@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 
 interface Message {
@@ -188,7 +189,13 @@ function getAIResponse(input: string): string {
 }
 
 export function ChatSupport() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Only show on public/user-facing pages, hide on admin/dashboard/api pages
+  const hiddenPrefixes = ['/admin', '/dashboard', '/api'];
+  const shouldHide = hiddenPrefixes.some(p => pathname.startsWith(p));
+  if (shouldHide) return null;
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);

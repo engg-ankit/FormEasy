@@ -34,7 +34,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
       style={{ display: 'block' }}
     >
       {/* ICON MARK */}
-      <g>
+      <g className="logo-square">
         <rect x="8" y="20" width="120" height="120" rx="30" fill={badgeBg} />
         <rect x="8" y="20" width="120" height="120" rx="30" fill="none" stroke={badgeStroke} strokeWidth="1.5" />
 
@@ -42,10 +42,10 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
         <rect x="46" y="50" width="9" height="60" rx="3" fill={barColor} />
 
         {/* Horizontal bars */}
-        <rect x="46" y="50" width="30" height="10" rx="3" fill={barColor} />
-        <rect x="46" y="70" width="22" height="10" rx="3" fill={barColor} />
-        <rect x="46" y="90" width="30" height="10" rx="3" fill={tealColor} />
-        <rect x="46" y="110" width="22" height="10" rx="3" fill={tealColor} />
+        <rect x="46" y="50" width="30" height="10" rx="3" fill={barColor} className="logo-bar logo-bar-1" style={{ transformOrigin: '46px 55px' }} />
+        <rect x="46" y="70" width="22" height="10" rx="3" fill={barColor} className="logo-bar logo-bar-2" style={{ transformOrigin: '46px 75px' }} />
+        <rect x="46" y="90" width="30" height="10" rx="3" fill={tealColor} className="logo-bar logo-bar-3" style={{ transformOrigin: '46px 95px' }} />
+        <rect x="46" y="110" width="22" height="10" rx="3" fill={tealColor} className="logo-bar logo-bar-4" style={{ transformOrigin: '46px 115px' }} />
       </g>
 
       {/* WORDMARK */}
@@ -57,6 +57,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontWeight="700"
           fontFamily="'Poppins','Sora',sans-serif"
           fill={textColor}
+          className="logo-word"
         >
           Form<tspan fill={tealColor}>Easy</tspan>
         </text>
@@ -68,6 +69,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           letterSpacing="2.3"
           fill={tagColor}
           fontFamily="'Inter',sans-serif"
+          className="logo-tagline"
         >
           EVERY FORM. ONE PLATFORM.
         </text>

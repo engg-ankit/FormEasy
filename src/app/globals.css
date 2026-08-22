@@ -70,3 +70,43 @@
     display: none;
   }
 }
+
+/* Logo Animations */
+@keyframes logoSquareIn {
+  0% { transform: scale(0.5) rotate(8deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes logoBarPop {
+  0% { opacity: 0; transform: scaleX(0); }
+  100% { opacity: 1; transform: scaleX(1); }
+}
+@keyframes logoWordIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes logoTaglineIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.logo-square {
+  animation: logoSquareIn 0.55s cubic-bezier(.22,1,.36,1) both;
+  transform-origin: 68px 80px;
+}
+.logo-bar {
+  opacity: 0;
+  animation: logoBarPop 0.35s ease-out forwards;
+}
+.logo-bar-1 { animation-delay: 0.45s; transform-origin: left center; }
+.logo-bar-2 { animation-delay: 0.55s; transform-origin: left center; }
+.logo-bar-3 { animation-delay: 0.65s; transform-origin: left center; }
+.logo-bar-4 { animation-delay: 0.75s; transform-origin: left center; }
+.logo-word {
+  opacity: 0;
+  animation: logoWordIn 0.5s ease-out forwards;
+  animation-delay: 0.95s;
+}
+.logo-tagline {
+  opacity: 0;
+  animation: logoTaglineIn 0.5s ease-out forwards;
+  animation-delay: 1.15s;
+}

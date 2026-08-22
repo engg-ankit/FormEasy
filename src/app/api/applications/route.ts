@@ -16,6 +16,15 @@ export async function POST(request: NextRequest) {
     // Store totalAmount in formData so payment API can use it
     const formDataWithAmount = { ...formData, totalAmount };
 
+    // Delete any existing DRAFT for this user+exam (cleanup leftover drafts)
+    await prisma.application.deleteMany({
+      where: {
+        userId: session.user.id,
+        examId,
+        status: 'DRAFT',
+      },
+    });
+
     // Create application
     const application = await prisma.application.create({
       data: {

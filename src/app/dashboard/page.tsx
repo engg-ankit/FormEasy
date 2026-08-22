@@ -104,7 +104,13 @@ export default function DashboardPage() {
   const totalApplications = applications.length;
   const completedApplications = applications.filter(a => a.status === 'COMPLETED').length;
   const pendingApplications = applications.filter(a => a.status === 'SUBMITTED' || a.status === 'IN_PROCESS').length;
-  const draftApplications = applications.filter(a => a.status === 'DRAFT');
+  // Filter out drafts if there's already a submitted+ application for the same exam
+  const submittedExamIds = new Set(
+    applications.filter(a => a.status !== 'DRAFT').map(a => a.exam.id)
+  );
+  const draftApplications = applications.filter(
+    a => a.status === 'DRAFT' && !submittedExamIds.has(a.exam.id)
+  );
   const totalSpent = applications
     .filter(a => a.payment?.status === 'SUCCESS')
     .reduce((sum, a) => sum + (a.payment?.amount || 0), 0);

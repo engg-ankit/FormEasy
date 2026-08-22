@@ -3,7 +3,7 @@ import { PageHead } from '@/components/page-head';
 
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -43,12 +43,17 @@ export default function DashboardPage() {
   const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const tabParam = searchParams.get('tab');
-  const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>(
-    (tabParam as 'applications' | 'payments' | 'profile' | 'referrals') || 'overview'
-  );
+  const [activeTab, setActiveTab] = useState<'overview' | 'applications' | 'payments' | 'profile' | 'referrals'>('overview');
   const { t } = useTranslation();
+
+  // Read tab from URL query params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+    if (tab && ['overview', 'applications', 'payments', 'profile', 'referrals'].includes(tab)) {
+      setActiveTab(tab as 'overview' | 'applications' | 'payments' | 'profile' | 'referrals');
+    }
+  }, []);
 
   useEffect(() => {
     if (status === 'unauthenticated') {

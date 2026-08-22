@@ -61,10 +61,14 @@ export default function AdminDashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch('/api/admin/dashboard');
+      const response = await fetch('/api/admin/dashboard', { credentials: 'include' });
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 401) {
+          router.push('/admin/login');
+          return;
+        }
         setError(data.error || 'Failed to load dashboard');
         setIsLoading(false);
         return;
@@ -76,7 +80,7 @@ export default function AdminDashboardPage() {
 
       // Fetch form requests
       try {
-        const reqRes = await fetch('/api/admin/form-requests');
+        const reqRes = await fetch('/api/admin/form-requests', { credentials: 'include' });
         if (reqRes.ok) {
           const reqData = await reqRes.json();
           setFormRequests(reqData.requests || []);
@@ -92,7 +96,7 @@ export default function AdminDashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/admin/logout', { method: 'POST' });
+      await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
       router.push('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);

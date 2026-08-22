@@ -39,7 +39,7 @@ export default function AdminFormRequestsPage() {
 
   const fetchRequests = async () => {
     try {
-      const res = await fetch('/api/admin/form-requests');
+      const res = await fetch('/api/admin/form-requests', { credentials: 'include' });
       if (res.status === 401) {
         router.push('/admin/login');
         return;

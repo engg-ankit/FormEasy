@@ -30,7 +30,7 @@ export default function AdminExamsPage() {
 
   const fetchExams = async () => {
     try {
-      const response = await fetch('/api/admin/exams');
+      const response = await fetch('/api/admin/exams', { credentials: 'include' });
       const data = await response.json();
 
       if (!response.ok) {

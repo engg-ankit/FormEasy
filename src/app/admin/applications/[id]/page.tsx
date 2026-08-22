@@ -49,10 +49,14 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
 
   const fetchApplication = async (id: string) => {
     try {
-      const response = await fetch(`/api/admin/applications/${id}`);
+      const response = await fetch(`/api/admin/applications/${id}`, { credentials: 'include' });
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 401) {
+          router.push('/admin/login');
+          return;
+        }
         router.push('/admin/applications');
         return;
       }
@@ -596,7 +600,7 @@ function NotesSection({ applicationId }: { applicationId: string }) {
     if (!newNote.trim()) return;
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/notes', {
+      const res = await fetch('/api/notes', { credentials: 'include', 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ applicationId, content: newNote }),
@@ -721,7 +725,7 @@ function OtpRelaySection({ applicationId, portalName }: { applicationId: string;
   const handleRequestOtp = async () => {
     setIsRequesting(true);
     try {
-      const response = await fetch('/api/otp-relay/request', {
+      const response = await fetch('/api/otp-relay/request', { credentials: 'include', 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ applicationId, portalName }),

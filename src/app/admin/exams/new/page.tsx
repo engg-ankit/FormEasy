@@ -75,6 +75,7 @@ export default function NewExamPage() {
       const response = await fetch('/api/admin/exams', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           ...formData,
           requiredDocuments: docs,

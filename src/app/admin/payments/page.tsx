@@ -43,7 +43,7 @@ export default function AdminPaymentsPage() {
 
   const fetchPayments = async () => {
     try {
-      const response = await fetch('/api/admin/payments');
+      const response = await fetch('/api/admin/payments', { credentials: 'include' });
       const data = await response.json();
 
       if (!response.ok) {

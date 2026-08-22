@@ -7,11 +7,5 @@
     "src/app/api/**/*.ts": {
       "maxDuration": 30
     }
-  },
-  "crons": [
-    {
-      "path": "/api/cron/telegram-notifications",
-      "schedule": "*/2 * * * *"
-    }
-  ]
+  }
 }

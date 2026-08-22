@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { ChatSupport } from "@/components/chat-support";
 
 const sora = Sora({
   variable: "--font-display",
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${sora.variable} ${inter.variable} min-h-full flex flex-col`}>
         <Providers>{children}</Providers>
+        <ChatSupport />
       </body>
     </html>
   );

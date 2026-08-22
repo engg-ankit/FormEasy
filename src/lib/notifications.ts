@@ -120,6 +120,25 @@ export async function notifyPaymentConfirmed(userEmail: string, userName: string
   });
 }
 
+export async function notifyFormRequestSubmitted(userEmail: string, userName: string, formName: string, category: string) {
+  return sendEmail({
+    to: userEmail,
+    subject: `📝 Form Request Received - ${formName}`,
+    html: baseTemplate(
+      'Form Request Received!',
+      `<p style="color:#374151;font-size:15px;">Hi <strong>${userName}</strong>,</p>
+      <p style="color:#374151;font-size:15px;">We've received your request for <strong style="color:#1B2559;">${formName}</strong>.</p>
+      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:16px;margin:16px 0;">
+        <p style="margin:0;color:#9a3412;font-size:14px;">📋 <strong>Form:</strong> ${formName}</p>
+        <p style="margin:4px 0 0;color:#9a3412;font-size:14px;">📂 <strong>Category:</strong> ${category}</p>
+        <p style="margin:8px 0 0;color:#9a3412;font-size:14px;">⏰ Our team will review and add this form within 24-48 hours.</p>
+      </div>
+      <p style="color:#374151;font-size:15px;">We'll notify you once the form is available!</p>
+      <a href="https://formeasy2.vercel.app/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Available Forms →</a>`
+    ),
+  });
+}
+
 export async function notifyStatusChanged(userEmail: string, userName: string, examTitle: string, newStatus: string) {
   const statusConfig: Record<string, { color: string; bg: string; border: string; emoji: string; message: string }> = {
     IN_PROCESS: { color: '#92400e', bg: '#fffbeb', border: '#fde68a', emoji: '🔍', message: 'Your application is now being reviewed by our team.' },

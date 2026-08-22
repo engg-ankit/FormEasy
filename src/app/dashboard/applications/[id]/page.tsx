@@ -6,7 +6,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft, FileText, Clock, CheckCircle, AlertCircle,
+  ArrowLeft, FileText, Clock, CheckCircle, AlertCircle, Smartphone,
   User, Calendar, IndianRupee, Download, Phone, Shield,
   FileCheck, AlertTriangle, Loader2, CreditCard, CheckSquare
 } from 'lucide-react';
@@ -595,12 +595,24 @@ export default function ApplicationDetailPage() {
                   Have questions about your application? Our support team is here to help.
                 </p>
               </div>
-              <Link href="/contact">
-                <Button variant="outline">
-                  <Phone className="h-4 w-4 mr-2" />
-                  Contact Support
-                </Button>
-              </Link>
+              <div className="flex gap-2">
+                <a
+                  href={`https://wa.me/919650000000?text=${encodeURIComponent(`Hi! I need help with my application for ${application.exam.title}. Application ID: ${application.id}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
+                    <Smartphone className="h-4 w-4 mr-2" />
+                    WhatsApp
+                  </Button>
+                </a>
+                <Link href="/contact">
+                  <Button variant="outline">
+                    <Phone className="h-4 w-4 mr-2" />
+                    Contact Support
+                  </Button>
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>

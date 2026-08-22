@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, LayoutDashboard, BarChart3, Tag, ExternalLink, AlertCircle, ChevronRight } from 'lucide-react';
+import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, LayoutDashboard, BarChart3, Tag, ExternalLink, AlertCircle, ChevronRight, Bell } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { LogoIcon } from '@/components/logo-icon';
 import { MobileMenu } from '@/components/mobile-menu';
@@ -187,6 +187,7 @@ export default function AdminDashboardPage() {
                   { label: 'Analytics', href: '/admin/analytics', icon: <BarChart3 className="h-5 w-5" /> },
                   { label: 'Coupons', href: '/admin/coupons', icon: <Tag className="h-5 w-5" /> },
                   { label: 'Requests', href: '/admin/form-requests', icon: <FileText className="h-5 w-5" /> },
+                  { label: 'Notifications', href: '/admin/notifications', icon: <Bell className="h-5 w-5" /> },
                 ]}
                 footer={
                   <button
@@ -214,6 +215,7 @@ export default function AdminDashboardPage() {
               { href: '/admin/analytics', label: 'Analytics', icon: TrendingUp },
               { href: '/admin/coupons', label: 'Coupons', icon: FileText },
               { href: '/admin/form-requests', label: 'Requests', icon: FileText },
+              { href: '/admin/notifications', label: 'Notifications', icon: Bell },
             ].map((tab) => (
               <Link key={tab.href} href={tab.href} className="whitespace-nowrap">
                 <button className="flex items-center gap-2 px-5 py-4 text-sm font-medium border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:text-neutral-200 hover:border-neutral-300 transition-colors min-h-[52px]">

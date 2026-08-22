@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import { notifyPaymentConfirmed } from '@/lib/notifications';
+import { notifyPaymentDone } from '@/lib/admin-notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -59,6 +60,7 @@ export async function POST(request: NextRequest) {
     });
     if (app) {
       notifyPaymentConfirmed(app.user.email, app.user.fullName, app.exam.title, payment.amount).catch(console.error);
+      notifyPaymentDone(app.user.id, app.user.fullName, app.exam.title, payment.amount).catch(console.error);
     }
 
     return NextResponse.json({

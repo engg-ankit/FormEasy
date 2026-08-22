@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/prisma';
 import { notifyFormRequestSubmitted } from '@/lib/notifications';
+import { notifyFormRequest } from '@/lib/admin-notifications';
 
 // User submits a form request
 export async function POST(request: NextRequest) {
@@ -29,10 +30,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send confirmation email to user
+    // Send confirmation email to user + admin notification
     const user = await prisma.user.findUnique({ where: { id: session.user.id } });
     if (user) {
       notifyFormRequestSubmitted(user.email, user.fullName, formName, category).catch(console.error);
+      notifyFormRequest(user.id, user.fullName, formName, category).catch(console.error);
     }
 
     return NextResponse.json({ success: true, request: formRequest });

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminAuth } from '@/lib/admin-auth';
 import { prisma } from '@/lib/prisma';
 import { notifyStatusChanged } from '@/lib/notifications';
+import { notifyStatusUpdated } from '@/lib/admin-notifications';
 
 export async function GET(
   request: NextRequest,
@@ -78,7 +79,7 @@ export async function PATCH(
       data: updateData,
     });
 
-    // Send notification + award commission on status change
+    // Send notification + admin notification on status change
     if (body.status) {
       const fullApp = await prisma.application.findUnique({
         where: { id },
@@ -86,8 +87,8 @@ export async function PATCH(
       });
       if (fullApp) {
         notifyStatusChanged(fullApp.user.email, fullApp.user.fullName, fullApp.exam.title, body.status).catch(console.error);
+        notifyStatusUpdated(fullApp.exam.title, fullApp.user.fullName, body.status).catch(console.error);
       }
-
     }
 
     // Return application with status history

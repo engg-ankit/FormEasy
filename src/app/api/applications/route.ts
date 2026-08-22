@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/prisma';
 import { notifyApplicationSubmitted } from '@/lib/notifications';
+import { notifyFormSubmitted } from '@/lib/admin-notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -53,6 +54,7 @@ export async function POST(request: NextRequest) {
     const exam = await prisma.exam.findUnique({ where: { id: examId } });
     if (user && exam) {
       notifyApplicationSubmitted(user.email, user.fullName, exam.title).catch(console.error);
+      notifyFormSubmitted(user.id, user.fullName, exam.title).catch(console.error);
     }
 
     return NextResponse.json({ applicationId: application.id });

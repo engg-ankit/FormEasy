@@ -167,6 +167,23 @@ model FormRequest {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// Notifications - Activity tracking for admin dashboard
+model Notification {
+  id        String   @id @default(cuid())
+  type      String   // 'SIGNUP', 'FORM_SUBMIT', 'PAYMENT', 'STATUS_CHANGE', 'FORM_REQUEST', 'OTP_RELAY'
+  title     String   // Short title
+  message   String   // Full message
+  userId    String?  // Related user ID
+  userName  String?  // User's name for display
+  examName  String?  // Exam name if related
+  amount    Int?     // Amount in paise if payment
+  status    String   @default("UNREAD") // UNREAD, READ
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // OTP Relay - When admin/staff fills form on government portal and needs OTP from user
 model OtpRelay {
   id              String   @id @default(cuid())

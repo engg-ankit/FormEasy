@@ -46,11 +46,7 @@ interface ApplicationDetail {
     razorpayPaymentId: string | null;
     createdAt: string;
   } | null;
-  staff: {
-    id: string;
-    name: string;
-    role: string;
-  } | null;
+
   user: {
     fullName: string;
     mobile: string;
@@ -400,16 +396,7 @@ export default function ApplicationDetailPage() {
                   </p>
                 </div>
               </div>
-              {application.staff && (
-                <div className="bg-primary-50 rounded-lg p-3">
-                  <label className="text-xs text-primary-600 uppercase tracking-wider font-semibold">Assigned To</label>
-                  <div className="flex items-center gap-2 mt-1">
-                    <User className="h-4 w-4 text-primary-600" />
-                    <p className="font-medium text-primary-900 dark:text-white">{application.staff.name}</p>
-                    <span className="text-xs text-primary-600 bg-primary-100 px-2 py-0.5 rounded">{application.staff.role}</span>
-                  </div>
-                </div>
-              )}
+
               {parsedFormData && Object.keys(parsedFormData).length > 0 && (
                 <div>
                   <label className="text-xs text-neutral-500 dark:text-neutral-400 dark:text-neutral-400 uppercase tracking-wider mb-2 block">Personal Details</label>

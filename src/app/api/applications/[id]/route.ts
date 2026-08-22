@@ -23,7 +23,6 @@ export async function GET(
         exam: true,
         documents: true,
         payment: true,
-        staff: true,
       },
     });
 

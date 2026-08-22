@@ -25,6 +25,18 @@
   .dark {
     color-scheme: dark;
   }
+  .dark body {
+    background-color: #1c1917;
+    color: #fafaf9;
+  }
+  .dark input, .dark select, .dark textarea {
+    background-color: #292524;
+    color: #fafaf9;
+    border-color: #44403c;
+  }
+  .dark input::placeholder, .dark textarea::placeholder {
+    color: #a8a29e;
+  }
   /* Ensure tables scroll on mobile */
   table {
     display: block;

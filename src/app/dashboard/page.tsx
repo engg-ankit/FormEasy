@@ -264,8 +264,8 @@ export default function DashboardPage() {
                       <FileText className="h-6 w-6 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-primary-900">{totalApplications}</p>
-                      <p className="text-sm text-neutral-500">Total Forms</p>
+                      <p className="text-2xl font-bold text-primary-900 dark:text-white">{totalApplications}</p>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Total Forms</p>
                     </div>
                   </div>
                 </CardContent>
@@ -277,8 +277,8 @@ export default function DashboardPage() {
                       <CheckCircle className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-primary-900">{completedApplications}</p>
-                      <p className="text-sm text-neutral-500">Completed</p>
+                      <p className="text-2xl font-bold text-primary-900 dark:text-white">{completedApplications}</p>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Completed</p>
                     </div>
                   </div>
                 </CardContent>
@@ -290,8 +290,8 @@ export default function DashboardPage() {
                       <Clock className="h-6 w-6 text-yellow-600" />
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-primary-900">{pendingApplications}</p>
-                      <p className="text-sm text-neutral-500">In Progress</p>
+                      <p className="text-2xl font-bold text-primary-900 dark:text-white">{pendingApplications}</p>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">In Progress</p>
                     </div>
                   </div>
                 </CardContent>
@@ -303,8 +303,8 @@ export default function DashboardPage() {
                       <IndianRupee className="h-6 w-6 text-primary-600" />
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-primary-900">₹{totalSpent / 100}</p>
-                      <p className="text-sm text-neutral-500">Total Spent</p>
+                      <p className="text-2xl font-bold text-primary-900 dark:text-white">₹{totalSpent / 100}</p>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Total Spent</p>
                     </div>
                   </div>
                 </CardContent>
@@ -343,8 +343,8 @@ export default function DashboardPage() {
                           <Search className="h-6 w-6 text-primary-600" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-primary-900">Browse Forms</h3>
-                          <p className="text-sm text-neutral-500">Find exams, registrations & more</p>
+                          <h3 className="font-semibold text-primary-900 dark:text-white">Browse Forms</h3>
+                          <p className="text-sm text-neutral-500 dark:text-neutral-400">Find exams, registrations & more</p>
                         </div>
                         <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-primary-600 transition-colors" />
                       </div>
@@ -359,8 +359,8 @@ export default function DashboardPage() {
                           <Phone className="h-6 w-6 text-green-600" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-primary-900">Contact Support</h3>
-                          <p className="text-sm text-neutral-500">Get help with your application</p>
+                          <h3 className="font-semibold text-primary-900 dark:text-white">Contact Support</h3>
+                          <p className="text-sm text-neutral-500 dark:text-neutral-400">Get help with your application</p>
                         </div>
                         <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-green-600 transition-colors" />
                       </div>
@@ -375,8 +375,8 @@ export default function DashboardPage() {
                           <HelpCircle className="h-6 w-6 text-accent-600" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-primary-900">How It Works</h3>
-                          <p className="text-sm text-neutral-500">Learn about our process</p>
+                          <h3 className="font-semibold text-primary-900 dark:text-white">How It Works</h3>
+                          <p className="text-sm text-neutral-500 dark:text-neutral-400">Learn about our process</p>
                         </div>
                         <ChevronRight className="h-5 w-5 text-neutral-400 group-hover:text-accent-600 transition-colors" />
                       </div>
@@ -444,7 +444,7 @@ export default function DashboardPage() {
                               </div>
                               <div className="min-w-0">
                                 <h3 className="font-semibold text-primary-900 truncate">{application.exam.title}</h3>
-                                <p className="text-sm text-neutral-500">{application.exam.category}</p>
+                                <p className="text-sm text-neutral-500 dark:text-neutral-400">{application.exam.category}</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-3 flex-shrink-0">
@@ -503,7 +503,7 @@ export default function DashboardPage() {
                         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
                         <div className="min-w-0">
                           <h3 className="text-lg font-semibold text-primary-900 truncate">{application.exam.title}</h3>
-                          <p className="text-sm text-neutral-500">{application.exam.category}</p>
+                          <p className="text-sm text-neutral-500 dark:text-neutral-400">{application.exam.category}</p>
                         </div>
                         <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${getStatusColor(application.status)}`}>
                           {getStatusIcon(application.status)}
@@ -542,7 +542,7 @@ export default function DashboardPage() {
                               }`}>
                                 {isCompleted ? <CheckCircle className="h-4 w-4" /> : <span className="text-xs font-medium">{index + 1}</span>}
                               </div>
-                              <span className="text-[10px] sm:text-xs mt-1.5 text-center text-neutral-500">{step.label}</span>
+                              <span className="text-[10px] sm:text-xs mt-1.5 text-center text-neutral-500 dark:text-neutral-400">{step.label}</span>
                             </div>
                           );
                         })}
@@ -601,7 +601,7 @@ export default function DashboardPage() {
               <Card>
                 <CardContent className="p-5">
                   <p className="text-sm text-neutral-500 mb-1">Total Spent</p>
-                  <p className="text-2xl font-bold text-primary-900">₹{totalSpent / 100}</p>
+                  <p className="text-2xl font-bold text-primary-900 dark:text-white">₹{totalSpent / 100}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -626,7 +626,7 @@ export default function DashboardPage() {
                 <CardContent className="py-16 text-center">
                   <CreditCard className="h-16 w-16 text-neutral-300 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-primary-900 mb-2">No Payments Yet</h3>
-                  <p className="text-neutral-500">Your payment history will appear here after your first transaction.</p>
+                  <p className="text-neutral-500 dark:text-neutral-400">Your payment history will appear here after your first transaction.</p>
                 </CardContent>
               </Card>
             ) : (
@@ -641,11 +641,11 @@ export default function DashboardPage() {
                           </div>
                           <div className="min-w-0">
                             <p className="font-medium text-primary-900 truncate">{app.exam.title}</p>
-                            <p className="text-xs text-neutral-500">{new Date(app.updatedAt).toLocaleDateString()}</p>
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">{new Date(app.updatedAt).toLocaleDateString()}</p>
                           </div>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p className="font-semibold text-primary-900">₹{app.payment!.amount / 100}</p>
+                          <p className="font-semibold text-primary-900 dark:text-white">₹{app.payment!.amount / 100}</p>
                           <span className="text-xs text-green-600 font-medium">Paid</span>
                         </div>
                       </div>
@@ -676,12 +676,12 @@ export default function DashboardPage() {
                   </div>
                   <div className="flex-1 space-y-4">
                     <div>
-                      <label className="text-sm text-neutral-500">Full Name</label>
-                      <p className="text-lg font-semibold text-primary-900">{session?.user?.name || 'N/A'}</p>
+                      <label className="text-sm text-neutral-500 dark:text-neutral-400">Full Name</label>
+                      <p className="text-lg font-semibold text-primary-900 dark:text-white">{session?.user?.name || 'N/A'}</p>
                     </div>
                     <div>
-                      <label className="text-sm text-neutral-500">Email Address</label>
-                      <p className="text-lg font-semibold text-primary-900">{session?.user?.email || 'N/A'}</p>
+                      <label className="text-sm text-neutral-500 dark:text-neutral-400">Email Address</label>
+                      <p className="text-lg font-semibold text-primary-900 dark:text-white">{session?.user?.email || 'N/A'}</p>
                     </div>
                   </div>
                 </div>
@@ -693,27 +693,27 @@ export default function DashboardPage() {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary-600" />
-                  <h3 className="text-lg font-display font-bold text-primary-900">Account Information</h3>
+                  <h3 className="text-lg font-display font-bold text-primary-900 dark:text-white">Account Information</h3>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-sm text-neutral-500">Account Status</label>
+                    <label className="text-sm text-neutral-500 dark:text-neutral-400">Account Status</label>
                     <p className="font-medium text-green-600 flex items-center gap-2 mt-1">
                       <CheckCircle className="h-4 w-4" /> Active
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm text-neutral-500">Total Applications</label>
+                    <label className="text-sm text-neutral-500 dark:text-neutral-400">Total Applications</label>
                     <p className="font-medium text-primary-900 mt-1">{totalApplications}</p>
                   </div>
                   <div>
-                    <label className="text-sm text-neutral-500">Completed Forms</label>
+                    <label className="text-sm text-neutral-500 dark:text-neutral-400">Completed Forms</label>
                     <p className="font-medium text-primary-900 mt-1">{completedApplications}</p>
                   </div>
                   <div>
-                    <label className="text-sm text-neutral-500">Total Amount Spent</label>
+                    <label className="text-sm text-neutral-500 dark:text-neutral-400">Total Amount Spent</label>
                     <p className="font-medium text-primary-900 mt-1">₹{totalSpent / 100}</p>
                   </div>
                 </div>
@@ -729,8 +729,8 @@ export default function DashboardPage() {
                       <Settings className="h-6 w-6 text-primary-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-primary-900">Edit Profile</h3>
-                      <p className="text-sm text-neutral-500">Update your name, email, or password</p>
+                      <h3 className="font-semibold text-primary-900 dark:text-white">Edit Profile</h3>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">Update your name, email, or password</p>
                     </div>
                     <ChevronRight className="h-5 w-5 text-neutral-400" />
                   </div>
@@ -741,7 +741,7 @@ export default function DashboardPage() {
             {/* Quick Links */}
             <Card>
               <CardHeader>
-                <h3 className="text-lg font-display font-bold text-primary-900">Help & Support</h3>
+                <h3 className="text-lg font-display font-bold text-primary-900 dark:text-white">Help & Support</h3>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -757,8 +757,8 @@ export default function DashboardPage() {
                           <link.icon className="h-5 w-5 text-neutral-600" />
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-primary-900">{link.label}</p>
-                          <p className="text-sm text-neutral-500">{link.desc}</p>
+                          <p className="font-medium text-primary-900 dark:text-white">{link.label}</p>
+                          <p className="text-sm text-neutral-500 dark:text-neutral-400">{link.desc}</p>
                         </div>
                         <ChevronRight className="h-5 w-5 text-neutral-400" />
                       </div>
@@ -820,7 +820,7 @@ function UpcomingDeadlines({ applications }: { applications: any[] }) {
                   <span className="font-medium text-primary-900 dark:text-white truncate">{exam.title}</span>
                   <span className="text-xs bg-primary-50 text-primary-700 px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">{exam.category}</span>
                 </div>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">
                   Deadline: {deadline.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
               </div>

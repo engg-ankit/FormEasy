@@ -259,23 +259,16 @@ export function ChatSupport() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${
-          isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary-600 hover:bg-primary-700'
-        }`}
+        className="fixed bottom-6 right-6 z-[60] w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 bg-primary-600 hover:bg-primary-700"
+        aria-label={isOpen ? 'Close chat' : 'Open chat support'}
       >
-        {isOpen ? (
-          <X className="h-6 w-6 text-white" />
-        ) : (
-          <div className="relative">
-            <MessageCircle className="h-6 w-6 text-white" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-primary-600"></span>
-          </div>
-        )}
+        <MessageCircle className="h-6 w-6 text-white" />
+        {!isOpen && <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-primary-600"></span>}
       </button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[370px] max-w-[calc(100vw-3rem)] bg-white rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden flex flex-col" style={{ maxHeight: 'min(600px, calc(100vh - 160px))' }}>
+        <div className="fixed bottom-24 right-6 z-50 w-[370px] max-w-[calc(100vw-3rem)] bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden flex flex-col" style={{ maxHeight: 'min(600px, calc(100vh - 160px))' }}>
           {/* Header */}
           <div className="bg-primary-600 text-white px-4 py-3 flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -286,10 +279,17 @@ export function ChatSupport() {
               <p className="text-xs text-primary-100">Ask me anything!</p>
             </div>
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors ml-1"
+              aria-label="Close chat"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-neutral-50">
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-neutral-50 dark:bg-neutral-900">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}>
                 <div className="max-w-[85%]">
@@ -303,7 +303,7 @@ export function ChatSupport() {
                   )}
                   <div className={`px-3 py-2 rounded-2xl text-sm leading-relaxed whitespace-pre-line ${
                     msg.isBot
-                      ? 'bg-white text-neutral-800 rounded-tl-sm border border-neutral-100'
+                      ? 'bg-white dark:bg-neutral-700 text-neutral-800 dark:text-neutral-100 rounded-tl-sm border border-neutral-100 dark:border-neutral-600'
                       : 'bg-primary-600 text-white rounded-tr-sm'
                   }`}>
                     {msg.text}
@@ -314,7 +314,7 @@ export function ChatSupport() {
 
             {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 border border-neutral-100">
+                <div className="bg-white dark:bg-neutral-700 rounded-2xl rounded-tl-sm px-4 py-3 border border-neutral-100 dark:border-neutral-600">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                     <div className="w-2 h-2 bg-neutral-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
@@ -329,14 +329,14 @@ export function ChatSupport() {
 
           {/* Predefined Questions */}
           {messages.length <= 1 && (
-            <div className="px-3 py-2 border-t border-neutral-100 bg-white">
+            <div className="px-3 py-2 border-t border-neutral-100 dark:border-neutral-700 bg-white dark:bg-neutral-800">
               <p className="text-[10px] text-neutral-400 mb-2 px-1 font-medium">QUICK QUESTIONS</p>
               <div className="flex flex-wrap gap-1.5">
                 {PREDEFINED_QUESTIONS.map((q) => (
                   <button
                     key={q.id}
                     onClick={() => handlePredefined(q.id)}
-                    className="flex items-center gap-1 px-2.5 py-1.5 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-full text-xs font-medium transition-colors"
+                    className="flex items-center gap-1 px-2.5 py-1.5 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium transition-colors"
                   >
                     <span>{q.icon}</span>
                     <span>{q.label}</span>
@@ -347,7 +347,7 @@ export function ChatSupport() {
           )}
 
           {/* Input */}
-          <div className="px-3 py-3 border-t border-neutral-100 bg-white">
+          <div className="px-3 py-3 border-t border-neutral-100 dark:border-neutral-700 bg-white dark:bg-neutral-800">
             <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex items-center gap-2">
               <input
                 ref={inputRef}
@@ -355,7 +355,7 @@ export function ChatSupport() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask me anything... (Hindi/English)"
-                className="flex-1 px-3 py-2 bg-neutral-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-0"
+                className="flex-1 px-3 py-2 bg-neutral-100 dark:bg-neutral-700 dark:text-white rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 min-w-0"
               />
               <button
                 type="submit"

@@ -136,10 +136,10 @@ export default function ApplicationDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary-600 mx-auto" />
-          <p className="mt-4 text-neutral-600">Loading application details...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-300">Loading application details...</p>
         </div>
       </div>
     );
@@ -147,8 +147,8 @@ export default function ApplicationDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <nav className="bg-white shadow-sm border-b border-neutral-200">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+        <nav className="bg-white dark:bg-neutral-800 shadow-sm border-b border-neutral-200 dark:border-neutral-700 dark:border-neutral-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4 sm:py-5 min-h-[88px]">
               <Link href="/dashboard"><Logo size="md" /></Link>
@@ -157,8 +157,8 @@ export default function ApplicationDetailPage() {
         </nav>
         <div className="max-w-3xl mx-auto px-4 py-16 text-center">
           <AlertTriangle className="h-16 w-16 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-primary-900 mb-2">Application Not Found</h2>
-          <p className="text-neutral-500 mb-6">{error}</p>
+          <h2 className="text-xl font-semibold text-primary-900 dark:text-white mb-2">Application Not Found</h2>
+          <p className="text-neutral-500 dark:text-neutral-400 mb-6">{error}</p>
           <Link href="/dashboard">
             <Button variant="primary">
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -183,9 +183,9 @@ export default function ApplicationDetailPage() {
   const isRejected = application.status === 'REJECTED';
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
       {/* Header */}
-      <nav className="bg-white shadow-sm border-b border-neutral-200">
+      <nav className="bg-white dark:bg-neutral-800 shadow-sm border-b border-neutral-200 dark:border-neutral-700 dark:border-neutral-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 sm:py-5 min-h-[88px]">
             <Link href="/dashboard"><Logo size="md" /></Link>
@@ -224,10 +224,10 @@ export default function ApplicationDetailPage() {
               <span className="inline-block bg-accent-100 text-accent-700 text-xs font-semibold px-2.5 py-1 rounded mb-2">
                 {application.exam.category}
               </span>
-              <h1 className="text-2xl sm:text-3xl font-display font-bold text-primary-900 break-words">
+              <h1 className="text-2xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white break-words">
                 {application.exam.title}
               </h1>
-              <p className="text-neutral-500 mt-1 text-sm">
+              <p className="text-neutral-500 dark:text-neutral-400 mt-1 text-sm">
                 Application ID: <span className="font-mono text-xs">{application.id}</span>
               </p>
             </div>
@@ -273,7 +273,7 @@ export default function ApplicationDetailPage() {
           <Card className="mb-8">
             <CardContent className="p-6">
               <div className="flex justify-between items-center mb-3">
-                <span className="text-sm font-medium text-neutral-600">Overall Progress</span>
+                <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">Overall Progress</span>
                 <span className="text-sm font-bold text-primary-600">{Math.round(getProgress(application.status))}%</span>
               </div>
               <div className="w-full bg-neutral-200 rounded-full h-3 mb-6">
@@ -312,12 +312,12 @@ export default function ApplicationDetailPage() {
                           )}
                         </div>
                         <span className={`text-xs mt-2 text-center font-medium ${
-                          isCompleted ? 'text-primary-900' : 'text-neutral-400'
+                          isCompleted ? 'text-primary-900 dark:text-white' : 'text-neutral-400'
                         }`}>
                           {step.label}
                         </span>
                         <span className={`text-[10px] text-center mt-0.5 ${
-                          isCompleted ? 'text-neutral-500' : 'text-neutral-300'
+                          isCompleted ? 'text-neutral-500 dark:text-neutral-400' : 'text-neutral-300'
                         }`}>
                           {step.desc}
                         </span>
@@ -348,30 +348,30 @@ export default function ApplicationDetailPage() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary-600" />
-                <h2 className="text-lg font-display font-bold text-primary-900">Form Details</h2>
+                <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">Form Details</h2>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-xs text-neutral-500 uppercase tracking-wider">Form Name</label>
-                <p className="font-medium text-primary-900 break-words">{application.exam.title}</p>
+                <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Form Name</label>
+                <p className="font-medium text-primary-900 dark:text-white break-words">{application.exam.title}</p>
               </div>
               <div>
-                <label className="text-xs text-neutral-500 uppercase tracking-wider">Category</label>
-                <p className="font-medium text-primary-900">{application.exam.category}</p>
+                <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Category</label>
+                <p className="font-medium text-primary-900 dark:text-white">{application.exam.category}</p>
               </div>
               <div>
-                <label className="text-xs text-neutral-500 uppercase tracking-wider">Description</label>
-                <p className="text-sm text-neutral-600 break-words">{application.exam.description}</p>
+                <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Description</label>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300 break-words">{application.exam.description}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-neutral-500 uppercase tracking-wider">Last Date</label>
-                  <p className="font-medium text-primary-900">{new Date(application.exam.lastDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                  <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Last Date</label>
+                  <p className="font-medium text-primary-900 dark:text-white">{new Date(application.exam.lastDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                 </div>
                 <div>
-                  <label className="text-xs text-neutral-500 uppercase tracking-wider">Required Docs</label>
-                  <p className="font-medium text-primary-900">{application.exam.requiredDocuments}</p>
+                  <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Required Docs</label>
+                  <p className="font-medium text-primary-900 dark:text-white">{application.exam.requiredDocuments}</p>
                 </div>
               </div>
             </CardContent>
@@ -382,20 +382,20 @@ export default function ApplicationDetailPage() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary-600" />
-                <h2 className="text-lg font-display font-bold text-primary-900">Application Info</h2>
+                <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">Application Info</h2>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-neutral-500 uppercase tracking-wider">Applied On</label>
-                  <p className="font-medium text-primary-900">
+                  <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Applied On</label>
+                  <p className="font-medium text-primary-900 dark:text-white">
                     {new Date(application.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs text-neutral-500 uppercase tracking-wider">Last Updated</label>
-                  <p className="font-medium text-primary-900">
+                  <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">Last Updated</label>
+                  <p className="font-medium text-primary-900 dark:text-white">
                     {new Date(application.updatedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </p>
                 </div>
@@ -405,19 +405,19 @@ export default function ApplicationDetailPage() {
                   <label className="text-xs text-primary-600 uppercase tracking-wider font-semibold">Assigned To</label>
                   <div className="flex items-center gap-2 mt-1">
                     <User className="h-4 w-4 text-primary-600" />
-                    <p className="font-medium text-primary-900">{application.staff.name}</p>
+                    <p className="font-medium text-primary-900 dark:text-white">{application.staff.name}</p>
                     <span className="text-xs text-primary-600 bg-primary-100 px-2 py-0.5 rounded">{application.staff.role}</span>
                   </div>
                 </div>
               )}
               {parsedFormData && Object.keys(parsedFormData).length > 0 && (
                 <div>
-                  <label className="text-xs text-neutral-500 uppercase tracking-wider mb-2 block">Personal Details</label>
-                  <div className="bg-neutral-50 rounded-lg p-3 space-y-2">
+                  <label className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2 block">Personal Details</label>
+                  <div className="bg-neutral-50 dark:bg-neutral-900 rounded-lg p-3 space-y-2">
                     {Object.entries(parsedFormData).filter(([key]) => key !== 'documents' && key !== 'terms').map(([key, value]) => (
                       <div key={key} className="flex justify-between text-sm">
-                        <span className="text-neutral-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-                        <span className="font-medium text-primary-900 truncate ml-2 max-w-[60%] text-right">{String(value)}</span>
+                        <span className="text-neutral-500 dark:text-neutral-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                        <span className="font-medium text-primary-900 dark:text-white truncate ml-2 max-w-[60%] text-right">{String(value)}</span>
                       </div>
                     ))}
                   </div>
@@ -431,26 +431,26 @@ export default function ApplicationDetailPage() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <FileCheck className="h-5 w-5 text-primary-600" />
-                <h2 className="text-lg font-display font-bold text-primary-900">Uploaded Documents</h2>
+                <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">Uploaded Documents</h2>
               </div>
             </CardHeader>
             <CardContent>
               {!application.documents || application.documents.length === 0 ? (
                 <div className="text-center py-8">
                   <FileText className="h-10 w-10 text-neutral-300 mx-auto mb-2" />
-                  <p className="text-neutral-500 text-sm">No documents uploaded</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-sm">No documents uploaded</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {application.documents.map((doc) => (
-                    <div key={doc.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg border border-neutral-100">
+                    <div key={doc.id} className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-100">
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="bg-primary-100 rounded-lg p-2 flex-shrink-0">
                           <FileText className="h-4 w-4 text-primary-600" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-primary-900 text-sm truncate">{doc.docType}</p>
-                          <p className="text-xs text-neutral-500">
+                          <p className="font-medium text-primary-900 dark:text-white text-sm truncate">{doc.docType}</p>
+                          <p className="text-xs text-neutral-500 dark:text-neutral-400">
                             Uploaded {new Date(doc.uploadedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                           </p>
                         </div>
@@ -477,23 +477,23 @@ export default function ApplicationDetailPage() {
             <CardHeader>
               <div className="flex items-center gap-2">
                 <CreditCard className="h-5 w-5 text-primary-600" />
-                <h2 className="text-lg font-display font-bold text-primary-900">Payment Information</h2>
+                <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">Payment Information</h2>
               </div>
             </CardHeader>
             <CardContent>
               {/* Fee Breakdown */}
               <div className="space-y-3 mb-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-neutral-500">Official Fee</span>
-                  <span className="font-medium text-primary-900">₹{application.exam.officialFee / 100}</span>
+                  <span className="text-neutral-500 dark:text-neutral-400">Official Fee</span>
+                  <span className="font-medium text-primary-900 dark:text-white">₹{application.exam.officialFee / 100}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-neutral-500">Service Fee</span>
-                  <span className="font-medium text-primary-900">₹{application.exam.serviceFee / 100}</span>
+                  <span className="text-neutral-500 dark:text-neutral-400">Service Fee</span>
+                  <span className="font-medium text-primary-900 dark:text-white">₹{application.exam.serviceFee / 100}</span>
                 </div>
-                <div className="border-t border-neutral-200 pt-3 flex justify-between">
-                  <span className="font-semibold text-primary-900">Total</span>
-                  <span className="font-bold text-lg text-primary-900">
+                <div className="border-t border-neutral-200 dark:border-neutral-700 pt-3 flex justify-between">
+                  <span className="font-semibold text-primary-900 dark:text-white">Total</span>
+                  <span className="font-bold text-lg text-primary-900 dark:text-white">
                     ₹{(application.exam.officialFee + application.exam.serviceFee) / 100}
                   </span>
                 </div>
@@ -524,22 +524,22 @@ export default function ApplicationDetailPage() {
                         Payment {application.payment.status === 'SUCCESS' ? 'Successful' :
                                application.payment.status === 'PENDING' ? 'Pending' : 'Failed'}
                       </p>
-                      <p className="text-sm text-neutral-600">
+                      <p className="text-sm text-neutral-600 dark:text-neutral-300">
                         ₹{application.payment.amount / 100} • {new Date(application.payment.createdAt).toLocaleDateString('en-IN')}
                       </p>
                     </div>
                   </div>
                   {application.payment.razorpayPaymentId && (
-                    <div className="mt-3 text-xs text-neutral-500 space-y-1">
+                    <div className="mt-3 text-xs text-neutral-500 dark:text-neutral-400 space-y-1">
                       <p className="truncate">Order ID: <span className="font-mono">{application.payment.razorpayOrderId}</span></p>
                       <p className="truncate">Payment ID: <span className="font-mono">{application.payment.razorpayPaymentId}</span></p>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4 text-center">
+                <div className="bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 text-center">
                   <IndianRupee className="h-8 w-8 text-neutral-300 mx-auto mb-2" />
-                  <p className="text-neutral-500 text-sm">No payment yet</p>
+                  <p className="text-neutral-500 dark:text-neutral-400 text-sm">No payment yet</p>
                   <Link href={`/payment/${application.id}`} className="mt-3 inline-block">
                     <Button variant="primary" size="sm">
                       Pay Now
@@ -561,7 +561,7 @@ export default function ApplicationDetailPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-red-800">Cancel Application</h3>
-                  <p className="text-sm text-neutral-500">
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400">
                     You can cancel this application if you no longer need it. This action cannot be undone.
                   </p>
                 </div>
@@ -603,8 +603,8 @@ export default function ApplicationDetailPage() {
                 <Phone className="h-6 w-6 text-primary-600" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-primary-900">Need Help?</h3>
-                <p className="text-sm text-neutral-500">
+                <h3 className="font-semibold text-primary-900 dark:text-white">Need Help?</h3>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">
                   Have questions about your application? Our support team is here to help.
                 </p>
               </div>

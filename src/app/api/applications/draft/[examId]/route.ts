@@ -20,7 +20,7 @@ export async function GET(
       where: {
         userId: session.user.id,
         examId,
-        status: 'SUBMITTED', // Using SUBMITTED as draft status for simplicity
+        status: 'DRAFT',
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -54,7 +54,7 @@ export async function POST(
       where: {
         userId: session.user.id,
         examId,
-        status: 'SUBMITTED',
+        status: 'DRAFT',
       },
     });
 
@@ -71,7 +71,7 @@ export async function POST(
           userId: session.user.id,
           examId,
           formData: JSON.stringify(formData),
-          status: 'SUBMITTED',
+          status: 'DRAFT',
         },
       });
     }

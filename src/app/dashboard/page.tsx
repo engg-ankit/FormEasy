@@ -71,6 +71,7 @@ export default function DashboardPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case 'DRAFT': return 'bg-orange-100 text-orange-700';
       case 'SUBMITTED': return 'bg-blue-100 text-blue-700';
       case 'IN_PROCESS': return 'bg-yellow-100 text-yellow-700';
       case 'FORM_FILLED': return 'bg-purple-100 text-purple-700';
@@ -82,6 +83,7 @@ export default function DashboardPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
+      case 'DRAFT': return <FileText className="h-4 w-4" />;
       case 'SUBMITTED': return <Clock className="h-4 w-4" />;
       case 'IN_PROCESS': return <AlertCircle className="h-4 w-4" />;
       case 'FORM_FILLED': return <FileText className="h-4 w-4" />;
@@ -101,6 +103,7 @@ export default function DashboardPage() {
   const totalApplications = applications.length;
   const completedApplications = applications.filter(a => a.status === 'COMPLETED').length;
   const pendingApplications = applications.filter(a => a.status === 'SUBMITTED' || a.status === 'IN_PROCESS').length;
+  const draftApplications = applications.filter(a => a.status === 'DRAFT');
   const totalSpent = applications
     .filter(a => a.payment?.status === 'SUCCESS')
     .reduce((sum, a) => sum + (a.payment?.amount || 0), 0);
@@ -381,6 +384,40 @@ export default function DashboardPage() {
                 </Link>
               </div>
             </div>
+
+            {/* Incomplete Forms (Drafts) */}
+            {draftApplications.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <AlertCircle className="h-5 w-5 text-orange-500" />
+                  <h2 className="text-lg font-display font-bold text-orange-800">Incomplete Forms</h2>
+                </div>
+                <div className="space-y-3">
+                  {draftApplications.map((application) => (
+                    <Card key={application.id} className="border-2 border-orange-200 bg-orange-50/50">
+                      <CardContent className="p-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div className="bg-orange-100 rounded-xl p-3 flex-shrink-0">
+                              <FileText className="h-5 w-5 text-orange-600" />
+                            </div>
+                            <div className="min-w-0">
+                              <h3 className="font-semibold text-primary-900 truncate">{application.exam.title}</h3>
+                              <p className="text-sm text-orange-600">You left this form incomplete</p>
+                            </div>
+                          </div>
+                          <Link href={`/apply/${application.exam.id}`}>
+                            <Button variant="primary" size="sm" className="bg-orange-600 hover:bg-orange-700">
+                              Continue Filling →
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Recent Applications */}
             {applications.length > 0 && (

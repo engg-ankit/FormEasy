@@ -1,8 +1,9 @@
-export type ApplicationStatus = 'SUBMITTED' | 'IN_PROCESS' | 'FORM_FILLED' | 'COMPLETED' | 'REJECTED';
+export type ApplicationStatus = 'DRAFT' | 'SUBMITTED' | 'IN_PROCESS' | 'FORM_FILLED' | 'COMPLETED' | 'REJECTED';
 export type PaymentStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED';
 export type DiscountType = 'PERCENT' | 'FLAT';
 
 export const APPLICATION_STATUS: Record<ApplicationStatus, string> = {
+  DRAFT: 'Draft (Incomplete)',
   SUBMITTED: 'Submitted',
   IN_PROCESS: 'In Process',
   FORM_FILLED: 'Form Filled',

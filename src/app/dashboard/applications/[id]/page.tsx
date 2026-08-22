@@ -97,6 +97,7 @@ export default function ApplicationDetailPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case 'DRAFT': return 'bg-orange-100 text-orange-700 border-orange-200';
       case 'SUBMITTED': return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'IN_PROCESS': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       case 'FORM_FILLED': return 'bg-purple-100 text-purple-700 border-purple-200';
@@ -108,6 +109,7 @@ export default function ApplicationDetailPage() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
+      case 'DRAFT': return <FileText className="h-5 w-5" />;
       case 'SUBMITTED': return <Clock className="h-5 w-5" />;
       case 'IN_PROCESS': return <AlertCircle className="h-5 w-5" />;
       case 'FORM_FILLED': return <FileCheck className="h-5 w-5" />;
@@ -234,6 +236,25 @@ export default function ApplicationDetailPage() {
               {APPLICATION_STATUS[application.status as keyof typeof APPLICATION_STATUS] || application.status}
             </div>
           </div>
+          {/* Continue Button for DRAFT */}
+          {application.status === 'DRAFT' && (
+            <div className="mt-4 bg-orange-50 border border-orange-200 rounded-xl p-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <AlertTriangle className="h-5 w-5 text-orange-600" />
+                  <div>
+                    <p className="font-semibold text-orange-800">This form is incomplete</p>
+                    <p className="text-sm text-orange-600">Continue from where you left off</p>
+                  </div>
+                </div>
+                <Link href={`/apply/${application.exam.id}`}>
+                  <Button variant="primary" className="bg-orange-600 hover:bg-orange-700">
+                    Continue Filling →
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
           <div className="mt-4">
             <PdfExport
               applicationId={application.id}

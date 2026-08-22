@@ -1,16 +1,21 @@
-'use client';
-import { useTranslation } from '@/lib/i18n';
-import { PageHead } from '@/components/page-head';
+import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
 
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'How FormEasy collects, uses, and protects your personal data.',
+  openGraph: {
+    title: 'Privacy Policy | FormEasy',
+    description: 'How FormEasy collects, uses, and protects your personal data.',
+  },
+};
+
 export default function PrivacyPage() {
-  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-neutral-50">
-      <PageHead title="Privacy Policy | FormEasy" description="How FormEasy collects, uses, and protects your personal data." />
       <SiteNav />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-display font-bold text-primary-900 mb-8">{t('privacy.title')}</h1>
+        <h1 className="text-4xl font-display font-bold text-primary-900 mb-8">Privacy Policy</h1>
         <p className="text-sm text-neutral-500 mb-8">Last updated: August 2024</p>
 
         <div className="prose prose-neutral max-w-none space-y-8">

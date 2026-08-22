@@ -6,7 +6,6 @@ import { Search, Edit, Upload, CheckCircle, Clock, Shield, Users, TrendingUp } f
 import { LogoIcon } from '@/components/logo-icon';
 import { HomepageHeader } from '@/components/homepage-header';
 import Link from 'next/link';
-import { useTranslation } from '@/lib/i18n';
 import { useState, useEffect } from 'react';
 
 interface Exam {
@@ -20,7 +19,6 @@ interface Exam {
 }
 
 export default function Home() {
-  const { t } = useTranslation();
   const [featuredExams, setFeaturedExams] = useState<Exam[]>([]);
 
   useEffect(() => {
@@ -40,20 +38,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-primary-900 dark:text-white mb-6">
-              {t('hero.title')}
+              Every Form. One Platform.
             </h1>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl mx-auto">
-              {t('hero.subtitle')}
+              We fill and submit your exam application forms — so you can focus on studying.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/exams">
                 <Button variant="primary" size="lg" className="text-lg">
-                  {t('hero.cta')}
+                  Browse Exam Forms
                 </Button>
               </Link>
               <Link href="/#how-it-works">
                 <Button variant="outline" size="lg" className="text-lg">
-                  {t('hero.learn')}
+                  How It Works
                 </Button>
               </Link>
             </div>
@@ -65,14 +63,14 @@ export default function Home() {
       <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
-            {t('steps.title')}
+            How It Works
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { icon: Search, title: t('step1.title'), description: t('step1.desc') },
-              { icon: Edit, title: t('step2.title'), description: t('step2.desc') },
-              { icon: Upload, title: t('step3.title'), description: t('step3.desc') },
-              { icon: CheckCircle, title: t('step4.title'), description: t('step4.desc') },
+              { icon: Search, title: 'Browse & Choose', description: 'Find the exam you want to apply for from our curated list.' },
+              { icon: Edit, title: 'Fill Form', description: "Fill in your details — we'll guide you through every field." },
+              { icon: Upload, title: 'Upload Docs', description: 'Upload required documents like photo, signature, ID proof.' },
+              { icon: CheckCircle, title: 'Pay & Done', description: "Pay the fees and we'll submit your form to the official portal." },
             ].map((step, index) => (
               <div key={index} className="text-center">
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -91,10 +89,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-12">
             <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white">
-              {t('dash.recentApps')}
+              Recent Applications
             </h2>
             <Link href="/exams">
-              <Button variant="outline">{t('dash.viewAll')}</Button>
+              <Button variant="outline">View All</Button>
             </Link>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -123,7 +121,7 @@ export default function Home() {
                   </div>
                   <Link href={`/exams/${exam.id}`}>
                     <Button variant="primary" className="w-full">
-                      {t('exam.apply')}
+                      Apply Now
                     </Button>
                   </Link>
                 </CardContent>
@@ -220,7 +218,7 @@ export default function Home() {
           </p>
           <Link href="/exams">
             <Button variant="secondary" size="lg" className="text-lg">
-              {t('hero.cta')}
+              Browse Exam Forms
             </Button>
           </Link>
         </div>

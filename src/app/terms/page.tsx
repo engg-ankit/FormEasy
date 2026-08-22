@@ -1,13 +1,18 @@
-'use client';
-import { useTranslation } from '@/lib/i18n';
-import { PageHead } from '@/components/page-head';
+import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
 
+export const metadata: Metadata = {
+  title: 'Terms & Conditions',
+  description: 'Terms and conditions for using FormEasy form filling service.',
+  openGraph: {
+    title: 'Terms & Conditions | FormEasy',
+    description: 'Terms and conditions for using FormEasy form filling service.',
+  },
+};
+
 export default function TermsPage() {
-  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-neutral-50">
-      <PageHead title="Terms & Conditions | FormEasy" description="Terms and conditions for using FormEasy form filling service." />
       <SiteNav />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-4xl font-display font-bold text-primary-900 mb-8">Terms & Conditions</h1>

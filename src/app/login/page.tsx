@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
-import { useTranslation } from '@/lib/i18n';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,7 +18,6 @@ export default function LoginPage() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,8 +56,8 @@ export default function LoginPage() {
           <div className="flex justify-center mb-6">
             <Logo size="md" />
           </div>
-          <h1 className="text-2xl font-display font-bold text-primary-900 dark:text-white">{t('dash.welcome')}</h1>
-          <p className="text-neutral-600 dark:text-neutral-400">{t('auth.login')}</p>
+          <h1 className="text-2xl font-display font-bold text-primary-900 dark:text-white">Welcome</h1>
+          <p className="text-neutral-600 dark:text-neutral-400">Login</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,18 +90,18 @@ export default function LoginPage() {
               className="w-full"
               isLoading={isLoading}
             >
-              {t('auth.login')}
+              Login
             </Button>
             <div className="text-right">
               <Link href="/forgot-password" className="text-sm text-primary-600 hover:underline">
-                {t('auth.forgotPass')}
+                Forgot Password?
               </Link>
             </div>
           </form>
           <div className="mt-6 text-center text-sm text-neutral-600 dark:text-neutral-400">
-            {t('auth.noAccount')}{' '}
+            Don't have an account?{' '}
             <Link href="/signup" className="text-primary-600 hover:underline font-medium">
-              {t('auth.signup')}
+              Create Account
             </Link>
           </div>
         </CardContent>

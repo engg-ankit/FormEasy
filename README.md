@@ -321,7 +321,6 @@ src/
 │   ├── prisma.ts          # Prisma client
 │   ├── auth-options.ts    # NextAuth config
 │   ├── admin-auth.ts      # Admin session
-│   ├── i18n.tsx           # Translations
 │   ├── razorpay.ts        # Payment helpers
 │   ├── types.ts           # TypeScript types
 │   └── notifications.ts   # Notification stubs

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -11,7 +10,6 @@ import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
 export default function ForgotPasswordPage() {
-  const { t } = useTranslation();
   const router = useRouter();
   const [step, setStep] = useState<'email' | 'reset'>('email');
   const [email, setEmail] = useState('');

@@ -1,20 +1,25 @@
-'use client';
-import { useTranslation } from '@/lib/i18n';
-import { PageHead } from '@/components/page-head';
+import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
 import { Shield, Users, FileCheck, Clock, Target, Heart } from 'lucide-react';
 
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: "Learn about FormEasy — India's trusted form filling platform helping students since 2024.",
+  openGraph: {
+    title: 'About Us | FormEasy',
+    description: "Learn about FormEasy — India's trusted form filling platform helping students since 2024.",
+  },
+};
+
 export default function AboutPage() {
-  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-neutral-50">
-      <PageHead title="About Us | FormEasy" description="Learn about FormEasy — India's trusted form filling platform helping students since 2024." />
       <SiteNav />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-900 mb-6">{t("about.title")}</h1>
+          <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-900 mb-6">About FormEasy</h1>
           <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
             We started FormEasy with one simple belief: <strong className="text-primary-700">No student should miss an exam deadline because of a complicated form.</strong>
           </p>
@@ -24,7 +29,7 @@ export default function AboutPage() {
         <div className="bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl p-8 sm:p-12 text-white mb-16">
           <div className="flex items-center gap-3 mb-4">
             <Target className="h-8 w-8" />
-            <h2 className="text-2xl font-display font-bold">{t('about.mission')}</h2>
+            <h2 className="text-2xl font-display font-bold">Our Mission</h2>
           </div>
           <p className="text-lg text-white/90 leading-relaxed">
             To make form filling effortless for every Indian student. Whether it's a government exam, college admission, scholarship, or any official form — we handle it so you can focus on what matters: <strong>preparing for your future.</strong>

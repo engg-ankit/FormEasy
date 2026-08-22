@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
-import { useTranslation } from '@/lib/i18n';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -23,7 +22,6 @@ export default function SignupPage() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,7 +97,7 @@ export default function SignupPage() {
           <div className="flex justify-center mb-6">
             <Logo size="md" />
           </div>
-          <h1 className="text-2xl font-display font-bold text-primary-900 dark:text-white">{t('auth.signup')}</h1>
+          <h1 className="text-2xl font-display font-bold text-primary-900 dark:text-white">Create Account</h1>
           <p className="text-neutral-600 dark:text-neutral-400">Sign up to get started with FormEasy</p>
         </CardHeader>
         <CardContent>
@@ -172,13 +170,13 @@ export default function SignupPage() {
               className="w-full"
               isLoading={isLoading}
             >
-              {t('auth.signup')}
+              Create Account
             </Button>
           </form>
           <div className="mt-6 text-center text-sm text-neutral-600 dark:text-neutral-400">
-            {t('auth.hasAccount')}{' '}
+            Already have an account?{' '}
             <Link href="/login" className="text-primary-600 hover:underline font-medium">
-              {t('auth.login')}
+              Login
             </Link>
           </div>
         </CardContent>

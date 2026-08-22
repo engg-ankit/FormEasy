@@ -5,10 +5,8 @@ import { useEffect, useState } from 'react';
 
 export const ThemeToggle = ({ className = '' }: { className?: string }) => {
   const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const saved = localStorage.getItem('theme');
     setIsDark(saved === 'dark');
   }, []);
@@ -17,10 +15,10 @@ export const ThemeToggle = ({ className = '' }: { className?: string }) => {
     const newDark = !isDark;
     setIsDark(newDark);
     localStorage.setItem('theme', newDark ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', newDark);
+    // Toggle both classes
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(newDark ? 'dark' : 'light');
   };
-
-  if (!mounted) return null;
 
   return (
     <button

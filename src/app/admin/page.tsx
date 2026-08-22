@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, LayoutDashboard, BarChart3, Tag, ExternalLink, AlertCircle, ChevronRight, Bell } from 'lucide-react';
+import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, LayoutDashboard, BarChart3, Tag, ExternalLink, AlertCircle, ChevronRight, Bell, Mail } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { LogoIcon } from '@/components/logo-icon';
 import { MobileMenu } from '@/components/mobile-menu';

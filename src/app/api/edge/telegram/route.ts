@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const config = {
-  runtime: 'edge',
-};
-
-// Edge API route - better external API access from Vercel
+// API route for Telegram notifications
 export async function POST(request: NextRequest) {
   try {
     const { message, chat_id, bot_token } = await request.json();

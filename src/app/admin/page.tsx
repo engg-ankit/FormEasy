@@ -66,7 +66,7 @@ export default function AdminDashboardPage() {
 
       if (!response.ok) {
         if (response.status === 401) {
-          router.push('/admin/login');
+          window.location.href = '/admin/login';
           return;
         }
         setError(data.error || 'Failed to load dashboard');

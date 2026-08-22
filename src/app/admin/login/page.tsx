@@ -42,8 +42,8 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push('/admin');
-      router.refresh();
+      // Force full page reload so cookie is sent with request
+      window.location.href = '/admin';
     } catch (error) {
       setError('An error occurred. Please try again.');
       setIsLoading(false);

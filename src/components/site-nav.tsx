@@ -61,7 +61,7 @@ export const SiteNav = () => {
               ? undefined
               : { label: 'Sign Up Free', href: '/signup' }
           }
-          themeToggle={<ThemeToggle className="w-full justify-center bg-neutral-100 dark:bg-neutral-700 hover:bg-neutral-200 dark:hover:bg-neutral-600 text-primary-700 dark:text-primary-300 border border-neutral-200 dark:border-neutral-600 rounded-lg" />}
+          themeToggle={<ThemeToggle className="w-full justify-center bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800 rounded-lg" />}
         />
       </div>
     </>

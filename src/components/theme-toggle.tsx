@@ -15,7 +15,6 @@ export const ThemeToggle = ({ className = '' }: { className?: string }) => {
     const newDark = !isDark;
     setIsDark(newDark);
     localStorage.setItem('theme', newDark ? 'dark' : 'light');
-    // Toggle both classes
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(newDark ? 'dark' : 'light');
   };
@@ -23,7 +22,7 @@ export const ThemeToggle = ({ className = '' }: { className?: string }) => {
   return (
     <button
       onClick={toggle}
-      className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg transition-colors ${className}`}
+      className={`flex items-center justify-center rounded-lg transition-colors min-h-[44px] min-w-[44px] ${className}`}
       aria-label="Toggle dark mode"
     >
       {isDark ? (

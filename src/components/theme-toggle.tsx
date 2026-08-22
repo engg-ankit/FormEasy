@@ -19,16 +19,20 @@ export const ThemeToggle = ({ className = '' }: { className?: string }) => {
     document.documentElement.classList.add(newDark ? 'dark' : 'light');
   };
 
+  // If no custom className with colors provided, use default visible colors
+  const hasCustomColors = className.includes('text-');
+  const iconColorClass = hasCustomColors ? '' : 'text-neutral-700 dark:text-neutral-300';
+
   return (
     <button
       onClick={toggle}
-      className={`flex items-center justify-center rounded-lg transition-colors min-h-[44px] min-w-[44px] ${className}`}
+      className={`flex items-center justify-center gap-2 rounded-lg transition-colors min-h-[44px] min-w-[44px] ${className}`}
       aria-label="Toggle dark mode"
     >
       {isDark ? (
-        <Sun className="h-5 w-5" />
+        <Sun className={`h-5 w-5 ${iconColorClass}`} />
       ) : (
-        <Moon className="h-5 w-5" />
+        <Moon className={`h-5 w-5 ${iconColorClass}`} />
       )}
     </button>
   );

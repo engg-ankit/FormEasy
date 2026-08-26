@@ -29,7 +29,7 @@ export async function notifyUserWelcome(userId: string) {
   return createUserNotification({
     userId,
     type: 'WELCOME',
-    title: 'Welcome to FormEasy! 🎉',
+    title: 'Welcome to CyberSeva! 🎉',
     message: 'Your account has been created successfully. Browse exam forms and start applying!',
   });
 }

@@ -3,10 +3,10 @@ import { ExamsContent } from '@/components/exams-content';
 
 export const metadata: Metadata = {
   title: 'Browse Exam Forms',
-  description: 'Browse and apply for exam forms, college registrations, scholarships, and more on FormEasy.',
+  description: 'Browse and apply for exam forms, college registrations, scholarships, and more on CyberSeva — your online cyber cafe.',
   openGraph: {
-    title: 'Browse Exam Forms | FormEasy',
-    description: 'Browse and apply for exam forms, college registrations, scholarships, and more on FormEasy.',
+    title: 'Browse Exam Forms | CyberSeva',
+    description: 'Browse and apply for exam forms, college registrations, scholarships, and more on CyberSeva — your online cyber cafe.',
   },
 };
 

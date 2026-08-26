@@ -102,7 +102,7 @@ export default function AdminApplicationsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `formeasy-applications-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `cyberseva-applications-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

@@ -31,7 +31,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
       viewBox="0 0 620 160"
       xmlns="http://www.w3.org/2000/svg"
       className={`max-w-full h-auto ${className}`}
-      aria-label="FormEasy logo"
+      aria-label="CyberSeva logo"
       style={{ display: 'block' }}
     >
       {/* ICON MARK */}
@@ -60,7 +60,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fill={textColor}
           className="logo-word"
         >
-          Form<tspan fill={tealColor}>Easy</tspan>
+          Cyber<tspan fill={tealColor}>Seva</tspan>
         </text>
         <text
           x="2"
@@ -72,7 +72,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontFamily="'Inter',sans-serif"
           className="logo-tagline"
         >
-          EVERY FORM. ONE PLATFORM.
+          ONLINE CYBER CAFE
         </text>
       </g>
     </svg>

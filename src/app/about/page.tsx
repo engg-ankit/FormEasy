@@ -4,10 +4,10 @@ import { Shield, Users, FileCheck, Clock, Target, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About Us',
-  description: "Learn about FormEasy — India's trusted form filling platform helping students since 2024.",
+  description: "Learn about CyberSeva — India's trusted online cyber cafe for form filling, helping students since 2024.",
   openGraph: {
-    title: 'About Us | FormEasy',
-    description: "Learn about FormEasy — India's trusted form filling platform helping students since 2024.",
+    title: 'About Us | CyberSeva',
+    description: "Learn about CyberSeva — India's trusted online cyber cafe for form filling, helping students since 2024.",
   },
 };
 
@@ -19,9 +19,9 @@ export default function AboutPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-900 mb-6">About FormEasy</h1>
+          <h1 className="text-4xl sm:text-5xl font-display font-bold text-primary-900 mb-6">About CyberSeva</h1>
           <p className="text-xl text-neutral-600 max-w-3xl mx-auto leading-relaxed">
-            We started FormEasy with one simple belief: <strong className="text-primary-700">No student should miss an exam deadline because of a complicated form.</strong>
+            We started CyberSeva with one simple belief: <strong className="text-primary-700">No student should miss an exam deadline because of a complicated form — just like a cyber cafe, but online!</strong>
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
         </div>
 
         {/* Values */}
-        <h2 className="text-3xl font-display font-bold text-primary-900 text-center mb-8">Why Choose FormEasy?</h2>
+        <h2 className="text-3xl font-display font-bold text-primary-900 text-center mb-8">Why Choose CyberSeva?</h2>
         <div className="grid md:grid-cols-3 gap-6 mb-16">
           {[
             { icon: Shield, title: 'Trust & Security', desc: 'Your data is encrypted and secure. We never share your personal information with anyone.' },
@@ -73,13 +73,13 @@ export default function AboutPage() {
           <h2 className="text-2xl font-display font-bold text-primary-900 mb-6">Our Story</h2>
           <div className="space-y-4 text-neutral-600 leading-relaxed">
             <p>
-              FormEasy was born from a real problem. Our founder, like millions of Indian students, saw firsthand how difficult it was to fill exam application forms. The long queues at cyber cafes, the confusion of different portal formats, the panic of missing deadlines — we experienced it all.
+              CyberSeva was born from a real problem. Our founder, like millions of Indian students, saw firsthand how difficult it was to fill exam application forms. The long queues at cyber cafes, the confusion of different portal formats, the panic of missing deadlines — we experienced it all.
             </p>
             <p>
               We asked ourselves: <strong className="text-primary-700">Why can't this be simpler?</strong> Why can't a student sit at home, fill their details once, and have their forms submitted automatically?
             </p>
             <p>
-              That's how FormEasy was born. Today, we help thousands of students across India fill their exam forms, college admissions, scholarship applications, and more — all from the comfort of their homes.
+              That's how CyberSeva was born — your online cyber cafe! Today, we help thousands of students across India fill their exam forms, college admissions, scholarship applications, and more — all from the comfort of their homes.
             </p>
             <p className="font-medium text-primary-900">
               We're not just a form filling service. We're your partner in building your future. 🚀

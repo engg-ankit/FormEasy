@@ -1,5 +1,5 @@
 /**
- * SMS Service for FormEasy
+ * SMS Service for CyberSeva
  * 
  * Supports:
  * - MSG91 (Primary - Popular in India, affordable)
@@ -8,7 +8,7 @@
  * Environment Variables needed:
  * - MSG91_API_KEY: Your MSG91 API key
  * - MSG91_SENDER_ID: Sender ID (e.g., 'FORMES')
- * - NEXT_PUBLIC_APP_URL: Your app URL (e.g., https://formeasy.in)
+ * - NEXT_PUBLIC_APP_URL: Your app URL (e.g., https://cyberseva.in)
  */
 
 const MSG91_OTP_URL = 'https://api.msg91.com/api/v5/otp';
@@ -127,7 +127,7 @@ export async function sendOtpRelaySms(
   const senderId = process.env.MSG91_SENDER_ID || 'FORMES';
   const flowId = process.env.MSG91_SMS_FLOW_ID;
 
-  const message = `FormEasy: Your ${portalName} form is being filled. Please share OTP here: ${otpLink}`;
+  const message = `CyberSeva: Your ${portalName} form is being filled. Please share OTP here: ${otpLink}`;
 
   // If no API key, just log for development
   if (!apiKey) {

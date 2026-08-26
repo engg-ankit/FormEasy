@@ -79,7 +79,7 @@ export default function RefundPage() {
                 To request a refund, please follow these steps:
               </p>
               <ol className="list-decimal list-inside text-neutral-600 space-y-2">
-                <li>Contact our support team at support@formeasy.com</li>
+                <li>Contact our support team at support@cyberseva.in</li>
                 <li>Provide your application ID and reason for refund request</li>
                 <li>Our team will review your request within 5-7 business days</li>
                 <li>If approved, refund will be processed to your original payment method</li>
@@ -122,7 +122,7 @@ export default function RefundPage() {
                 For refund-related queries, please contact:
               </p>
               <ul className="list-none text-neutral-600 mt-3 space-y-1">
-                <li>Email: refunds@formeasy.com</li>
+                <li>Email: refunds@cyberseva.in</li>
                 <li>Phone: +91 9650X XXX95</li>
                 <li>Subject Line: Refund Request - [Your Application ID]</li>
               </ul>

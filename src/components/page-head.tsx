@@ -9,7 +9,7 @@ interface PageHeadProps {
 
 export const PageHead = ({ title, description }: PageHeadProps) => {
   useEffect(() => {
-    document.title = `${title} | FormEasy`;
+    document.title = `${title} | CyberSeva`;
 
     if (description) {
       let meta = document.querySelector('meta[name="description"]');
@@ -25,7 +25,7 @@ export const PageHead = ({ title, description }: PageHeadProps) => {
 
     // OG tags
     const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', `${title} | FormEasy`);
+    if (ogTitle) ogTitle.setAttribute('content', `${title} | CyberSeva`);
 
     const ogDesc = document.querySelector('meta[property="og:description"]');
     if (ogDesc && description) ogDesc.setAttribute('content', description);

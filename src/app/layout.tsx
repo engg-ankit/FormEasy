@@ -26,12 +26,14 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "FormEasy — Every Form. One Platform.",
-    template: "%s | FormEasy",
+    default: "CyberSeva — Online Cyber Cafe",
+    template: "%s | CyberSeva",
   },
   description:
-    "Professional form filling service for college registrations, exam applications, scholarships, government forms, and more. Skip the cyber café — we handle it all online.",
+    "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more. Fill forms from home!",
   keywords: [
+    "online cyber cafe",
+    "cyber cafe online",
     "form filling service",
     "exam form online",
     "college registration",
@@ -43,30 +45,30 @@ export const metadata: Metadata = {
     "online form submission",
     "India",
   ],
-  authors: [{ name: "FormEasy" }],
-  creator: "FormEasy",
-  metadataBase: new URL("https://formeasy.in"),
+  authors: [{ name: "CyberSeva" }],
+  creator: "CyberSeva",
+  metadataBase: new URL("https://cyberseva.in"),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "FormEasy",
-    title: "FormEasy — Every Form. One Platform.",
+    siteName: "CyberSeva",
+    title: "CyberSeva — Online Cyber Cafe",
     description:
-      "Professional form filling service for college registrations, exam applications, scholarships, government forms, and more.",
+      "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "FormEasy — Every Form. One Platform.",
+        alt: "CyberSeva — Online Cyber Cafe",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FormEasy — Every Form. One Platform.",
+    title: "CyberSeva — Online Cyber Cafe",
     description:
-      "Professional form filling service for college registrations, exam applications, scholarships, government forms, and more.",
+      "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more.",
     images: ["/og-image.png"],
   },
   robots: {

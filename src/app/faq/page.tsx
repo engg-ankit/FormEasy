@@ -3,10 +3,10 @@ import { FaqContent } from '@/components/faq-content';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'Frequently asked questions about FormEasy form filling service.',
+  description: 'Frequently asked questions about CyberSeva — online cyber cafe form filling service.',
   openGraph: {
-    title: 'FAQ | FormEasy',
-    description: 'Frequently asked questions about FormEasy form filling service.',
+    title: 'FAQ | CyberSeva',
+    description: 'Frequently asked questions about CyberSeva — online cyber cafe form filling service.',
   },
 };
 

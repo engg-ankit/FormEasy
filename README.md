@@ -1,8 +1,8 @@
-# FormEasy — Every Form. One Platform.
+# CyberSeva — Online Cyber Cafe
 
-Professional form filling service for students across India. Users fill their details online, upload documents, and pay — FormEasy's admin team submits the form on the official portal via a semi-automated copy-paste workflow.
+India's trusted online cyber cafe for form filling. Users fill their details online, upload documents, and pay — CyberSeva's admin team submits the form on the official portal via a semi-automated copy-paste workflow.
 
-**Live**: https://formeasy2.vercel.app
+**Live**: https://cyberseva.in
 
 ---
 
@@ -205,8 +205,8 @@ ADMIN SIDE:
 
 ```bash
 # Clone the repo
-git clone https://github.com/engg-ankit/FormEasy.git
-cd FormEasy
+git clone https://github.com/engg-ankit/CyberSeva.git
+cd CyberSeva
 
 # Install dependencies
 npm install
@@ -243,7 +243,7 @@ NEXT_PUBLIC_RAZORPAY_KEY_ID="rzp_test_xxx"
 
 | Account | Email | Password |
 |---------|-------|----------|
-| Admin | admin@formeasy.com | admin123 |
+| Admin | admin@cyberseva.in | admin123 |
 
 ---
 
@@ -314,7 +314,7 @@ src/
 │   ├── site-nav.tsx       # Main navigation
 │   ├── mobile-menu.tsx    # Mobile drawer
 │   ├── theme-toggle.tsx   # Dark mode toggle
-│   ├── logo.tsx           # FormEasy logo
+│   ├── logo.tsx           # CyberSeva logo
 │   ├── pdf-export.tsx     # PDF generation
 │   └── referral-panel.tsx # Referral UI
 ├── lib/
@@ -333,7 +333,7 @@ prisma/
 
 ## 📞 Support
 
-- **Email**: support@formeasy.com
+- **Email**: support@cyberseva.in
 - **Phone**: +91 9650X XXX95
 
 ---

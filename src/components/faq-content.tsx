@@ -5,13 +5,13 @@ import { SiteNav } from '@/components/site-nav';
 import { ChevronDown, ChevronUp, Search } from 'lucide-react';
 
 const FAQ_DATA = [
-  { q: 'What is FormEasy?', a: 'FormEasy is an online form filling service. We help students fill and submit their exam application forms, college admissions, scholarships, and other government forms — all from the comfort of their home.' },
-  { q: 'How does FormEasy work?', a: 'Simply browse available forms, select the one you need, fill in your details through our easy 5-step wizard, upload required documents, and pay the fee. Our team processes your form on the official portal within 24-48 hours.' },
+  { q: 'What is CyberSeva?', a: 'CyberSeva is your online cyber cafe! We help students fill and submit their exam application forms, college admissions, scholarships, and other government forms — just like a cyber cafe, but online from the comfort of their home.' },
+  { q: 'How does CyberSeva work?', a: 'Simply browse available forms, select the one you need, fill in your details through our easy 5-step wizard, upload required documents, and pay the fee. Our team processes your form on the official portal within 24-48 hours.' },
   { q: 'What are the charges?', a: 'We charge a small service fee (₹50-200) on top of the official form fee. The exact amount depends on the form type. You can see the complete fee breakdown before payment — no hidden charges.' },
   { q: 'How long does it take?', a: "Most forms are processed within 24-48 hours. You can track the status in real-time from your dashboard. You'll also receive email updates at every step." },
   { q: 'Is my data safe?', a: 'Absolutely! We use bank-level encryption (SSL) to protect your data. We never share your personal information with third parties. Your documents are stored securely and deleted after form submission.' },
   { q: 'What documents do I need?', a: 'Common documents include: Passport-size photo, Signature scan, Aadhaar card, 10th/12th marksheet, Category certificate (if applicable). Exact requirements vary by form and are shown during the application process.' },
-  { q: 'Can I track my application?', a: 'Yes! Log in to your dashboard at formeasy.com/dashboard to see real-time status updates — from submission to completion.' },
+  { q: 'Can I track my application?', a: 'Yes! Log in to your dashboard at cyberseva.in/dashboard to see real-time status updates — from submission to completion.' },
   { q: "What if my form is rejected?", a: "In the rare case of rejection, we'll notify you immediately with the reason. We'll help you fix the issue and resubmit. If the payment was for a rejected form, we offer a full refund." },
   { q: 'Can I get a refund?', a: 'Yes, if your form is rejected due to our error, you get a full refund. If you cancel before we process the form, you get a 100% refund of the service fee. Official portal fees are non-refundable once submitted.' },
   { q: 'Do you fill all types of forms?', a: "We cover government exams (SSC, Railway, IBPS, UPSC), college admissions, university registrations, scholarships, passport applications, and more. If you need a form that's not listed, you can request it through our Request Form feature." },
@@ -35,7 +35,7 @@ export function FaqContent() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-display font-bold text-primary-900 mb-4">Frequently Asked Questions</h1>
-          <p className="text-lg text-neutral-600">Everything you need to know about FormEasy</p>
+          <p className="text-lg text-neutral-600">Everything you need to know about CyberSeva</p>
         </div>
 
         {/* Search */}

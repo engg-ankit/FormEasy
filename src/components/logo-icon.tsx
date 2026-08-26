@@ -20,7 +20,7 @@ export const LogoIcon = ({ className = '', size = 48, white = false }: LogoIconP
       viewBox="0 0 140 140"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="FormEasy"
+      aria-label="CyberSeva"
       style={{ display: 'block' }}
     >
       {/* Badge */}

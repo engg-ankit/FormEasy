@@ -68,12 +68,15 @@ export default function DashboardPage() {
     }
     if (status === 'authenticated') {
       fetchApplications();
+      // Auto-refresh every 10 seconds to catch payment updates
+      const interval = setInterval(fetchApplications, 10000);
+      return () => clearInterval(interval);
     }
   }, [status, router]);
 
   const fetchApplications = async () => {
     try {
-      const response = await fetch('/api/applications/user');
+      const response = await fetch('/api/applications/user', { cache: 'no-store' });
       const data = await response.json();
       if (response.ok) {
         setApplications(data.applications);
@@ -492,12 +495,17 @@ export default function DashboardPage() {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-display font-bold text-primary-900 dark:text-white">My Applications</h2>
-              <Link href="/exams">
-                <Button variant="primary">
-                  <Search className="h-4 w-4 mr-2" />
-                  New Application
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => { setIsLoading(true); fetchApplications(); }}>
+                  ↻ Refresh
                 </Button>
-              </Link>
+                <Link href="/exams">
+                  <Button variant="primary">
+                    <Search className="h-4 w-4 mr-2" />
+                    New Application
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {applications.length === 0 ? (

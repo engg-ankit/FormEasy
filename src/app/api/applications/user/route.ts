@@ -19,7 +19,11 @@ export async function GET() {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ applications });
+    return NextResponse.json({ applications }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
+    });
   } catch (error) {
     console.error('Error fetching applications:', error);
     return NextResponse.json({ error: 'Failed to fetch applications' }, { status: 500 });

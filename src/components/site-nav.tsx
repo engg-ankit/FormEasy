@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
-import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard, Shield } from 'lucide-react';
+import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { UserNotificationBell } from '@/components/user-notification-bell';
 
@@ -31,15 +32,14 @@ export const SiteNav = () => {
     <>
       {/* Desktop buttons — hidden on mobile */}
       <div className="hidden sm:flex items-center gap-4">
-        <Link href="/admin/login" className="text-xs text-neutral-600 hover:text-neon-400 transition-colors font-mono">
-          <Shield className="h-3.5 w-3.5 inline mr-1" />
-          admin
+        <Link href="/admin/login" className="text-sm text-neutral-500 hover:text-primary-600 transition-colors">
+          Admin
         </Link>
         {session ? (
           <div className="flex items-center gap-3">
             <UserNotificationBell />
             <Link href="/dashboard">
-              <Button className="bg-neon-500 hover:bg-neon-600 text-white shadow-neon font-semibold">
+              <Button variant="primary">
                 <LayoutDashboard className="h-4 w-4 mr-2" />
                 My Dashboard
               </Button>
@@ -48,14 +48,10 @@ export const SiteNav = () => {
         ) : (
           <>
             <Link href="/login">
-              <Button variant="ghost" className="text-neutral-300 hover:text-neon-400 hover:bg-neon-500/5">
-                Login
-              </Button>
+              <Button variant="ghost">Login</Button>
             </Link>
             <Link href="/signup">
-              <Button className="bg-neon-500 hover:bg-neon-600 text-white shadow-neon font-semibold">
-                Sign Up
-              </Button>
+              <Button variant="primary">Sign Up</Button>
             </Link>
           </>
         )}
@@ -72,7 +68,7 @@ export const SiteNav = () => {
           }
           themeToggle={
             <div className="flex gap-2">
-              <ThemeToggle className="flex-1 justify-center bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-neon-400 border border-neon-500/10 hover:border-neon-500/30 rounded-lg gap-2 transition-all duration-200" />
+              <ThemeToggle className="flex-1 justify-center bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-800 rounded-lg gap-2" />
             </div>
           }
         />

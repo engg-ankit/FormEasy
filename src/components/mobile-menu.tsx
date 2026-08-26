@@ -44,51 +44,40 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
       {/* Hamburger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neon-500/10 hover:border-neon-500/30 transition-all duration-200"
+        className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
         aria-label="Open menu"
       >
-        <Menu className="h-5 w-5 text-neutral-300" />
+        <Menu className="h-6 w-6" />
       </button>
 
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={closeMenu}
         />
       )}
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] z-50 bg-white dark:bg-neutral-900 shadow-2xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
-        style={{ background: 'linear-gradient(180deg, #0d1420 0%, #0a0f1a 100%)' }}
       >
-        {/* Header — CRT Monitor Style */}
-        <div className="flex items-center justify-between p-5 border-b border-neon-500/10">
-          <div className="flex items-center gap-3">
-            <Logo size="sm" />
-          </div>
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-neutral-100 dark:border-neutral-700">
+          <Logo size="sm" />
           <button
             onClick={closeMenu}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neon-500/10 hover:border-red-500/30 transition-all duration-200"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-neutral-100 transition-colors"
             aria-label="Close menu"
           >
-            <X className="h-5 w-5 text-neutral-400" />
+            <X className="h-6 w-6 text-neutral-600" />
           </button>
         </div>
 
-        {/* Terminal status bar */}
-        <div className="px-5 py-2 border-b border-neon-500/10 bg-[#060b14]">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-neon-400 rounded-full animate-pulse" />
-            <span className="text-[10px] text-neutral-600 font-mono">session_active — cyberseva</span>
-          </div>
-        </div>
-
         {/* Nav Items */}
-        <nav className="overflow-y-auto py-3" style={{ maxHeight: 'calc(100vh - 220px)' }}>
+        <nav className="overflow-y-auto py-4" style={{ maxHeight: 'calc(100vh - 200px)' }}>
           {items.map((item, index) => {
             const handleClick = () => {
               closeMenu();
@@ -101,10 +90,10 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
                 <button
                   key={index}
                   onClick={handleClick}
-                  className="flex items-center gap-3 px-5 py-3.5 text-neutral-400 hover:text-neon-400 hover:bg-neon-500/5 transition-all duration-200 min-h-[48px] w-full text-left border-l-2 border-transparent hover:border-neon-500/40"
+                  className="flex items-center gap-3 px-5 py-3.5 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950 hover:text-primary-700 transition-colors min-h-[48px] w-full text-left"
                 >
-                  {item.icon && <span className="text-neutral-600 group-hover:text-neon-400">{item.icon}</span>}
-                  <span className="font-medium text-sm">{item.label}</span>
+                  {item.icon && <span className="text-neutral-400">{item.icon}</span>}
+                  <span className="font-medium">{item.label}</span>
                 </button>
               );
             }
@@ -114,10 +103,10 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
                 key={index}
                 href={item.href || '#'}
                 onClick={closeMenu}
-                className="flex items-center gap-3 px-5 py-3.5 text-neutral-400 hover:text-neon-400 hover:bg-neon-500/5 transition-all duration-200 min-h-[48px] block border-l-2 border-transparent hover:border-neon-500/40"
+                className="flex items-center gap-3 px-5 py-3.5 text-neutral-700 dark:text-neutral-300 hover:bg-primary-50 dark:hover:bg-primary-950 hover:text-primary-700 transition-colors min-h-[48px] block"
               >
-                {item.icon && <span className="text-neutral-600">{item.icon}</span>}
-                <span className="font-medium text-sm">{item.label}</span>
+                {item.icon && <span className="text-neutral-400">{item.icon}</span>}
+                <span className="font-medium">{item.label}</span>
               </Link>
             );
           })}
@@ -125,11 +114,11 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
 
         {/* CTA */}
         {cta && (
-          <div className="p-5 border-t border-neon-500/10">
+          <div className="p-5 border-t border-neutral-100 dark:border-neutral-700">
             <Link
               href={cta.href}
               onClick={closeMenu}
-              className="block w-full text-center bg-neon-500 text-white py-3 rounded-lg font-semibold hover:bg-neon-600 transition-all duration-200 min-h-[48px] shadow-neon"
+              className="block w-full text-center bg-primary-600 text-white py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-[48px]"
             >
               {cta.label}
             </Link>
@@ -138,9 +127,9 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
 
         {/* Theme Toggle */}
         {themeToggle && (
-          <div className="px-5 py-3 border-t border-neon-500/10">
+          <div className="px-5 py-3 border-t border-neutral-100 dark:border-neutral-700">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-mono text-neutral-500">$ theme</span>
+              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Dark Mode</span>
               {themeToggle}
             </div>
           </div>
@@ -148,7 +137,7 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
 
         {/* Footer */}
         {footer && (
-          <div className="p-5 border-t border-neon-500/10">
+          <div className="p-5 border-t border-neutral-100 dark:border-neutral-700">
             {footer}
           </div>
         )}

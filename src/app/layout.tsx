@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "ClickNsit" }],
   creator: "ClickNsit",
-  metadataBase: new URL("https://clickandsit.in"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://clickandsit.vercel.app"),
   openGraph: {
     type: "website",
     locale: "en_IN",

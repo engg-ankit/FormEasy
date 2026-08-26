@@ -2,7 +2,7 @@
 
 India's trusted online cyber cafe for form filling. Users fill their details online, upload documents, and pay — ClickNsit's admin team submits the form on the official portal via a semi-automated copy-paste workflow.
 
-**Live**: https://clickandsit.in
+**Live**: https://clickandsit.vercel.app
 
 ---
 

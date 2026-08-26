@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/dashboard/', '/api/'],
       },
     ],
-    sitemap: 'https://clickandsit.in/sitemap.xml',
+    sitemap: 'https://clickandsit.vercel.app/sitemap.xml',
   };
 }

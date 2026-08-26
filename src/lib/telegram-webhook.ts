@@ -32,7 +32,7 @@ export async function sendTelegramInstant(data: TelegramMessage) {
     const text = `${emojiMap[data.type] || '📢'} ${data.title}\n\n${data.message}`;
 
     // Call Edge API route directly
-    const res = await fetch(`https://clickandsit.in/api/edge/telegram`, {
+    const res = await fetch(`https://clickandsit.vercel.app/api/edge/telegram`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

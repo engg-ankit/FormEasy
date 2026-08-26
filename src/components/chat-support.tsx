@@ -49,7 +49,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['contact', 'call', 'email', 'support', 'help', 'phone', 'baat', 'mail', 'number', 'reach', 'milna'],
-    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650X XXX95\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.in/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
+    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650X XXX95\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.vercel.app/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
   },
   {
     keywords: ['document', 'docs', 'paper', 'kagaz', 'upload', 'kya chahiye', 'lagta', 'attach', 'file', 'photo', 'signature', 'marksheet', 'aadhar'],
@@ -69,7 +69,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['login', 'signup', 'sign up', 'register', 'account', 'password', 'forgot', 'login nahi', 'account ban', 'profile'],
-    response: 'Account Related 🔐\n\n📝 Signup: clickandsit.in/signup pe jaao\n🔐 Login: clickandsit.in/login pe jaao\n🔑 Password bhool gaye? "Forgot Password" pe click karo\n\n💡 Signup free hai! Sirf mobile number aur email chahiye!'
+    response: 'Account Related 🔐\n\n📝 Signup: clickandsit.vercel.app/signup pe jaao\n🔐 Login: clickandsit.vercel.app/login pe jaao\n🔑 Password bhool gaye? "Forgot Password" pe click karo\n\n💡 Signup free hai! Sirf mobile number aur email chahiye!'
   },
   {
     keywords: ['safe', 'security', 'secure', 'privacy', 'data', 'bharosa', 'trust', 'reliable', 'trusted'],

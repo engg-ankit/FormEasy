@@ -81,7 +81,7 @@ export async function notifyWelcome(userEmail: string, userName: string) {
           <li>Make secure payments</li>
         </ul>
       </div>
-      <a href="https://clickandsit.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Forms →</a>`
+      <a href="https://clickandsit.vercel.app/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Forms →</a>`
     ),
   });
 }
@@ -98,7 +98,7 @@ export async function notifyApplicationSubmitted(userEmail: string, userName: st
         <p style="margin:0;color:#166534;font-size:14px;">📋 <strong>Status:</strong> Submitted</p>
         <p style="margin:8px 0 0;color:#166534;font-size:14px;">⏰ We'll process it within 24-48 hours.</p>
       </div>
-      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Dashboard →</a>`
+      <a href="https://clickandsit.vercel.app/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Dashboard →</a>`
     ),
   });
 }
@@ -116,7 +116,7 @@ export async function notifyPaymentConfirmed(userEmail: string, userName: string
         <p style="margin:8px 0 0;color:#1e40af;font-size:14px;">💳 Payment Status: <strong>Successful</strong></p>
         <p style="margin:4px 0 0;color:#1e40af;font-size:14px;">📋 Application Status: <strong>In Process</strong></p>
       </div>
-      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Track Application →</a>`
+      <a href="https://clickandsit.vercel.app/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Track Application →</a>`
     ),
   });
 }
@@ -135,7 +135,7 @@ export async function notifyFormRequestSubmitted(userEmail: string, userName: st
         <p style="margin:8px 0 0;color:#9a3412;font-size:14px;">⏰ Our team will review and add this form within 24-48 hours.</p>
       </div>
       <p style="color:#374151;font-size:15px;">We'll notify you once the form is available!</p>
-      <a href="https://clickandsit.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Available Forms →</a>`
+      <a href="https://clickandsit.vercel.app/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Available Forms →</a>`
     ),
   });
 }
@@ -161,7 +161,7 @@ export async function notifyStatusChanged(userEmail: string, userName: string, e
         <p style="margin:0;color:${config.color};font-size:16px;font-weight:bold;">${config.emoji} ${newStatus.replace(/_/g, ' ')}</p>
         <p style="margin:8px 0 0;color:${config.color};font-size:14px;">${config.message}</p>
       </div>
-      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Details →</a>`
+      <a href="https://clickandsit.vercel.app/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Details →</a>`
     ),
   });
 }

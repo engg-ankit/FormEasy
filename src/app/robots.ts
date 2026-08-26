@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/dashboard/', '/api/'],
       },
     ],
-    sitemap: 'https://cyberseva.in/sitemap.xml',
+    sitemap: 'https://clickandsit.in/sitemap.xml',
   };
 }

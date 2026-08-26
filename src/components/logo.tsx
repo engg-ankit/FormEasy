@@ -33,7 +33,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
       viewBox="0 0 620 160"
       xmlns="http://www.w3.org/2000/svg"
       className={`max-w-full h-auto ${className}`}
-      aria-label="CyberSeva logo"
+      aria-label="ClickNsit logo"
       style={{ display: 'block' }}
     >
       {/* ICON MARK — Monitor with CS */}
@@ -81,8 +81,8 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontFamily="'Sora','Poppins',sans-serif"
           className="logo-word"
         >
-          <tspan fill={cyberColor}>Cyber</tspan>
-          <tspan fill={sevaColor}>Seva</tspan>
+          <tspan fill={cyberColor}>Click</tspan>
+          <tspan fill={sevaColor}>Nsit</tspan>
         </text>
         <text
           x="2"
@@ -94,7 +94,7 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontFamily="'Inter',sans-serif"
           className="logo-tagline"
         >
-          ONLINE CYBER CAFE
+          CLICK. SIT. DONE.
         </text>
       </g>
     </svg>

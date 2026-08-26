@@ -3,10 +3,10 @@ import { SiteNav } from '@/components/site-nav';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
-  description: 'Terms and conditions for using CyberSeva form filling service.',
+  description: 'Terms and conditions for using ClickNsit form filling service.',
   openGraph: {
-    title: 'Terms & Conditions | CyberSeva',
-    description: 'Terms and conditions for using CyberSeva form filling service.',
+    title: 'Terms & Conditions | ClickNsit',
+    description: 'Terms and conditions for using ClickNsit form filling service.',
   },
 };
 
@@ -21,12 +21,12 @@ export default function TermsPage() {
         <div className="prose prose-neutral max-w-none space-y-8">
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">1. Acceptance of Terms</h2>
-            <p className="text-neutral-600 leading-relaxed">By accessing or using CyberSeva ("the Platform"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use our services.</p>
+            <p className="text-neutral-600 leading-relaxed">By accessing or using ClickNsit ("the Platform"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use our services.</p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">2. Service Description</h2>
-            <p className="text-neutral-600 leading-relaxed">CyberSeva provides an online cyber cafe form filling assistance service. We help users fill and submit application forms for government exams, college admissions, scholarships, and other official portals on their behalf. We act as a facilitator and are not affiliated with any government body or examination authority.</p>
+            <p className="text-neutral-600 leading-relaxed">ClickNsit provides an online cyber cafe form filling assistance service. We help users fill and submit application forms for government exams, college admissions, scholarships, and other official portals on their behalf. We act as a facilitator and are not affiliated with any government body or examination authority.</p>
           </section>
 
           <section>
@@ -63,12 +63,12 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">6. Limitation of Liability</h2>
-            <p className="text-neutral-600 leading-relaxed">CyberSeva shall not be liable for: rejection of forms due to eligibility criteria not met by the user, changes in official portal policies, delays caused by government authorities, or technical issues on third-party portals.</p>
+            <p className="text-neutral-600 leading-relaxed">ClickNsit shall not be liable for: rejection of forms due to eligibility criteria not met by the user, changes in official portal policies, delays caused by government authorities, or technical issues on third-party portals.</p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">7. Intellectual Property</h2>
-            <p className="text-neutral-600 leading-relaxed">All content on CyberSeva, including logos, text, and graphics, is the property of CyberSeva and protected under applicable intellectual property laws.</p>
+            <p className="text-neutral-600 leading-relaxed">All content on ClickNsit, including logos, text, and graphics, is the property of ClickNsit and protected under applicable intellectual property laws.</p>
           </section>
 
           <section>

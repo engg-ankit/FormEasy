@@ -135,7 +135,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
-            Why Choose CyberSeva?
+            Why Choose ClickNsit?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -183,9 +183,9 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: 'Priya Sharma', exam: 'SSC CGL 2024', text: 'I was struggling with the SSC form portal. CyberSeva filled it in 30 minutes! Saved me a trip to the cyber cafe. Amazing service! ⭐⭐⭐⭐⭐', city: 'Meerut' },
+              { name: 'Priya Sharma', exam: 'SSC CGL 2024', text: 'I was struggling with the SSC form portal. ClickNsit filled it in 30 minutes! Saved me a trip to the cyber cafe. Amazing service! ⭐⭐⭐⭐⭐', city: 'Meerut' },
               { name: 'Rahul Verma', exam: 'Bank PO 2024', text: 'The whole process was so smooth. I just filled my details, uploaded documents, and boom — form submitted! The dashboard tracking is very helpful. ⭐⭐⭐⭐⭐', city: 'Lucknow' },
-              { name: 'Sneha Gupta', exam: 'JEE Main 2025', text: 'I missed my college admission deadline last year. This year, CyberSeva reminded me and filled the form on time. Got my admission! Thank you CyberSeva! ⭐⭐⭐⭐⭐', city: 'Delhi' },
+              { name: 'Sneha Gupta', exam: 'JEE Main 2025', text: 'I missed my college admission deadline last year. This year, ClickNsit reminded me and filled the form on time. Got my admission! Thank you ClickNsit! ⭐⭐⭐⭐⭐', city: 'Delhi' },
             ].map((testimonial, i) => (
               <div key={i} className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 border border-neutral-200 dark:border-neutral-600">
                 <div className="flex items-center gap-1 mb-3">
@@ -214,7 +214,7 @@ export default function Home() {
             Ready to Get Started?
           </h2>
           <p className="text-xl text-white mb-8">
-            Join thousands of students who have successfully submitted their forms through CyberSeva
+            Join thousands of students who have successfully submitted their forms through ClickNsit
           </p>
           <Link href="/exams">
             <Button variant="secondary" size="lg" className="text-lg">
@@ -257,13 +257,13 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-primary-200">
-                <li>support@cyberseva.in</li>
+                <li>support@clickandsit.in</li>
                 <li>+91 9650X XXX95</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-primary-800 mt-8 pt-8 text-center text-sm text-primary-200">
-            © {new Date().getFullYear()} CyberSeva. All rights reserved.
+            © {new Date().getFullYear()} ClickNsit. All rights reserved.
           </div>
         </div>
       </footer>

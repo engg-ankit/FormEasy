@@ -26,8 +26,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "CyberSeva — Online Cyber Cafe",
-    template: "%s | CyberSeva",
+    default: "ClickNsit — Online Cyber Cafe",
+    template: "%s | ClickNsit",
   },
   description:
     "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more. Fill forms from home!",
@@ -45,14 +45,14 @@ export const metadata: Metadata = {
     "online form submission",
     "India",
   ],
-  authors: [{ name: "CyberSeva" }],
-  creator: "CyberSeva",
-  metadataBase: new URL("https://cyberseva.in"),
+  authors: [{ name: "ClickNsit" }],
+  creator: "ClickNsit",
+  metadataBase: new URL("https://clickandsit.in"),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "CyberSeva",
-    title: "CyberSeva — Online Cyber Cafe",
+    siteName: "ClickNsit",
+    title: "ClickNsit — Online Cyber Cafe",
     description:
       "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more.",
     images: [
@@ -60,13 +60,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "CyberSeva — Online Cyber Cafe",
+        alt: "ClickNsit — Online Cyber Cafe",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CyberSeva — Online Cyber Cafe",
+    title: "ClickNsit — Online Cyber Cafe",
     description:
       "India's trusted online cyber cafe for form filling — college registrations, exam applications, scholarships, government forms, and more.",
     images: ["/og-image.png"],

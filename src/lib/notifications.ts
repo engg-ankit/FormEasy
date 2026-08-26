@@ -6,7 +6,7 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 // Use verified domain if available, otherwise Resend's default
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'CyberSeva <onboarding@resend.dev>';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'ClickNsit <onboarding@resend.dev>';
 
 interface EmailOptions {
   to: string;
@@ -46,15 +46,15 @@ function baseTemplate(title: string, content: string): string {
   <div style="max-width:600px;margin:0 auto;padding:20px;">
     <div style="background:#1B2559;border-radius:12px 12px 0 0;padding:30px;text-align:center;">
       <h1 style="color:#fff;margin:0;font-size:24px;">Cyber<span style="color:#2DD4BF;">Seva</span></h1>
-      <p style="color:#9CA3AF;margin:5px 0 0;font-size:12px;letter-spacing:2px;">ONLINE CYBER CAFE</p>
+      <p style="color:#9CA3AF;margin:5px 0 0;font-size:12px;letter-spacing:2px;">CLICK. SIT. DONE.</p>
     </div>
     <div style="background:#fff;padding:30px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
       <h2 style="color:#1B2559;margin-top:0;">${title}</h2>
       ${content}
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
       <p style="color:#9CA3AF;font-size:12px;text-align:center;margin:0;">
-        This is an automated email from CyberSeva.<br>
-        © ${new Date().getFullYear()} CyberSeva. All rights reserved.
+        This is an automated email from ClickNsit.<br>
+        © ${new Date().getFullYear()} ClickNsit. All rights reserved.
       </p>
     </div>
   </div>
@@ -67,11 +67,11 @@ function baseTemplate(title: string, content: string): string {
 export async function notifyWelcome(userEmail: string, userName: string) {
   return sendEmail({
     to: userEmail,
-    subject: '🎉 Welcome to CyberSeva!',
+    subject: '🎉 Welcome to ClickNsit!',
     html: baseTemplate(
-      'Welcome to CyberSeva!',
+      'Welcome to ClickNsit!',
       `<p style="color:#374151;font-size:15px;">Hi <strong>${userName}</strong>,</p>
-      <p style="color:#374151;font-size:15px;">Welcome to <strong style="color:#1B2559;">CyberSeva</strong> — your online cyber cafe for form filling!</p>
+      <p style="color:#374151;font-size:15px;">Welcome to <strong style="color:#1B2559;">ClickNsit</strong> — your online cyber cafe for form filling!</p>
       <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:16px;margin:16px 0;">
         <p style="margin:0;color:#5b21b6;font-size:14px;"><strong>🚀 Here's what you can do:</strong></p>
         <ul style="color:#5b21b6;font-size:14px;margin:8px 0;padding-left:20px;">
@@ -81,7 +81,7 @@ export async function notifyWelcome(userEmail: string, userName: string) {
           <li>Make secure payments</li>
         </ul>
       </div>
-      <a href="https://cyberseva.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Forms →</a>`
+      <a href="https://clickandsit.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Forms →</a>`
     ),
   });
 }
@@ -98,7 +98,7 @@ export async function notifyApplicationSubmitted(userEmail: string, userName: st
         <p style="margin:0;color:#166534;font-size:14px;">📋 <strong>Status:</strong> Submitted</p>
         <p style="margin:8px 0 0;color:#166534;font-size:14px;">⏰ We'll process it within 24-48 hours.</p>
       </div>
-      <a href="https://cyberseva.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Dashboard →</a>`
+      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Dashboard →</a>`
     ),
   });
 }
@@ -116,7 +116,7 @@ export async function notifyPaymentConfirmed(userEmail: string, userName: string
         <p style="margin:8px 0 0;color:#1e40af;font-size:14px;">💳 Payment Status: <strong>Successful</strong></p>
         <p style="margin:4px 0 0;color:#1e40af;font-size:14px;">📋 Application Status: <strong>In Process</strong></p>
       </div>
-      <a href="https://cyberseva.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Track Application →</a>`
+      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Track Application →</a>`
     ),
   });
 }
@@ -135,7 +135,7 @@ export async function notifyFormRequestSubmitted(userEmail: string, userName: st
         <p style="margin:8px 0 0;color:#9a3412;font-size:14px;">⏰ Our team will review and add this form within 24-48 hours.</p>
       </div>
       <p style="color:#374151;font-size:15px;">We'll notify you once the form is available!</p>
-      <a href="https://cyberseva.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Available Forms →</a>`
+      <a href="https://clickandsit.in/exams" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">Browse Available Forms →</a>`
     ),
   });
 }
@@ -161,7 +161,7 @@ export async function notifyStatusChanged(userEmail: string, userName: string, e
         <p style="margin:0;color:${config.color};font-size:16px;font-weight:bold;">${config.emoji} ${newStatus.replace(/_/g, ' ')}</p>
         <p style="margin:8px 0 0;color:${config.color};font-size:14px;">${config.message}</p>
       </div>
-      <a href="https://cyberseva.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Details →</a>`
+      <a href="https://clickandsit.in/dashboard" style="display:inline-block;background:#1B2559;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0;">View Details →</a>`
     ),
   });
 }

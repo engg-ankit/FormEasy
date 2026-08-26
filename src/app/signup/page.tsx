@@ -98,7 +98,7 @@ export default function SignupPage() {
             <Logo size="md" />
           </div>
           <h1 className="text-2xl font-display font-bold text-primary-900 dark:text-white">Create Account</h1>
-          <p className="text-neutral-600 dark:text-neutral-400">Sign up to get started with CyberSeva</p>
+          <p className="text-neutral-600 dark:text-neutral-400">Sign up to get started with ClickNsit</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

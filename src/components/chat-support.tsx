@@ -11,7 +11,7 @@ interface Message {
 }
 
 const PREDEFINED_QUESTIONS = [
-  { id: 'what', label: 'What is CyberSeva?', icon: '❓' },
+  { id: 'what', label: 'What is ClickNsit?', icon: '❓' },
   { id: 'how', label: 'How does it work?', icon: '📋' },
   { id: 'fee', label: 'What are the fees?', icon: '💰' },
   { id: 'track', label: 'Track application', icon: '📍' },
@@ -28,8 +28,8 @@ interface TopicMatch {
 
 const TOPICS: TopicMatch[] = [
   {
-    keywords: ['cyberseva', 'cyber seva', 'what is', 'kya hai', 'about', 'tell me', 'explain', 'samjhao', 'batao', 'service', 'platform', 'site', 'website', 'app'],
-    response: 'CyberSeva ek online cyber cafe hai! 🎯\n\nHum government exams, college admissions, scholarships aur other official forms bharte hain — jaise cyber cafe mein hota hai, par ab ghar baithe! Aapko sirf apni details deni hain, documents upload karni hain, baaki hum sambhal lenge!\n\n✅ 5000+ forms already filled\n✅ 98% success rate\n✅ 24/7 support'
+    keywords: ['clicknsit', 'click n sit', 'click and sit', 'what is', 'kya hai', 'about', 'tell me', 'explain', 'samjhao', 'batao', 'service', 'platform', 'site', 'website', 'app'],
+    response: 'ClickNsit ek online cyber cafe hai! 🎯\n\nHum government exams, college admissions, scholarships aur other official forms bharte hain — jaise cyber cafe mein hota hai, par ab ghar baithe! Aapko sirf apni details deni hain, documents upload karni hain, baaki hum sambhal lenge!\n\n✅ 5000+ forms already filled\n✅ 98% success rate\n✅ 24/7 support'
   },
   {
     keywords: ['how', 'process', 'work', 'kaise', 'kaise kare', 'step', 'tarika', 'procedure', 'karna', 'kaise hota', 'kaise chalta'],
@@ -45,11 +45,11 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['refund', 'money back', 'return', 'paisa wapas', 'cancel', 'wapas', 'raam', 'refund kaise', 'paise', 'cancelation', 'cancellation'],
-    response: 'Refund Policy 💸\n\n✅ Full refund agar form submit nahi hua\n✅ Partial refund agar processing mein cancel karo\n❌ No refund agar form portal pe submit ho chuka hai\n\nRefund request ke liye:\n📧 support@cyberseva.in pe mail karo\nYa dashboard se cancel karo\n\nRefund 5-7 working days mein aa jayega! 🏦'
+    response: 'Refund Policy 💸\n\n✅ Full refund agar form submit nahi hua\n✅ Partial refund agar processing mein cancel karo\n❌ No refund agar form portal pe submit ho chuka hai\n\nRefund request ke liye:\n📧 support@clickandsit.in pe mail karo\nYa dashboard se cancel karo\n\nRefund 5-7 working days mein aa jayega! 🏦'
   },
   {
     keywords: ['contact', 'call', 'email', 'support', 'help', 'phone', 'baat', 'mail', 'number', 'reach', 'milna'],
-    response: 'Humse baat karo! 📞\n\n📧 Email: support@cyberseva.in\n📱 Phone: +91 9650X XXX95\n💬 WhatsApp: Same number pe\n🌐 Website: cyberseva.in/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
+    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650X XXX95\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.in/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
   },
   {
     keywords: ['document', 'docs', 'paper', 'kagaz', 'upload', 'kya chahiye', 'lagta', 'attach', 'file', 'photo', 'signature', 'marksheet', 'aadhar'],
@@ -69,7 +69,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['login', 'signup', 'sign up', 'register', 'account', 'password', 'forgot', 'login nahi', 'account ban', 'profile'],
-    response: 'Account Related 🔐\n\n📝 Signup: cyberseva.in/signup pe jaao\n🔐 Login: cyberseva.in/login pe jaao\n🔑 Password bhool gaye? "Forgot Password" pe click karo\n\n💡 Signup free hai! Sirf mobile number aur email chahiye!'
+    response: 'Account Related 🔐\n\n📝 Signup: clickandsit.in/signup pe jaao\n🔐 Login: clickandsit.in/login pe jaao\n🔑 Password bhool gaye? "Forgot Password" pe click karo\n\n💡 Signup free hai! Sirf mobile number aur email chahiye!'
   },
   {
     keywords: ['safe', 'security', 'secure', 'privacy', 'data', 'bharosa', 'trust', 'reliable', 'trusted'],
@@ -81,11 +81,11 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['hi', 'hello', 'hey', 'namaste', 'namaskar', 'hii', 'helo', 'good morning', 'good evening', 'sup'],
-    response: 'Hello! 👋 Welcome to CyberSeva Support!\n\nMain aapki help karne ke liye hoon. Aap mujhse kuch bhi pooch sakte ho:\n\n❓ CyberSeva kya hai?\n💰 Fees kitni hain?\n📋 Kaise kaam karta hai?\n📞 Contact kaise karein?\n\nYa phir neeche quick options pe click karo! 👇'
+    response: 'Hello! 👋 Welcome to ClickNsit Support!\n\nMain aapki help karne ke liye hoon. Aap mujhse kuch bhi pooch sakte ho:\n\n❓ ClickNsit kya hai?\n💰 Fees kitni hain?\n📋 Kaise kaam karta hai?\n📞 Contact kaise karein?\n\nYa phir neeche quick options pe click karo! 👇'
   },
   {
     keywords: ['problem', 'issue', 'complaint', 'dikkat', 'pareshani', 'galat', 'wrong', 'not working', 'error', 'bug', 'fail'],
-    response: 'Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: support@cyberseva.in\n3️⃣ Ya call karo: +91 9650X XXX95\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!'
+    response: 'Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: support@clickandsit.in\n3️⃣ Ya call karo: +91 9650X XXX95\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!'
   },
   {
     keywords: ['aadhar', 'aadhaar'],
@@ -93,7 +93,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['pan', 'pan card'],
-    response: 'PAN Card related info 🪪\n\nAgar aap PAN card ke liye apply kar rahe ho toh:\n\n✅ CyberSeva pe available hai\n✅ Fee: ₹107 (Government) + ₹50 (Service)\n✅ Documents: Aadhaar, Photo, Signature\n✅ Time: 2-3 working days\n\nApply karne ke liye Forms section mein jao! 📋'
+    response: 'PAN Card related info 🪪\n\nAgar aap PAN card ke liye apply kar rahe ho toh:\n\n✅ ClickNsit pe available hai\n✅ Fee: ₹107 (Government) + ₹50 (Service)\n✅ Documents: Aadhaar, Photo, Signature\n✅ Time: 2-3 working days\n\nApply karne ke liye Forms section mein jao! 📋'
   },
   {
     keywords: ['voter', 'voter id', 'matdata', 'matdan'],
@@ -148,16 +148,16 @@ function getAIResponse(input: string): string {
     return bestMatch.response;
   }
   if (lang === 'hindi' || lang === 'hinglish') {
-    return 'Aapka sawal samajh nahi aaya. 🤔\n\nAap ye pooch sakte ho:\n❓ CyberSeva kya hai?\n💰 Fees kitni hain?\n📋 Kaise kaam karta hai?\n📍 Status kaise check karein?\n📞 Support se kaise baat karein?\n📄 Documents kaunse chahiye?\n⏱️ Kitna time lagta hai?\n\nYa neeche quick options use karo! 👇';
+    return 'Aapka sawal samajh nahi aaya. 🤔\n\nAap ye pooch sakte ho:\n❓ ClickNsit kya hai?\n💰 Fees kitni hain?\n📋 Kaise kaam karta hai?\n📍 Status kaise check karein?\n📞 Support se kaise baat karein?\n📄 Documents kaunse chahiye?\n⏱️ Kitna time lagta hai?\n\nYa neeche quick options use karo! 👇';
   }
-  return 'I didn\'t quite understand that. 🤔\n\nYou can ask me about:\n❓ What is CyberSeva?\n💰 Fees & pricing\n📋 How it works\n📍 Application tracking\n📞 Contact support\n📄 Required documents\n⏱️ Processing time\n💳 Payment methods\n\nTry one of these or use the quick options below! 👇';
+  return 'I didn\'t quite understand that. 🤔\n\nYou can ask me about:\n❓ What is ClickNsit?\n💰 Fees & pricing\n📋 How it works\n📍 Application tracking\n📞 Contact support\n📄 Required documents\n⏱️ Processing time\n💳 Payment methods\n\nTry one of these or use the quick options below! 👇';
 }
 
 // Helper: Predefined question to query text
 function predefinedToQuery(questionId: string): string {
   const queryMap: Record<string, string> = {
-    what: 'What is CyberSeva?',
-    how: 'How does CyberSeva work?',
+    what: 'What is ClickNsit?',
+    how: 'How does ClickNsit work?',
     fee: 'What are the fees?',
     track: 'How to track my application?',
     refund: 'What is the refund policy?',
@@ -245,7 +245,7 @@ export function ChatSupport() {
               <Bot className="h-5 w-5" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-sm">CyberSeva Support</h3>
+              <h3 className="font-semibold text-sm">ClickNsit Support</h3>
               <p className="text-xs text-primary-100">Ask me anything!</p>
             </div>
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -270,7 +270,7 @@ export function ChatSupport() {
                     <span className="text-[10px] text-neutral-400">Bot</span>
                   </div>
                   <div className="px-3 py-2 rounded-2xl rounded-tl-sm text-sm leading-relaxed whitespace-pre-line bg-white dark:bg-neutral-700 text-neutral-800 dark:text-neutral-100 border border-neutral-100 dark:border-neutral-600">
-                    {'Hello! 👋 Welcome to CyberSeva Support!\n\nI\'m here to help you with any questions about our online cyber cafe service.\n\nYou can ask me anything — in English, Hindi, or Hinglish! 🌐'}
+                    {'Hello! 👋 Welcome to ClickNsit Support!\n\nI\'m here to help you with any questions about our online cyber cafe service.\n\nYou can ask me anything — in English, Hindi, or Hinglish! 🌐'}
                   </div>
                 </div>
               </div>

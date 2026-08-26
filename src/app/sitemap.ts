@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://cyberseva.in';
+const BASE_URL = 'https://clickandsit.in';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

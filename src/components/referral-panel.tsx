@@ -41,9 +41,9 @@ export function ReferralPanel() {
 
   const handleShare = () => {
     if (info?.referralCode) {
-      const text = `Join CyberSeva using my referral code ${info.referralCode} and get ₹25 bonus on your first application! 🎉\n\nFill every exam form from one platform: ${window.location.origin}`;
+      const text = `Join ClickNsit using my referral code ${info.referralCode} and get ₹25 bonus on your first application! 🎉\n\nFill every exam form from one platform: ${window.location.origin}`;
       if (navigator.share) {
-        navigator.share({ title: 'CyberSeva Referral', text });
+        navigator.share({ title: 'ClickNsit Referral', text });
       } else {
         navigator.clipboard.writeText(text);
         setCopied(true);

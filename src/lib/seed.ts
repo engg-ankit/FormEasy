@@ -6,9 +6,9 @@ export async function seedDatabase() {
     // Create admin
     const adminPassword = await bcrypt.hash('admin123', 10);
     await prisma.admin.upsert({
-      where: { email: 'admin@cyberseva.in' },
+      where: { email: 'admin@clickandsit.in' },
       update: {},
-      create: { name: 'Admin User', email: 'admin@cyberseva.in', passwordHash: adminPassword },
+      create: { name: 'Admin User', email: 'admin@clickandsit.in', passwordHash: adminPassword },
     });
 
     // Create exams

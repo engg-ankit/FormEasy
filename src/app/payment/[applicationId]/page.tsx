@@ -71,7 +71,7 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
         amount: amount,
         currency: 'INR',
-        name: 'CyberSeva',
+        name: 'ClickNsit',
         description: 'Online Cyber Cafe — Form Filling Service',
         order_id: orderId,
         handler: async (response) => {

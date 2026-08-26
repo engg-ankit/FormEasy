@@ -151,7 +151,7 @@ export default function OtpEntryPage({ params }: { params: Promise<{ id: string 
           <CardContent className="text-center">
             <p className="text-neutral-600 mb-4">{error}</p>
             <p className="text-sm text-neutral-500">
-              Please contact CyberSeva support for assistance.
+              Please contact ClickNsit support for assistance.
             </p>
           </CardContent>
         </Card>
@@ -177,7 +177,7 @@ export default function OtpEntryPage({ params }: { params: Promise<{ id: string 
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-neutral-600 mb-2">
-              Your OTP has been sent to CyberSeva successfully.
+              Your OTP has been sent to ClickNsit successfully.
             </p>
             <p className="text-sm text-neutral-500 mb-4">
               Your form for <strong>{otpRelay?.portalName}</strong> is being processed.
@@ -263,7 +263,7 @@ export default function OtpEntryPage({ params }: { params: Promise<{ id: string 
           {/* Help text */}
           <div className="mt-6 text-center">
             <p className="text-xs text-neutral-500">
-              Didn&apos;t receive the OTP? Contact CyberSeva support.
+              Didn&apos;t receive the OTP? Contact ClickNsit support.
             </p>
           </div>
         </CardContent>

@@ -21,7 +21,7 @@ export const LogoIcon = ({ className = '', size = 48, white = false }: LogoIconP
       viewBox="0 0 140 140"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="CyberSeva"
+      aria-label="ClickNsit"
       style={{ display: 'block' }}
     >
       {/* Monitor Screen */}

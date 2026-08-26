@@ -62,7 +62,7 @@ export function ContactContent() {
                 <div className="bg-blue-100 rounded-xl p-3"><Mail className="h-6 w-6 text-blue-600" /></div>
                 <div>
                   <h3 className="font-bold text-primary-900">Email</h3>
-                  <p className="text-sm text-neutral-600">support@cyberseva.in</p>
+                  <p className="text-sm text-neutral-600">support@clickandsit.in</p>
                   <p className="text-xs text-neutral-500">We reply within 24 hours</p>
                 </div>
               </CardContent>

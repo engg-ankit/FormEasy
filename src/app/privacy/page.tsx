@@ -3,10 +3,10 @@ import { SiteNav } from '@/components/site-nav';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'How CyberSeva collects, uses, and protects your personal data.',
+  description: 'How ClickNsit collects, uses, and protects your personal data.',
   openGraph: {
-    title: 'Privacy Policy | CyberSeva',
-    description: 'How CyberSeva collects, uses, and protects your personal data.',
+    title: 'Privacy Policy | ClickNsit',
+    description: 'How ClickNsit collects, uses, and protects your personal data.',
   },
 };
 
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">8. Contact Us</h2>
-            <p className="text-neutral-600 leading-relaxed">For any privacy-related concerns, contact us at <strong>privacy@cyberseva.in</strong> or call <strong>+91 9650X XXX95</strong>.</p>
+            <p className="text-neutral-600 leading-relaxed">For any privacy-related concerns, contact us at <strong>privacy@clickandsit.in</strong> or call <strong>+91 9650X XXX95</strong>.</p>
           </section>
         </div>
       </div>

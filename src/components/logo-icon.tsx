@@ -7,12 +7,11 @@ interface LogoIconProps {
 }
 
 export const LogoIcon = ({ className = '', size = 48, white = false }: LogoIconProps) => {
-  // Light mode (default): deep indigo badge with white cursor
-  // White mode (on dark bg): translucent badge with white cursor
-  const badgeBg = white ? 'rgba(255,255,255,0.15)' : '#1B2559';
-  const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#2d3a7a';
+  // Colors matching homepage primary (indigo) palette
+  const badgeBg = white ? 'rgba(255,255,255,0.15)' : '#312e81';
+  const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#4338ca';
   const cursorColor = white ? '#FFFFFF' : '#FFFFFF';
-  const accentDot = '#2DD4BF';
+  const accentDot = '#f26338';
 
   return (
     <svg

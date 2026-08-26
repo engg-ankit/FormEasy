@@ -15,14 +15,14 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
 
   const { width, height } = sizes[size];
 
-  // Colors
-  const badgeBg = white ? 'rgba(255,255,255,0.15)' : '#1B2559';
-  const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#2d3a7a';
+  // Colors — matching homepage primary (indigo) palette
+  const badgeBg = white ? 'rgba(255,255,255,0.15)' : '#312e81';
+  const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#4338ca';
   const cursorColor = '#FFFFFF';
-  const accentDot = '#2DD4BF';
+  const accentDot = '#f26338';
   // Text colors
-  const clickColor = white ? '#FFFFFF' : '#1B2559';
-  const nsitColor = white ? '#2DD4BF' : '#2DD4BF';
+  const clickColor = white ? '#FFFFFF' : '#312e81';
+  const nsitColor = white ? '#f26338' : '#f26338';
   const tagColor = white ? 'rgba(255,255,255,0.6)' : '#94a3b8';
 
   return (

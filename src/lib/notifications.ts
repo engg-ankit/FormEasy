@@ -45,7 +45,7 @@ function baseTemplate(title: string, content: string): string {
 <body style="margin:0;padding:0;background:#f5f5f5;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
   <div style="max-width:600px;margin:0 auto;padding:20px;">
     <div style="background:#1B2559;border-radius:12px 12px 0 0;padding:30px;text-align:center;">
-      <h1 style="color:#fff;margin:0;font-size:24px;">Cyber<span style="color:#2DD4BF;">Seva</span></h1>
+      <h1 style="color:#fff;margin:0;font-size:24px;">Click<span style="color:#f26338;">Nsit</span></h1>
       <p style="color:#9CA3AF;margin:5px 0 0;font-size:12px;letter-spacing:2px;">CLICK. SIT. DONE.</p>
     </div>
     <div style="background:#fff;padding:30px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">

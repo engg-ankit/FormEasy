@@ -115,8 +115,8 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
       if (verifyResponse.ok) {
         setSuccess(true);
         setTimeout(() => {
-          router.push('/dashboard');
-        }, 3000);
+          router.push('/');
+        }, 5000);
       } else {
         setError(data.error || 'Payment verification failed');
         setIsProcessing(false);
@@ -140,16 +140,34 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
 
   if (success) {
     return (
-      <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="pt-6 text-center">
-            <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-            <h2 className="text-2xl font-display font-bold text-primary-900 mb-2">
-              Payment Successful!
+      <div className="min-h-screen bg-primary-50 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="pt-8 pb-8 text-center">
+            <div className="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="h-10 w-10 text-green-600" />
+            </div>
+            <h2 className="text-2xl font-display font-bold text-primary-900 mb-3">
+              Payment Done! ✅
             </h2>
-            <p className="text-neutral-600 mb-4">
-              Your application has been submitted successfully. Redirecting to dashboard...
+            <p className="text-neutral-600 mb-2 text-lg">
+              Your form has been submitted successfully.
             </p>
+            <div className="bg-primary-50 rounded-lg p-4 mb-6">
+              <p className="text-primary-800 font-medium">
+                We will fill out your form on the official portal in sometime. ⏳
+              </p>
+              <p className="text-sm text-neutral-500 mt-2">
+                You can track the status from your dashboard.
+              </p>
+            </div>
+            <p className="text-sm text-neutral-400 mb-6">
+              Redirecting to home page in <span className="font-bold text-primary-60">5 seconds</span>...
+            </p>
+            <Link href="/">
+              <Button variant="primary" size="lg" className="w-full">
+                Go to Home Page
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

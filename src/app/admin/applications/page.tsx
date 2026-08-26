@@ -10,9 +10,10 @@ import Link from 'next/link';
 interface Application {
   id: string;
   user: { fullName: string; mobile: string; email: string };
-  exam: { title: string; category: string };
+  exam: { title: string; category: string; officialFee: number; serviceFee: number };
   status: string;
   createdAt: string;
+  payment?: { status: string; amount: number; razorpayPaymentId: string | null; razorpayOrderId: string; createdAt: string } | null;
 }
 
 export default function AdminApplicationsPage() {
@@ -219,6 +220,13 @@ export default function AdminApplicationsPage() {
                           <p className="text-xs text-neutral-500">
                             Applied: {new Date(app.createdAt).toLocaleString()}
                           </p>
+                          {app.payment ? (
+                            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${app.payment.status === 'SUCCESS' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                              {app.payment.status === 'SUCCESS' ? `Paid ₹${app.payment.amount / 100}` : 'Payment Pending'}
+                            </span>
+                          ) : (
+                            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">No Payment</span>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 flex-shrink-0">

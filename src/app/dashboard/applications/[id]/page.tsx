@@ -525,6 +525,31 @@ export default function ApplicationDetailPage() {
                       <p className="truncate">Payment ID: <span className="font-mono">{application.payment.razorpayPaymentId}</span></p>
                     </div>
                   )}
+                  {application.payment.status === 'PENDING' && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/payment/check-status', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ applicationId: application.id }),
+                          });
+                          const data = await res.json();
+                          if (data.status === 'SUCCESS') {
+                            alert('Payment verified successfully!');
+                          } else {
+                            alert('Payment still pending. If you paid, try again in a minute.');
+                          }
+                          fetchApplication();
+                        } catch (err) {
+                          alert('Failed to check payment status.');
+                        }
+                      }}
+                      className="mt-3 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      🔄 Verify Payment Status
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 text-center">

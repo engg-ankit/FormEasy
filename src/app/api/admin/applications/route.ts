@@ -34,7 +34,8 @@ export async function GET(request: NextRequest) {
         where,
         include: {
           user: { select: { fullName: true, mobile: true, email: true } },
-          exam: { select: { title: true, category: true } },
+          exam: { select: { title: true, category: true, officialFee: true, serviceFee: true } },
+          payment: { select: { status: true, amount: true, razorpayPaymentId: true, razorpayOrderId: true, createdAt: true } },
         },
         orderBy: { createdAt: 'desc' },
         skip,

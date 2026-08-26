@@ -58,7 +58,7 @@ export async function GET() {
         include: {
           user: { select: { fullName: true, mobile: true, email: true } },
           exam: { select: { title: true, category: true, officialFee: true, serviceFee: true } },
-          payment: { select: { status: true, amount: true } },
+          payment: { select: { status: true, amount: true, razorpayPaymentId: true } },
         },
       }),
     ]);

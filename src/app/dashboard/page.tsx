@@ -596,6 +596,32 @@ export default function DashboardPage() {
                           )}
                         </div>
                         <div className="flex items-center gap-2">
+                          {application.payment?.status === 'PENDING' && (
+                            <button
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                try {
+                                  const res = await fetch('/api/payment/check-status', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ applicationId: application.id }),
+                                  });
+                                  const data = await res.json();
+                                  if (data.status === 'SUCCESS') {
+                                    alert('Payment verified successfully!');
+                                  } else {
+                                    alert('Payment still pending. If you paid, try again in a minute.');
+                                  }
+                                  fetchApplications();
+                                } catch (err) {
+                                  alert('Failed to check payment status.');
+                                }
+                              }}
+                              className="text-blue-500 hover:text-blue-600 font-medium"
+                            >
+                              Verify Payment
+                            </button>
+                          )}
                           {application.status === 'SUBMITTED' && (
                             <button
                               onClick={async (e) => {

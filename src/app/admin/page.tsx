@@ -33,7 +33,7 @@ interface RecentApplication {
   exam: { title: string; category: string; officialFee: number; serviceFee: number };
   status: string;
   createdAt: string;
-  payment: { status: string; amount: number } | null;
+  payment: { status: string; amount: number; razorpayPaymentId: string | null } | null;
 }
 
 interface FormRequestItem {
@@ -360,7 +360,12 @@ export default function AdminDashboardPage() {
                           </div>
                           <div className="sm:border-l sm:pl-4">
                             {app.payment?.status === 'SUCCESS' ? (
-                              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">💰 Paid ₹{app.payment.amount / 100}</span>
+                              <div>
+                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">💰 Paid ₹{app.payment.amount / 100}</span>
+                                {app.payment.razorpayPaymentId && (
+                                  <p className="text-[10px] text-neutral-400 font-mono mt-1 truncate max-w-[140px]" title={app.payment.razorpayPaymentId}>ID: {app.payment.razorpayPaymentId}</p>
+                                )}
+                              </div>
                             ) : (
                               <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-medium">⏳ Payment pending</span>
                             )}

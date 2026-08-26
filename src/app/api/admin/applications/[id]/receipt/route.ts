@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminAuth } from '@/lib/admin-auth';
 import { prisma } from '@/lib/prisma';
-import { writeFile } from 'fs/promises';
-import path from 'path';
-import { existsSync, mkdirSync } from 'fs';
 import { notifyUserReceiptUploaded } from '@/lib/user-notifications';
 
 export async function POST(
@@ -26,8 +23,8 @@ export async function POST(
       return NextResponse.json({ error: 'Only PDF files are allowed for receipts' }, { status: 400 });
     }
 
-    // Validate file size (5MB max for receipts)
-    const maxSize = 5 * 1024 * 1024;
+    // Validate file size (3MB max — base64 encoding adds ~33% overhead, must stay under Vercel's 4.5MB body limit)
+    const maxSize = 3 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json({ error: 'File size exceeds 5MB limit' }, { status: 400 });
     }
@@ -42,38 +39,28 @@ export async function POST(
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
-    // Save file
+    // Convert file to base64 and store in database
     const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    const base64Data = Buffer.from(bytes).toString('base64');
+    const dataUrl = `data:application/pdf;base64,${base64Data}`;
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads', 'receipts');
-    if (!existsSync(uploadsDir)) {
-      mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const timestamp = Date.now();
     const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const filename = `receipt-${applicationId.slice(-8)}-${timestamp}-${safeName}`;
-    const filepath = path.join(uploadsDir, filename);
 
-    await writeFile(filepath, buffer);
-
-    const fileUrl = `/uploads/receipts/${filename}`;
-
-    // Save document record
+    // Save document record with base64 data
     const doc = await prisma.document.create({
       data: {
         applicationId,
         docType: 'FILLED_FORM_RECEIPT',
-        fileUrl,
+        fileUrl: dataUrl,
+        fileData: base64Data,
       },
     });
 
     // Send notification to user
     notifyUserReceiptUploaded(
       application.userId,
-      application.examId ? '' : applicationId,
-      fileUrl
+      applicationId,
+      ''
     ).catch(console.error);
 
     return NextResponse.json({
@@ -107,6 +94,12 @@ export async function GET(
         docType: 'FILLED_FORM_RECEIPT',
       },
       orderBy: { uploadedAt: 'desc' },
+      select: {
+        id: true,
+        docType: true,
+        fileUrl: true,
+        uploadedAt: true,
+      },
     });
 
     return NextResponse.json({ receipts });

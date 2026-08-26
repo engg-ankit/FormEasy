@@ -487,7 +487,7 @@ export default function ApplicationDetailPage() {
                           <p className="text-xs text-neutral-500">Uploaded {new Date(doc.uploadedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
                       </div>
-                      <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
+                      <a href={doc.fileUrl} download={`filled-form-${application.id.slice(-8)}.pdf`} target="_blank" rel="noopener noreferrer">
                         <Button variant="primary" size="sm" className="bg-green-600 hover:bg-green-700">
                           <Download className="h-4 w-4 mr-2" />
                           Download PDF

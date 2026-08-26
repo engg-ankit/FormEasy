@@ -56,14 +56,13 @@ model Application {
   statusHistory  StatusHistory[]
   notes          Note[]
   otpRelays      OtpRelay[]
-}
-
-model Document {
+}model Document {
   id           String      @id @default(cuid())
   applicationId String
   docType      String
   fileUrl      String
-  uploadedAt   DateTime    @default(now())
+  fileData     String?     // Base64-encoded file data for receipts (stored in DB for Vercel compatibility)
+  uploadedAt   DateTime       @default(now())
   application  Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 }
 

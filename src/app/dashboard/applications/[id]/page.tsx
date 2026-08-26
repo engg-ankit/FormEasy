@@ -462,6 +462,44 @@ export default function ApplicationDetailPage() {
             </CardContent>
           </Card>
 
+          {/* Filled Form Receipt (uploaded by admin) */}
+          {application.documents.filter(d => d.docType === 'FILLED_FORM_RECEIPT').length > 0 && (
+            <Card className="border-2 border-green-300 bg-green-50/50 dark:bg-green-950/20">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <FileCheck className="h-5 w-5 text-green-600" />
+                  <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">📄 Your Filled Form Receipt</h2>
+                </div>
+                <p className="text-sm text-green-700 dark:text-green-400">Your form has been filled! Download the receipt below.</p>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {application.documents
+                    .filter(d => d.docType === 'FILLED_FORM_RECEIPT')
+                    .map((doc) => (
+                    <div key={doc.id} className="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-lg border border-green-200 dark:border-green-800">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-green-100 rounded-lg p-3">
+                          <FileText className="h-6 w-6 text-green-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-green-800 dark:text-green-300">Filled Form Receipt</p>
+                          <p className="text-xs text-neutral-500">Uploaded {new Date(doc.uploadedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                        </div>
+                      </div>
+                      <a href={doc.fileUrl} target="_blank" rel="noopener noreferrer">
+                        <Button variant="primary" size="sm" className="bg-green-600 hover:bg-green-700">
+                          <Download className="h-4 w-4 mr-2" />
+                          Download PDF
+                        </Button>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Payment Info */}
           <Card>
             <CardHeader>

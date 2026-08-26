@@ -2,7 +2,7 @@ import { prisma } from './prisma';
 
 interface UserNotificationData {
   userId: string;
-  type: 'WELCOME' | 'FORM_SUBMITTED' | 'PAYMENT_RECEIVED' | 'STATUS_UPDATE' | 'FORM_AVAILABLE' | 'REQUEST_RECEIVED';
+  type: 'WELCOME' | 'FORM_SUBMITTED' | 'PAYMENT_RECEIVED' | 'STATUS_UPDATE' | 'FORM_AVAILABLE' | 'REQUEST_RECEIVED' | 'RECEIPT_UPLOADED';
   title: string;
   message: string;
 }
@@ -74,5 +74,14 @@ export async function notifyUserFormRequestReceived(userId: string, formName: st
     type: 'REQUEST_RECEIVED',
     title: 'Form Request Received 📩',
     message: `Your request for "${formName}" has been received. We'll add it within 24-48 hours and notify you.`,
+  });
+}
+
+export async function notifyUserReceiptUploaded(userId: string, applicationId: string, fileUrl: string) {
+  return createUserNotification({
+    userId,
+    type: 'RECEIPT_UPLOADED',
+    title: 'Form Receipt Ready! 📄',
+    message: `Your filled form has been uploaded. Download it from your application details.`,
   });
 }

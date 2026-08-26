@@ -404,6 +404,22 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           </CardContent>
         </Card>
 
+        {/* Upload Filled Form / Receipt */}
+        <Card className="mb-6 border-2 border-green-300 bg-green-50/50">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-green-600" />
+              <h2 className="text-xl font-display font-bold text-primary-900">Upload Filled Form / Receipt</h2>
+            </div>
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
+              Upload the filled form PDF for the user to download
+            </p>
+          </CardHeader>
+          <CardContent>
+            <ReceiptUploader applicationId={application.id} />
+          </CardContent>
+        </Card>
+
         {/* Payment Details */}
         {application.payment && (
           <Card className="mb-6">
@@ -971,5 +987,95 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+// ─── Receipt Uploader Component ──────────────────────────────────
+
+function ReceiptUploader({ applicationId }: { applicationId: string }) {
+  const [receipts, setReceipts] = useState<Array<{ id: string; fileUrl: string; uploadedAt: string }>>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    fetchReceipts();
+  }, [applicationId]);
+
+  const fetchReceipts = async () => {
+    try {
+      const res = await fetch(`/api/admin/applications/${applicationId}/receipt`);
+      if (res.ok) {
+        const data = await res.json();
+        setReceipts(data.receipts || []);
+      }
+    } catch {}
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setError('');
+    setSuccess('');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch(`/api/admin/applications/${applicationId}/receipt`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Upload failed');
+      } else {
+        setSuccess('Receipt uploaded! User will be notified.');
+        fetchReceipts();
+      }
+    } catch {
+      setError('Upload failed. Please try again.');
+    } finally {
+      setIsUploading(false);
+      e.target.value = '';
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex items-center gap-4 mb-4">
+        <label className="flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-green-700 transition-colors cursor-pointer min-h-[44px]">
+          <Upload className="h-4 w-4" />
+          {isUploading ? 'Uploading...' : 'Upload PDF Receipt'}
+          <input type="file" accept="application/pdf" onChange={handleUpload} className="hidden" disabled={isUploading} />
+        </label>
+        <span className="text-sm text-neutral-500">PDF only, max 5MB</span>
+      </div>
+      {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">{error}</div>}
+      {success && <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4 text-sm">{success}</div>}
+      {receipts.length > 0 && (
+        <div className="space-y-3">
+          <h3 className="font-semibold text-primary-900">Uploaded Receipts ({receipts.length})</h3>
+          {receipts.map((receipt) => (
+            <div key={receipt.id} className="flex items-center justify-between bg-white border border-neutral-200 rounded-lg p-3">
+              <div className="flex items-center gap-3">
+                <FileText className="h-5 w-5 text-green-600" />
+                <div>
+                  <p className="text-sm font-medium text-primary-900">Filled Form Receipt</p>
+                  <p className="text-xs text-neutral-500">{new Date(receipt.uploadedAt).toLocaleString()}</p>
+                </div>
+              </div>
+              <a href={receipt.fileUrl} target="_blank" rel="noopener noreferrer">
+                <Button variant="ghost" size="sm"><Download className="h-4 w-4" /></Button>
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

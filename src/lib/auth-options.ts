@@ -13,31 +13,40 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log('[Auth] Missing credentials');
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
 
-        if (!user) {
+          if (!user) {
+            console.log('[Auth] User not found:', credentials.email);
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.passwordHash
+          );
+
+          if (!isPasswordValid) {
+            console.log('[Auth] Invalid password for:', credentials.email);
+            return null;
+          }
+
+          console.log('[Auth] Login successful:', credentials.email);
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.fullName,
+          };
+        } catch (error) {
+          console.error('[Auth] Authorize error:', error);
           return null;
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.passwordHash
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.fullName,
-        };
       },
     }),
   ],
@@ -61,5 +70,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-change-in-production',
 };

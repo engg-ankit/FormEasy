@@ -35,16 +35,28 @@ export default function LoginPage() {
         redirect: false,
       });
 
+      console.log('[Login] signIn result:', result);
+
       if (result?.error) {
-        setError('Invalid email or password');
+        setError('Invalid email or password. Please check your credentials.');
         setIsLoading(false);
         return;
       }
 
-      router.push('/dashboard');
-      router.refresh();
-    } catch (error) {
-      setError('An error occurred. Please try again.');
+      if (result?.ok) {
+        router.push('/dashboard');
+        router.refresh();
+      } else {
+        setError('Login failed. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (error: any) {
+      console.error('[Login] Error:', error);
+      if (error?.message?.includes('fetch')) {
+        setError('Network error. Please check your connection and try again.');
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
       setIsLoading(false);
     }
   };

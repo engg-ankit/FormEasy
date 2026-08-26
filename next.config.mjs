@@ -11,11 +11,12 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // Only apply no-cache to page routes, NOT API routes (NextAuth needs cookies)
+        source: '/((?!api|_next).*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, no-cache, must-revalidate',
+            value: 'no-cache, no-store, must-revalidate, max-age=0',
           },
         ],
       },

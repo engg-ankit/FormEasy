@@ -38,10 +38,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-primary-900 dark:text-white mb-6">
-              Every Form. One Platform.
+              Online Cyber Cafe 🖥️<br />
+              <span className="text-primary-600">Click. Sit. Done.</span>
             </h1>
             <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8 max-w-3xl mx-auto">
-              We fill and submit your exam application forms — so you can focus on studying.
+              Jaise cyber cafe mein form bharte ho — waisa ab ghar baithe! 🏠<br />
+              ClickNsit pe apni details bharo, documents upload karo — <strong className="text-primary-700">baaki hum sambhal lenge.</strong>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/exams">
@@ -131,6 +133,61 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What is ClickNsit — Cyber Cafe Explained */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-50 dark:bg-primary-950">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">
+              🖥️ ClickNsit Kya Hai?
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+              ClickNsit ek <strong className="text-primary-700">online cyber cafe</strong> hai — jahan aap apne phone ya computer se exam forms bharte ho, aur hum use official portal pe submit karte ho.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: '🏪', title: 'Cyber Cafe Jaisa', description: 'Jaise physical cyber cafe mein baith ke form bharte ho — waisa experience online. Bus apni details do, baaki kaam humara.' },
+              { icon: '✍️', title: 'Hum Bharte Hain Form', description: 'Aap sirf details aur documents upload karo. Hamari team official portal pe jaake form fill karegi aur submit karegi.' },
+              { icon: '📱', title: 'Ghar Baithe Kaam', description: 'Cyber cafe jaane ki zaroorat nahi. Phone uthao, form select karo, details bharo — form submit! Bas.' },
+            ].map((feature, index) => (
+              <div key={index} className="bg-white dark:bg-neutral-800 rounded-xl p-8 border border-neutral-200 dark:border-neutral-700 text-center hover:shadow-medium transition-shadow">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services — Cyber Cafe Style */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">
+              Hamari Sevayein 📋
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400">
+              Cyber cafe ki tarah — har tarah ke forms bharte hain
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { emoji: '🏛️', title: 'Govt. Exam Forms', desc: 'SSC, Railway, UPSC, Banking — sabke forms' },
+              { emoji: '🎓', title: 'College Admission', desc: 'University registration, admission forms' },
+              { emoji: '💰', title: 'Scholarship Forms', desc: 'NSP, State scholarships, fee waivers' },
+              { emoji: '📄', title: 'Certificates', desc: 'Income, Caste, Domicile certificates' },
+            ].map((service, i) => (
+              <div key={i} className="bg-primary-50 dark:bg-neutral-700 rounded-xl p-6 text-center border border-primary-100 dark:border-neutral-600">
+                <div className="text-3xl mb-3">{service.emoji}</div>
+                <h3 className="font-semibold text-primary-900 dark:text-white mb-1">{service.title}</h3>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Trust Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
@@ -139,9 +196,9 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: Shield, title: 'Secure & Reliable', description: 'Your data is encrypted and handled with utmost security' },
-              { icon: Users, title: 'Expert Team', description: 'Experienced professionals ensure accurate form submission' },
-              { icon: TrendingUp, title: 'Fast Processing', description: 'Quick turnaround with real-time status updates' },
+              { icon: Shield, title: 'Bharosa & Security', description: 'Aapka data safe hai — bank-level encryption, koi data share nahi hota.' },
+              { icon: Users, title: 'Expert Team', description: 'Hamari trained team har form accurately fill karti hai — zero mistakes.' },
+              { icon: TrendingUp, title: 'Jaldi Kaam', description: '24-48 hours mein form submit. Real-time status tracking bhi milega.' },
             ].map((feature, index) => (
               <div key={index} className="text-center">
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -158,11 +215,14 @@ export default function Home() {
       {/* Stats Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-900 dark:bg-primary-950 text-white">
         <div className="max-w-7xl mx-auto">
+          <h2 className="text-xl sm:text-2xl font-display font-bold text-center mb-12">
+            📊 Hamara Scorecard
+          </h2>
           <div className="grid md:grid-cols-4 gap-8 text-center">
             {[
-              { value: '5000+', label: 'Forms Filled' },
+              { value: '5000+', label: 'Forms Bhare' },
               { value: '98%', label: 'Success Rate' },
-              { value: '24/7', label: 'Support' },
+              { value: '24/7', label: 'Online Hai' },
               { value: '50+', label: 'Form Categories' },
             ].map((stat, index) => (
               <div key={index}>
@@ -178,8 +238,8 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-neutral-800">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">What Our Students Say</h2>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400">Trusted by 2000+ students across India</p>
+            <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4"> hamare Users Kya Kehte Hain 💬</h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400">2000+ students ne cyber cafe ki jagah ClickNsit use kiya</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -233,7 +293,7 @@ export default function Home() {
                 <LogoIcon size={56} white />
               </div>
               <p className="text-primary-200 text-sm">
-                Professional form filling service for students across India.
+                Online cyber cafe — forms bharna humara kaam, padhai tumhari! 🖥️
               </p>
             </div>
             <div>

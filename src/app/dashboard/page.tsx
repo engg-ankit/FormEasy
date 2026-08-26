@@ -583,10 +583,16 @@ export default function DashboardPage() {
                           <span>Applied: {new Date(application.createdAt).toLocaleDateString()}</span>
                           <span>Updated: {new Date(application.updatedAt).toLocaleDateString()}</span>
                           {application.payment && (
-                            <span className="flex items-center gap-1">
+                            <span className={`flex items-center gap-1 font-medium ${
+                              application.payment.status === 'SUCCESS' ? 'text-green-600' : 'text-yellow-600'
+                            }`}>
                               <IndianRupee className="h-3 w-3" />
                               ₹{application.payment.amount / 100}
+                              {application.payment.status === 'SUCCESS' ? ' ✓ Paid' : ' ⏳ Pending'}
                             </span>
+                          )}
+                          {!application.payment && application.status === 'SUBMITTED' && (
+                            <span className="text-yellow-600 font-medium">⏳ Payment Pending</span>
                           )}
                         </div>
                         <div className="flex items-center gap-2">

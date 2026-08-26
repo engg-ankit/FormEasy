@@ -79,6 +79,10 @@ export async function GET() {
         revenueThisMonth: revenueThisMonth._sum.amount || 0,
       },
       recentApplications,
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
     });
 
   } catch (error) {

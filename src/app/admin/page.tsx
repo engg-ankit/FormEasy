@@ -58,11 +58,14 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     fetchDashboardData();
+    // Auto-refresh every 15 seconds for live stats
+    const interval = setInterval(fetchDashboardData, 15000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch('/api/admin/dashboard', { credentials: 'include' });
+      const response = await fetch('/api/admin/dashboard', { credentials: 'include', cache: 'no-store' });
       const data = await response.json();
 
       if (!response.ok) {

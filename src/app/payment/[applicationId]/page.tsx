@@ -36,11 +36,17 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ applicationId: id }),
+        cache: 'no-store',
       });
 
       const data = await response.json();
 
       if (!response.ok) {
+        // If payment already completed, redirect to dashboard
+        if (data.error === 'Payment already completed') {
+          router.push(`/dashboard?tab=applications`);
+          return;
+        }
         setError(data.error || 'Failed to initiate payment');
         setIsLoading(false);
         return;
@@ -119,10 +125,9 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
       const data = await verifyResponse.json();
 
       if (verifyResponse.ok) {
-        // Force refresh by adding timestamp
         setSuccess(true);
         setTimeout(() => {
-          router.push('/');
+          router.push(`/dashboard?tab=applications`);
         }, 5000);
       } else {
         setError(data.error || 'Payment verification failed');
@@ -168,11 +173,11 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
               </p>
             </div>
             <p className="text-sm text-neutral-400 mb-6">
-              Redirecting to home page in <span className="font-bold text-primary-60">5 seconds</span>...
+              Redirecting to your dashboard in <span className="font-bold text-primary-600">5 seconds</span>...
             </p>
-            <Link href="/">
+            <Link href={`/dashboard?tab=applications`}>
               <Button variant="primary" size="lg" className="w-full">
-                Go to Home Page
+                Go to Dashboard
               </Button>
             </Link>
           </CardContent>

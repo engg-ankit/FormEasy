@@ -28,7 +28,7 @@ async function send(chatId: number, text: string, replyMarkup?: any) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(5000),
     });
   } catch (err: any) {
     console.error('[TG] Send error:', err.message);
@@ -56,7 +56,7 @@ async function answerCallback(callbackId: number, text?: string) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ callback_query_id: callbackId, text, show_alert: false }),
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(3000),
     });
   } catch {}
 }
@@ -115,16 +115,21 @@ export async function handleMessage(message: any) {
     return;
   }
 
-  // Route commands
+  // Route commands — run DB queries in parallel for speed
   if (text.startsWith('/start')) {
-    const user = await findUserByTelegram(telegramId);
-    const admin = await isAdmin(telegramId);
+    // /start: fast path — send welcome first, DB query in background
+    const [user, admin] = await Promise.all([
+      findUserByTelegram(telegramId),
+      isAdmin(telegramId),
+    ]);
     await cmdStart(chatId, firstName, telegramId, user, admin);
   } else if (text === '/help') {
     await cmdHelp(chatId);
   } else if (text === '/menu') {
-    const user = await findUserByTelegram(telegramId);
-    const admin = await isAdmin(telegramId);
+    const [user, admin] = await Promise.all([
+      findUserByTelegram(telegramId),
+      isAdmin(telegramId),
+    ]);
     await showMenu(chatId, user, admin);
   } else if (text === '/exams' || text === '/browse') {
     await cmdBrowseExams(chatId);
@@ -137,8 +142,10 @@ export async function handleMessage(message: any) {
   } else if (text === '/link') {
     await cmdLink(chatId);
   } else {
-    const user = await findUserByTelegram(telegramId);
-    const admin = await isAdmin(telegramId);
+    const [user, admin] = await Promise.all([
+      findUserByTelegram(telegramId),
+      isAdmin(telegramId),
+    ]);
     if (!user && !admin) {
       await send(chatId,
         `👋 Hi ${firstName}! I'm the ClickNsit Bot.\n\n` +
@@ -158,8 +165,10 @@ export async function handleCallback(callbackQuery: any) {
   if (!chatId || !data) return;
   await answerCallback(callbackQuery.id);
 
-  const user = await findUserByTelegram(telegramId);
-  const admin = await isAdmin(telegramId);
+  const [user, admin] = await Promise.all([
+    findUserByTelegram(telegramId),
+    isAdmin(telegramId),
+  ]);
 
   // ─── User Callbacks ──────────────────────────────────────
   if (data === 'menu') {

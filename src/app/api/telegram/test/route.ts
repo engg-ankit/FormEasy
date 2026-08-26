@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendMessage } from '@/lib/telegram-bot';
-
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
 
@@ -13,13 +11,23 @@ export async function GET() {
   }
 
   try {
-    await sendMessage(parseInt(CHAT_ID),
-      `🧪 <b>Test Message</b>\n\n` +
-      `ClickNsit Telegram Bot is working! ✅\n\n` +
-      `⏰ ${new Date().toLocaleString('en-IN')}`
-    );
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: `🧪 <b>ClickNsit Bot Test</b>\n\nBot is working! ✅\n⏰ ${new Date().toLocaleString('en-IN')}`,
+        parse_mode: 'HTML',
+      }),
+      signal: AbortSignal.timeout(10000),
+    });
 
-    return NextResponse.json({ success: true, message: 'Test message sent!' });
+    if (res.ok) {
+      return NextResponse.json({ success: true, message: 'Test message sent!' });
+    } else {
+      const data = await res.json();
+      return NextResponse.json({ error: data.description || 'Failed' }, { status: 500 });
+    }
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

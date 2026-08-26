@@ -19,6 +19,19 @@ const conversations = new Map<number, {
 
 // ─── Telegram API Helpers ───────────────────────────────────────
 
+// Show "typing..." indicator so user knows bot is working
+async function showTyping(chatId: number) {
+  if (!BOT_TOKEN) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendChatAction`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, action: 'typing' }),
+      signal: AbortSignal.timeout(2000),
+    });
+  } catch {}
+}
+
 async function send(chatId: number, text: string, replyMarkup?: any) {
   if (!BOT_TOKEN) return;
   try {
@@ -28,7 +41,7 @@ async function send(chatId: number, text: string, replyMarkup?: any) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(8000),
     });
   } catch (err: any) {
     console.error('[TG] Send error:', err.message);
@@ -108,6 +121,9 @@ export async function handleMessage(message: any) {
 
   console.log(`[TG] ${firstName} (${telegramId}): ${text}`);
 
+  // Show typing indicator immediately — user sees bot is working
+  showTyping(chatId).catch(() => {});
+
   // Check for active conversation (form filling flow)
   const conv = conversations.get(chatId);
   if (conv && !text.startsWith('/')) {
@@ -164,6 +180,7 @@ export async function handleCallback(callbackQuery: any) {
 
   if (!chatId || !data) return;
   await answerCallback(callbackQuery.id);
+  showTyping(chatId).catch(() => {});
 
   const [user, admin] = await Promise.all([
     findUserByTelegram(telegramId),

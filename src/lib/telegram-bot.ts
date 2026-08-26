@@ -141,6 +141,8 @@ export async function handleMessage(message: any) {
     await cmdStart(chatId, firstName, telegramId, user, admin);
   } else if (text === '/help') {
     await cmdHelp(chatId);
+  } else if (text === '/logo') {
+    await sendPhoto(chatId, LOGO_URL, `🖥️ <b>ClickNsit Logo</b>\n\nDownload this image and use it as your profile picture!`);
   } else if (text === '/menu') {
     const [user, admin] = await Promise.all([
       findUserByTelegram(telegramId),
@@ -270,12 +272,15 @@ export async function handleCallback(callbackQuery: any) {
 
 // ─── /start Command ─────────────────────────────────────────────
 
+const LOGO_URL = 'https://clickandsit.vercel.app/logo-512.png';
+
 async function cmdStart(chatId: number, firstName: string, telegramId: string, user: any, admin: boolean) {
+  // Send logo first
+  await sendPhoto(chatId, LOGO_URL, `🖥️ <b>ClickNsit — Online Cyber Cafe</b>`);
+
   if (user) {
     const lines = [
       `🎉 Welcome back, <b>${user.fullName}</b>!`,
-      ``,
-      `🖥️ <b>ClickNsit — Online Cyber Cafe</b>`,
       ``,
       `I can help you with everything — just like the website!`,
     ];
@@ -283,8 +288,6 @@ async function cmdStart(chatId: number, firstName: string, telegramId: string, u
   } else {
     const lines = [
       `👋 Hi <b>${firstName}</b>! Welcome to <b>ClickNsit</b>!`,
-      ``,
-      `🖥️ <b>Online Cyber Cafe — Form Filling Service</b>`,
       ``,
       `I can do everything the website does:`,
       `📋 Browse & apply for exam forms`,
@@ -329,6 +332,7 @@ async function cmdHelp(chatId: number) {
     `/status — Check your applications\n` +
     `/payments — Payment history\n` +
     `/profile — Your profile info\n` +
+    `/logo — Download ClickNsit logo\n` +
     `/help — This help message\n\n` +
     `<b>How it works:</b>\n` +
     `1️⃣ Link your account (/link)\n` +

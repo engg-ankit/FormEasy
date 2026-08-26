@@ -425,14 +425,16 @@ export default function ApplicationDetailPage() {
               </div>
             </CardHeader>
             <CardContent>
-              {!application.documents || application.documents.length === 0 ? (
+              {(() => {
+                const userDocs = (application.documents || []).filter(d => d.docType !== 'FILLED_FORM_RECEIPT');
+                return userDocs.length === 0 ? (
                 <div className="text-center py-8">
                   <FileText className="h-10 w-10 text-neutral-300 mx-auto mb-2" />
                   <p className="text-neutral-500 dark:text-neutral-400 text-sm">No documents uploaded</p>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {application.documents.map((doc) => (
+                  {userDocs.map((doc) => (
                     <div key={doc.id} className="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-100">
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="bg-primary-100 rounded-lg p-2 flex-shrink-0">
@@ -458,7 +460,8 @@ export default function ApplicationDetailPage() {
                     </div>
                   ))}
                 </div>
-              )}
+              );
+              })()}
             </CardContent>
           </Card>
 

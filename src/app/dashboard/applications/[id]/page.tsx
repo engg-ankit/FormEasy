@@ -69,12 +69,15 @@ export default function ApplicationDetailPage() {
     }
     if (status === 'authenticated' && params.id) {
       fetchApplication();
+      // Auto-refresh every 10 seconds to catch payment updates
+      const interval = setInterval(fetchApplication, 10000);
+      return () => clearInterval(interval);
     }
   }, [status, params.id, router]);
 
   const fetchApplication = async () => {
     try {
-      const response = await fetch(`/api/applications/${params.id}`);
+      const response = await fetch(`/api/applications/${params.id}`, { cache: 'no-store' });
       const data = await response.json();
 
       if (!response.ok) {

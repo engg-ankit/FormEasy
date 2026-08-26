@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update payment record
+    console.log(`[Payment] Updating payment for order ${razorpayOrderId} to SUCCESS`);
     const payment = await prisma.payment.update({
       where: { razorpayOrderId },
       data: {
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
         status: 'SUCCESS',
       },
     });
+    console.log(`[Payment] Payment updated: ${payment.id}, status: ${payment.status}`);
 
     // Update application status
     await prisma.application.update({
@@ -41,6 +43,7 @@ export async function POST(request: NextRequest) {
         status: 'IN_PROCESS',
       },
     });
+    console.log(`[Payment] Application ${applicationId} updated to IN_PROCESS`);
 
     // Log payment confirmation in status history
     await prisma.statusHistory.create({

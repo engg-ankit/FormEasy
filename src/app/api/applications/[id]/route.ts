@@ -30,7 +30,11 @@ export async function GET(
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ application });
+    return NextResponse.json({ application }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+      },
+    });
   } catch (error) {
     console.error('Error fetching application:', error);
     return NextResponse.json({ error: 'Failed to fetch application' }, { status: 500 });

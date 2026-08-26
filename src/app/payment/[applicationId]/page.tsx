@@ -75,7 +75,13 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
         description: 'Online Cyber Cafe — Form Filling Service',
         order_id: orderId,
         handler: async (response) => {
-          await verifyPayment(response);
+          try {
+            await verifyPayment(response);
+          } catch (err) {
+            console.error('Payment handler error:', err);
+            setError('Payment received but verification failed. Please contact support.');
+            setIsProcessing(false);
+          }
         },
         prefill: {
           name: '',
@@ -113,6 +119,7 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
       const data = await verifyResponse.json();
 
       if (verifyResponse.ok) {
+        // Force refresh by adding timestamp
         setSuccess(true);
         setTimeout(() => {
           router.push('/');

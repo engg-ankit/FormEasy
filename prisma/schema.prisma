@@ -31,6 +31,7 @@ model Exam {
   id                String         @id @default(cuid())
   title             String
   category          String
+  portalUrl         String?        // Official portal URL (auto-filled by category)
   officialFee       Int            // Amount in paise
   serviceFee        Int            // Amount in paise
   lastDate          DateTime

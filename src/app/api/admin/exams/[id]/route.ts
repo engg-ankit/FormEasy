@@ -39,6 +39,7 @@ export async function PUT(
       data: {
         title: body.title,
         category: body.category,
+        portalUrl: body.portalUrl || null,
         officialFee: parseInt(body.officialFee) * 100,
         serviceFee: parseInt(body.serviceFee) * 100,
         lastDate: new Date(body.lastDate),

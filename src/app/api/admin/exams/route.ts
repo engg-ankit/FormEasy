@@ -22,12 +22,13 @@ export async function POST(request: NextRequest) {
     await requireAdminAuth();
 
     const body = await request.json();
-    const { title, category, officialFee, serviceFee, lastDate, requiredDocuments, description, isActive } = body;
+    const { title, category, portalUrl, officialFee, serviceFee, lastDate, requiredDocuments, description, isActive } = body;
 
     const exam = await prisma.exam.create({
       data: {
         title,
         category,
+        portalUrl: portalUrl || null,
         officialFee: parseInt(officialFee) * 100, // Convert to paise
         serviceFee: parseInt(serviceFee) * 100, // Convert to paise
         lastDate: new Date(lastDate),

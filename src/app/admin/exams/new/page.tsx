@@ -1,26 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Plus, X } from 'lucide-react';
+import { ArrowLeft, Plus, X, ExternalLink, Globe } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
+import { getPortalLink, EXAM_CATEGORIES } from '@/lib/portal-links';
 import Link from 'next/link';
-
-const CATEGORIES = [
-  'College Registration',
-  'University Admission',
-  'Scholarship',
-  'Banking Exam',
-  'Government Exam',
-  'SSC Exam',
-  'Railway Exam',
-  'Entrance Exam',
-  'Professional Certification',
-  'Other',
-];
 
 export default function NewExamPage() {
   const router = useRouter();
@@ -28,13 +16,23 @@ export default function NewExamPage() {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     title: '',
-    category: 'Banking',
+    category: 'SSC Exam',
     officialFee: '',
     serviceFee: '',
     lastDate: '',
     description: '',
+    portalUrl: '',
     isActive: true,
   });
+
+  // Auto-detect portal URL from title + category
+  const detectedPortal = useMemo(() => {
+    const input = formData.title || formData.category;
+    return getPortalLink(input);
+  }, [formData.title, formData.category]);
+
+  // Use detected portal URL if user hasn't manually entered one
+  const effectivePortalUrl = formData.portalUrl || detectedPortal.url;
   const [requiredDocuments, setRequiredDocuments] = useState<string[]>(['']);
   const [newDocument, setNewDocument] = useState('');
 
@@ -78,6 +76,7 @@ export default function NewExamPage() {
         credentials: 'include',
         body: JSON.stringify({
           ...formData,
+          portalUrl: formData.portalUrl || detectedPortal.url,
           requiredDocuments: docs,
         }),
       });
@@ -146,12 +145,46 @@ export default function NewExamPage() {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
-                  {CATEGORIES.map((cat) => (
+                  {EXAM_CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Auto-detected Portal URL */}
+              <div className="w-full">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                  Official Portal URL
+                  {detectedPortal.url !== '#' && (
+                    <span className="text-green-600 text-xs ml-2">✓ Auto-detected</span>
+                  )}
+                </label>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 relative">
+                    <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+                    <input
+                      type="url"
+                      name="portalUrl"
+                      value={formData.portalUrl}
+                      onChange={handleChange}
+                      placeholder={detectedPortal.url}
+                      className="w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+                    />
+                  </div>
+                  {effectivePortalUrl && effectivePortalUrl !== '#' && (
+                    <a href={effectivePortalUrl} target="_blank" rel="noopener noreferrer">
+                      <Button type="button" variant="outline" size="sm" className="flex items-center gap-1 whitespace-nowrap">
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {detectedPortal.name}
+                      </Button>
+                    </a>
+                  )}
+                </div>
+                <p className="text-xs text-neutral-500 mt-1">
+                  {formData.portalUrl ? 'Custom URL entered' : `Auto-detected: ${detectedPortal.name} (${detectedPortal.url})`}
+                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

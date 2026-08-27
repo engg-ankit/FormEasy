@@ -60,6 +60,7 @@ model Application {
   id           String      @id @default(cuid())
   applicationId String
   docType      String
+  fileName     String?     // Custom display name (e.g., 'Acknowledgement Slip', 'Payment Receipt')
   fileUrl      String
   fileData     String?     // Base64-encoded file data for receipts (stored in DB for Vercel compatibility)
   uploadedAt   DateTime       @default(now())

@@ -409,10 +409,10 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
           <CardHeader>
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-green-600" />
-              <h2 className="text-xl font-display font-bold text-primary-900">Upload Filled Form / Receipt</h2>
+              <h2 className="text-xl font-display font-bold text-primary-900">Upload Documents</h2>
             </div>
             <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              Upload the filled form PDF for the user to download
+              Upload filled forms, payment receipts, acknowledgement slips (PDF only, max 5 files, 3MB each)
             </p>
           </CardHeader>
           <CardContent>
@@ -993,14 +993,15 @@ function PortalProcessingCard({ formData, examCategory, applicationId }: { formD
 // ─── Receipt Uploader Component ──────────────────────────────────
 
 function ReceiptUploader({ applicationId }: { applicationId: string }) {
-  const [receipts, setReceipts] = useState<Array<{ id: string; fileUrl: string; uploadedAt: string }>>([]);
+  type ReceiptItem = { id: string; fileName: string | null; fileUrl: string; uploadedAt: string };
+  const [receipts, setReceipts] = useState<ReceiptItem[]>([]);
+  const [stagedFiles, setStagedFiles] = useState<Array<{ file: File; name: string }>>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isDragOver, setIsDragOver] = useState(false);
 
-  useEffect(() => {
-    fetchReceipts();
-  }, [applicationId]);
+  useEffect(() => { fetchReceipts(); }, [applicationId]);
 
   const fetchReceipts = async () => {
     try {
@@ -1012,66 +1013,142 @@ function ReceiptUploader({ applicationId }: { applicationId: string }) {
     } catch {}
   };
 
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const addFiles = (fileList: FileList | File[]) => {
+    const newStaged: Array<{ file: File; name: string }> = [];
+    for (const f of Array.from(fileList)) {
+      if (f.type !== 'application/pdf') { setError(`"${f.name}" is not a PDF`); continue; }
+      if (f.size > 3 * 1024 * 1024) { setError(`"${f.name}" exceeds 3MB`); continue; }
+      const displayName = f.name.replace(/\.pdf$/i, '');
+      newStaged.push({ file: f, name: displayName });
+    }
+    setStagedFiles(prev => [...prev, ...newStaged].slice(0, 5));
+    setError('');
+  };
 
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  };
+
+  const handleUploadAll = async () => {
+    if (stagedFiles.length === 0) return;
     setIsUploading(true);
     setError('');
     setSuccess('');
 
     const formData = new FormData();
-    formData.append('file', file);
+    stagedFiles.forEach(sf => {
+      formData.append('files', sf.file);
+      formData.append('names', sf.name);
+    });
 
     try {
-      const res = await fetch(`/api/admin/applications/${applicationId}/receipt`, {
-        method: 'POST',
-        body: formData,
-      });
-
+      const res = await fetch(`/api/admin/applications/${applicationId}/receipt`, { method: 'POST', body: formData });
       const data = await res.json();
+      if (!res.ok) { setError(data.error || 'Upload failed'); }
+      else { setSuccess(`${data.count} document(s) uploaded! User will be notified.`); setStagedFiles([]); fetchReceipts(); }
+    } catch { setError('Upload failed. Please try again.'); }
+    finally { setIsUploading(false); }
+  };
 
-      if (!res.ok) {
-        setError(data.error || 'Upload failed');
-      } else {
-        setSuccess('Receipt uploaded! User will be notified.');
-        fetchReceipts();
-      }
-    } catch {
-      setError('Upload failed. Please try again.');
-    } finally {
-      setIsUploading(false);
-      e.target.value = '';
-    }
+  const removeStaged = (idx: number) => setStagedFiles(prev => prev.filter((_, i) => i !== idx));
+
+  const updateStagedName = (idx: number, name: string) => {
+    setStagedFiles(prev => prev.map((sf, i) => i === idx ? { ...sf, name } : sf));
+  };
+
+  const handleDeleteReceipt = async (docId: string) => {
+    if (!confirm('Delete this document?')) return;
+    try {
+      await fetch(`/api/admin/applications/${applicationId}/receipt?docId=${docId}`, { method: 'DELETE' });
+      fetchReceipts();
+    } catch {}
   };
 
   return (
     <div>
-      <div className="flex items-center gap-4 mb-4">
-        <label className="flex items-center gap-2 bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-green-700 transition-colors cursor-pointer min-h-[44px]">
-          <Upload className="h-4 w-4" />
-          {isUploading ? 'Uploading...' : 'Upload PDF Receipt'}
-          <input type="file" accept="application/pdf" onChange={handleUpload} className="hidden" disabled={isUploading} />
-        </label>
-        <span className="text-sm text-neutral-500">PDF only, max 5MB</span>
+      {/* Drag & Drop Zone */}
+      <div
+        onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+        onDragLeave={() => setIsDragOver(false)}
+        onDrop={handleDrop}
+        className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors cursor-pointer ${
+          isDragOver ? 'border-green-500 bg-green-50 dark:bg-green-950/30' : 'border-neutral-300 dark:border-neutral-600 hover:border-green-400'
+        }`}
+        onClick={() => document.getElementById('receipt-file-input')?.click()}
+      >
+        <Upload className="h-8 w-8 mx-auto mb-2 text-green-500" />
+        <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          Drag & drop PDFs here, or <span className="text-green-600">click to browse</span>
+        </p>
+        <p className="text-xs text-neutral-500 mt-1">PDF only • Max 3MB each • Up to 5 files</p>
+        <input
+          id="receipt-file-input"
+          type="file"
+          accept="application/pdf"
+          multiple
+          onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ''; }}
+          className="hidden"
+        />
       </div>
-      {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">{error}</div>}
-      {success && <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4 text-sm">{success}</div>}
+
+      {/* Staged Files — edit names before upload */}
+      {stagedFiles.length > 0 && (
+        <div className="mt-4 space-y-2">
+          <p className="text-sm font-medium text-neutral-700">Ready to upload ({stagedFiles.length}/5):</p>
+          {stagedFiles.map((sf, idx) => (
+            <div key={idx} className="flex items-center gap-2 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-2.5">
+              <FileText className="h-4 w-4 text-green-500 flex-shrink-0" />
+              <input
+                type="text"
+                value={sf.name}
+                onChange={(e) => updateStagedName(idx, e.target.value)}
+                className="flex-1 text-sm bg-transparent border-b border-neutral-200 dark:border-neutral-600 focus:border-green-500 outline-none py-0.5"
+                placeholder="Document name"
+              />
+              <span className="text-xs text-neutral-400 flex-shrink-0">{(sf.file.size / 1024).toFixed(0)}KB</span>
+              <button onClick={() => removeStaged(idx)} className="text-red-400 hover:text-red-600 p-0.5">
+                <AlertCircle className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+          <button
+            onClick={handleUploadAll}
+            disabled={isUploading}
+            className="w-full bg-green-600 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            <Upload className="h-4 w-4" />
+            {isUploading ? 'Uploading...' : `Upload ${stagedFiles.length} Document(s)`}
+          </button>
+        </div>
+      )}
+
+      {/* Status messages */}
+      {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mt-4 text-sm">{error}</div>}
+      {success && <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mt-4 text-sm">{success}</div>}
+
+      {/* Already uploaded receipts */}
       {receipts.length > 0 && (
-        <div className="space-y-3">
-          <h3 className="font-semibold text-primary-900">Uploaded Receipts ({receipts.length})</h3>
-          {receipts.map((receipt) => (
-            <div key={receipt.id} className="flex items-center justify-between bg-white border border-neutral-200 rounded-lg p-3">
-              <div className="flex items-center gap-3">
-                <FileText className="h-5 w-5 text-green-600" />
-                <div>
-                  <p className="text-sm font-medium text-primary-900">Filled Form Receipt</p>
-                  <p className="text-xs text-neutral-500">{new Date(receipt.uploadedAt).toLocaleString()}</p>
+        <div className="mt-5 space-y-2">
+          <h3 className="font-semibold text-primary-900 text-sm">Uploaded Documents ({receipts.length})</h3>
+          {receipts.map((r) => (
+            <div key={r.id} className="flex items-center justify-between bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3">
+              <div className="flex items-center gap-3 min-w-0">
+                <FileText className="h-5 w-5 text-green-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-primary-900 truncate">{r.fileName || 'Filled Form Receipt'}</p>
+                  <p className="text-xs text-neutral-500">{new Date(r.uploadedAt).toLocaleString()}</p>
                 </div>
               </div>
-              <a href={receipt.fileUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="ghost" size="sm"><Download className="h-4 w-4" /></Button>
-              </a>
+              <div className="flex items-center gap-1 flex-shrink-0">
+                <a href={r.fileUrl} target="_blank" rel="noopener noreferrer">
+                  <Button variant="ghost" size="sm"><Download className="h-4 w-4" /></Button>
+                </a>
+                <Button variant="ghost" size="sm" onClick={() => handleDeleteReceipt(r.id)} className="text-red-400 hover:text-red-600">
+                  <AlertCircle className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>

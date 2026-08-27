@@ -471,9 +471,11 @@ export default function ApplicationDetailPage() {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <FileCheck className="h-5 w-5 text-green-600" />
-                  <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">📄 Your Filled Form Receipt</h2>
+                  <h2 className="text-lg font-display font-bold text-primary-900 dark:text-white">📄 Your Documents</h2>
                 </div>
-                <p className="text-sm text-green-700 dark:text-green-400">Your form has been filled! Download the receipt below.</p>
+                <p className="text-sm text-green-700 dark:text-green-400">
+                  {application.documents.filter(d => d.docType === 'FILLED_FORM_RECEIPT').length} document(s) uploaded by our team. Download below.
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -481,19 +483,19 @@ export default function ApplicationDetailPage() {
                     .filter(d => d.docType === 'FILLED_FORM_RECEIPT')
                     .map((doc) => (
                     <div key={doc.id} className="flex items-center justify-between p-4 bg-white dark:bg-neutral-800 rounded-lg border border-green-200 dark:border-green-800">
-                      <div className="flex items-center gap-3">
-                        <div className="bg-green-100 rounded-lg p-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="bg-green-100 dark:bg-green-900/50 rounded-lg p-3 flex-shrink-0">
                           <FileText className="h-6 w-6 text-green-600" />
                         </div>
-                        <div>
-                          <p className="font-semibold text-green-800 dark:text-green-300">Filled Form Receipt</p>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-green-800 dark:text-green-300 truncate">{(doc as any).fileName || 'Filled Form Receipt'}</p>
                           <p className="text-xs text-neutral-500">Uploaded {new Date(doc.uploadedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
                       </div>
-                      <a href={doc.fileUrl} download={`filled-form-${application.id.slice(-8)}.pdf`} target="_blank" rel="noopener noreferrer">
+                      <a href={doc.fileUrl} download={`${(doc as any).fileName || 'filled-form'}.pdf`} target="_blank" rel="noopener noreferrer">
                         <Button variant="primary" size="sm" className="bg-green-600 hover:bg-green-700">
                           <Download className="h-4 w-4 mr-2" />
-                          Download PDF
+                          Download
                         </Button>
                       </a>
                     </div>

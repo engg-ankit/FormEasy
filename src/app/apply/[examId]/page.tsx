@@ -62,6 +62,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
   const [error, setError] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [showInfoAlert, setShowInfoAlert] = useState(true);
 
   // Auto-save every 30 seconds
   useEffect(() => {
@@ -281,17 +282,29 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       </nav>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Info Banner */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-          <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-          <div>
-            <p className="text-sm text-blue-800 font-medium">Important</p>
-            <p className="text-sm text-blue-700">
-              Fill in your basic details below and upload all required documents clearly. 
-              Our team will fill the official form on the government portal for you.
-            </p>
+        {/* Info Popup Alert */}
+        {showInfoAlert && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-blue-100 rounded-full p-3">
+                  <Info className="h-6 w-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-bold text-primary-900">Important Notice</h3>
+              </div>
+              <p className="text-neutral-700 leading-relaxed mb-6">
+                Fill in your basic details below and upload all required documents clearly. 
+                Our team will fill the official form on the official portal for you.
+              </p>
+              <button
+                onClick={() => setShowInfoAlert(false)}
+                className="w-full bg-primary-600 text-white font-semibold py-3 rounded-xl hover:bg-primary-700 transition-colors min-h-[44px]"
+              >
+                Got it, Continue →
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Progress Steps */}
         <div className="mb-8">
@@ -486,7 +499,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                   <Info className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
                   <div className="text-sm text-amber-800">
                     <p className="font-medium">What happens next?</p>
-                    <p>After payment, our team will fill the official form on the government portal using your details and documents. You will receive updates on your application status.</p>
+                    <p>After payment, our team will fill the official form on the official portal using your details and documents. You will receive updates on your application status.</p>
                   </div>
                 </div>
 

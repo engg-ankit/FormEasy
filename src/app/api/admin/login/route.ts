@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
+async function withRetry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      if (i === retries || !err?.message?.includes('max clients')) throw err;
+      await new Promise(r => setTimeout(r, 500 * (i + 1)));
+    }
+  }
+  throw new Error('unreachable');
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
@@ -11,10 +23,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
-    // Find admin
-    const admin = await prisma.admin.findUnique({
-      where: { email },
-    });
+    // Find admin (with retry for connection pool issues)
+    const admin = await withRetry(() =>
+      prisma.admin.findUnique({ where: { email } })
+    );
 
     if (!admin) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
@@ -51,6 +63,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Admin login error:', error);
-    return NextResponse.json({ error: 'Login failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Login failed — server busy, try again' }, { status: 503 });
   }
 }

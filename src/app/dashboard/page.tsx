@@ -74,6 +74,18 @@ export default function DashboardPage() {
     }
   }, [status, router]);
 
+  // Show loading while session is being checked (prevents flash redirect on refresh)
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   const fetchApplications = async () => {
     try {
       const response = await fetch('/api/applications/user', { cache: 'no-store' });

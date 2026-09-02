@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
@@ -20,27 +20,12 @@ interface Exam {
 }
 
 interface FormData {
-  // Personal Details
+  // Basic Info only — cyber cafe style
   fullName: string;
   mobile: string;
   email: string;
   dateOfBirth: string;
   gender: string;
-  fatherName: string;
-  motherName: string;
-  
-  // Education
-  qualification: string;
-  board: string;
-  yearOfPassing: string;
-  percentage: string;
-  
-  // Address
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  state: string;
-  pincode: string;
   
   // Documents
   documents: Array<{
@@ -51,11 +36,9 @@ interface FormData {
 }
 
 const STEPS = [
-  { id: 1, title: 'Personal Details' },
-  { id: 2, title: 'Education' },
-  { id: 3, title: 'Address' },
-  { id: 4, title: 'Documents' },
-  { id: 5, title: 'Review & Pay' },
+  { id: 1, title: 'Basic Info' },
+  { id: 2, title: 'Documents' },
+  { id: 3, title: 'Review & Pay' },
 ];
 
 export default function ApplicationWizardPage({ params }: { params: Promise<{ examId: string }> }) {
@@ -70,17 +53,6 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
     email: '',
     dateOfBirth: '',
     gender: '',
-    fatherName: '',
-    motherName: '',
-    qualification: '',
-    board: '',
-    yearOfPassing: '',
-    percentage: '',
-    addressLine1: '',
-    addressLine2: '',
-    city: '',
-    state: '',
-    pincode: '',
     documents: [],
   });
   const [couponCode, setCouponCode] = useState('');
@@ -172,25 +144,9 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Valid email is required';
       if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
       if (!formData.gender) newErrors.gender = 'Gender is required';
-      if (!formData.fatherName) newErrors.fatherName = 'Father name is required';
-      if (!formData.motherName) newErrors.motherName = 'Mother name is required';
     }
 
     if (step === 2) {
-      if (!formData.qualification) newErrors.qualification = 'Qualification is required';
-      if (!formData.board) newErrors.board = 'Board is required';
-      if (!formData.yearOfPassing) newErrors.yearOfPassing = 'Year of passing is required';
-      if (!formData.percentage) newErrors.percentage = 'Percentage is required';
-    }
-
-    if (step === 3) {
-      if (!formData.addressLine1) newErrors.addressLine1 = 'Address line 1 is required';
-      if (!formData.city) newErrors.city = 'City is required';
-      if (!formData.state) newErrors.state = 'State is required';
-      if (!formData.pincode || formData.pincode.length !== 6) newErrors.pincode = 'Valid 6-digit pincode required';
-    }
-
-    if (step === 4) {
       formData.documents.forEach((doc, index) => {
         if (!doc.file && !doc.url) {
           newErrors[`doc_${index}`] = `${doc.type} is required`;
@@ -214,13 +170,13 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
   };
 
   const handleFileUpload = async (index: number, file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
+    const formDataObj = new FormData();
+    formDataObj.append('file', file);
 
     try {
       const response = await fetch('/api/upload', {
         method: 'POST',
-        body: formData,
+        body: formDataObj,
       });
       const data = await response.json();
 
@@ -325,6 +281,18 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       </nav>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Info Banner */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
+          <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="text-sm text-blue-800 font-medium">Important</p>
+            <p className="text-sm text-blue-700">
+              Fill in your basic details below and upload all required documents clearly. 
+              Our team will fill the official form on the government portal for you.
+            </p>
+          </div>
+        </div>
+
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-between overflow-x-auto no-scrollbar pb-2">
@@ -371,14 +339,15 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
               </div>
             )}
 
-            {/* Step 1: Personal Details */}
+            {/* Step 1: Basic Info Only */}
             {currentStep === 1 && (
               <div className="space-y-4">
                 <Input
-                  label="Full Name"
+                  label="Full Name (as per ID proof)"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                   error={errors.fullName}
+                  placeholder="Enter your full name"
                 />
                 <Input
                   label="Mobile Number"
@@ -387,6 +356,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                   onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                   error={errors.mobile}
                   maxLength={10}
+                  placeholder="10-digit mobile number"
                 />
                 
                 <Input
@@ -395,6 +365,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   error={errors.email}
+                  placeholder="your@email.com"
                 />
                 <Input
                   label="Date of Birth"
@@ -417,92 +388,16 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                   </select>
                   {errors.gender && <p className="mt-1 text-sm text-red-600">{errors.gender}</p>}
                 </div>
-                <Input
-                  label="Father's Name"
-                  value={formData.fatherName}
-                  onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
-                  error={errors.fatherName}
-                />
-                <Input
-                  label="Mother's Name"
-                  value={formData.motherName}
-                  onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
-                  error={errors.motherName}
-                />
               </div>
             )}
 
-            {/* Step 2: Education */}
+            {/* Step 2: Documents */}
             {currentStep === 2 && (
               <div className="space-y-4">
-                <Input
-                  label="Highest Qualification"
-                  value={formData.qualification}
-                  onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
-                  error={errors.qualification}
-                />
-                <Input
-                  label="Board/University"
-                  value={formData.board}
-                  onChange={(e) => setFormData({ ...formData, board: e.target.value })}
-                  error={errors.board}
-                />
-                <Input
-                  label="Year of Passing"
-                  type="number"
-                  value={formData.yearOfPassing}
-                  onChange={(e) => setFormData({ ...formData, yearOfPassing: e.target.value })}
-                  error={errors.yearOfPassing}
-                />
-                <Input
-                  label="Percentage/CGPA"
-                  value={formData.percentage}
-                  onChange={(e) => setFormData({ ...formData, percentage: e.target.value })}
-                  error={errors.percentage}
-                />
-              </div>
-            )}
-
-            {/* Step 3: Address */}
-            {currentStep === 3 && (
-              <div className="space-y-4">
-                <Input
-                  label="Address Line 1"
-                  value={formData.addressLine1}
-                  onChange={(e) => setFormData({ ...formData, addressLine1: e.target.value })}
-                  error={errors.addressLine1}
-                />
-                <Input
-                  label="Address Line 2"
-                  value={formData.addressLine2}
-                  onChange={(e) => setFormData({ ...formData, addressLine2: e.target.value })}
-                />
-                <Input
-                  label="City"
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  error={errors.city}
-                />
-                <Input
-                  label="State"
-                  value={formData.state}
-                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                  error={errors.state}
-                />
-                <Input
-                  label="Pincode"
-                  type="tel"
-                  value={formData.pincode}
-                  onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                  error={errors.pincode}
-                  maxLength={6}
-                />
-              </div>
-            )}
-
-            {/* Step 4: Documents */}
-            {currentStep === 4 && (
-              <div className="space-y-4">
+                <p className="text-sm text-neutral-600 mb-4">
+                  Upload clear and readable copies of all required documents. 
+                  Accepted formats: JPEG, PNG, PDF. Max size: 3MB each.
+                </p>
                 {formData.documents.map((doc, index) => (
                   <div key={index} className="border border-neutral-200 rounded-lg p-4">
                     <label className="block text-sm font-medium text-neutral-700 mb-2">
@@ -528,8 +423,8 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                     {/* Document Preview */}
                     {doc.url && (
                       <div className="mt-3 border border-neutral-200 rounded-lg overflow-hidden bg-neutral-50">
-                        <p className="text-xs text-neutral-500 px-3 py-1.5 bg-neutral-100 border-b border-neutral-200">📄 Preview — verify this is the correct file</p>
-                        {doc.url.endsWith('.pdf') ? (
+                        <p className="text-xs text-neutral-500 px-3 py-1.5 bg-neutral-100 border-b border-neutral-200">Preview — verify this is the correct file</p>
+                        {doc.url.endsWith('.pdf') || doc.url.startsWith('data:application/pdf') ? (
                           <iframe src={doc.url} className="w-full h-48" title={`Preview: ${doc.type}`} />
                         ) : (
                           <img src={doc.url} alt={`Preview: ${doc.type}`} className="w-full max-h-48 object-contain p-2" />
@@ -544,11 +439,11 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
               </div>
             )}
 
-            {/* Step 5: Review & Pay */}
-            {currentStep === 5 && (
+            {/* Step 3: Review & Pay */}
+            {currentStep === 3 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-primary-900 mb-4">Application Summary</h3>
+                  <h3 className="text-lg font-semibold text-primary-900 mb-4">Your Details</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between gap-2">
                       <span className="text-neutral-600">Full Name:</span>
@@ -563,8 +458,12 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                       <span className="font-medium text-right truncate">{formData.email}</span>
                     </div>
                     <div className="flex justify-between gap-2">
-                      <span className="text-neutral-600">Qualification:</span>
-                      <span className="font-medium text-right truncate">{formData.qualification}</span>
+                      <span className="text-neutral-600">DOB:</span>
+                      <span className="font-medium text-right">{formData.dateOfBirth}</span>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-neutral-600">Gender:</span>
+                      <span className="font-medium text-right">{formData.gender}</span>
                     </div>
                   </div>
                 </div>
@@ -580,6 +479,14 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
                         </span>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-3">
+                  <Info className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-amber-800">
+                    <p className="font-medium">What happens next?</p>
+                    <p>After payment, our team will fill the official form on the government portal using your details and documents. You will receive updates on your application status.</p>
                   </div>
                 </div>
 

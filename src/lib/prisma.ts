@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
 function createPrismaClient() {
-  const dbUrl = process.env.DATABASE_URL + '?connection_limit=5&pool_timeout=10';
+  const dbUrl = process.env.DATABASE_URL + '?connection_limit=2&pool_timeout=10&connect_timeout=5';
   return new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
     datasources: {

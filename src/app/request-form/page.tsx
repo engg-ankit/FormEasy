@@ -60,9 +60,12 @@ export default function RequestFormPage() {
   });
 
   useEffect(() => {
+    if (status === 'loading') return;
     if (status === 'unauthenticated') {
-      router.push('/login');
-      return;
+      const retryTimer = setTimeout(() => {
+        router.push('/login');
+      }, 5000);
+      return () => clearTimeout(retryTimer);
     }
     if (session) {
       fetchMyRequests();

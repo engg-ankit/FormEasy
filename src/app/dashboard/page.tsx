@@ -62,14 +62,19 @@ export default function DashboardPage() {
   }, []);
 
   useEffect(() => {
+    if (status === 'loading') return; // wait for session to resolve
     if (status === 'unauthenticated') {
-      router.push('/login');
-      return;
+      // Don't redirect immediately — DB errors can cause transient unauthenticated state
+      const retryTimer = setTimeout(() => {
+        // Only redirect if still unauthenticated after 5 seconds
+        router.push('/login');
+      }, 5000);
+      return () => clearTimeout(retryTimer);
     }
     if (status === 'authenticated') {
       fetchApplications();
-      // Auto-refresh every 10 seconds to catch payment updates
-      const interval = setInterval(fetchApplications, 10000);
+      // Auto-refresh every 30 seconds to catch payment updates
+      const interval = setInterval(fetchApplications, 30000);
       return () => clearInterval(interval);
     }
   }, [status, router]);

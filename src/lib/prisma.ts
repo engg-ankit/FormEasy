@@ -6,8 +6,7 @@ function buildDbUrl(): string {
   const base = process.env.DATABASE_URL || '';
   const hasParams = base.includes('?');
   const sep = hasParams ? '&' : '?';
-  // pgbouncer=true for connection pooling, connection_limit=1 per function
-  return `${base}${sep}pgbouncer=true&connection_limit=1&pool_timeout=5&connect_timeout=5`;
+  return `${base}${sep}connection_limit=1&pool_timeout=5&connect_timeout=5`;
 }
 
 function createPrismaClient() {

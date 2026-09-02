@@ -4,11 +4,17 @@ import { useState, useEffect } from 'react';
 import { Logo } from '@/components/logo';
 
 export function SplashScreen() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Show for 2 seconds, then fade out
+    // Only show splash on very first visit (per browser tab)
+    const alreadyShown = sessionStorage.getItem('splash-shown');
+    if (alreadyShown) return;
+
+    sessionStorage.setItem('splash-shown', 'true');
+    setVisible(true);
+
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
     }, 2000);

@@ -63,14 +63,17 @@ export default function ApplicationDetailPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (status === 'loading') return; // wait for session to resolve
     if (status === 'unauthenticated') {
-      router.push('/login');
-      return;
+      const retryTimer = setTimeout(() => {
+        router.push('/login');
+      }, 5000);
+      return () => clearTimeout(retryTimer);
     }
     if (status === 'authenticated' && params.id) {
       fetchApplication();
-      // Auto-refresh every 10 seconds to catch payment updates
-      const interval = setInterval(fetchApplication, 10000);
+      // Auto-refresh every 30 seconds to catch payment updates
+      const interval = setInterval(fetchApplication, 30000);
       return () => clearInterval(interval);
     }
   }, [status, params.id, router]);

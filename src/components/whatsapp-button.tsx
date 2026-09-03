@@ -3,7 +3,7 @@
 import { MessageCircle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const WHATSAPP_NUMBER = '919650585295'; // Replace with actual number
+const WHATSAPP_NUMBER = '919650752995';
 const DEFAULT_MESSAGE = 'Hi ClickNsit! I need help with form filling.';
 
 export function WhatsAppButton() {

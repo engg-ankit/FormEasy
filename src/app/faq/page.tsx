@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { FaqContent } from '@/components/faq-content';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
   title: 'FAQ',
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function FAQPage() {
-  return <FaqContent />;
+  return (
+    <>
+      <FaqContent />
+      <SiteFooter />
+    </>
+  );
 }

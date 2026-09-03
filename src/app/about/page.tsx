@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
+import { SiteFooter } from '@/components/site-footer';
 import { Shield, Users, FileCheck, Clock, Target, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -87,6 +88,7 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

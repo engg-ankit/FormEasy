@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
@@ -21,7 +22,7 @@ export default function TermsPage() {
         <div className="prose prose-neutral max-w-none space-y-8">
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">1. Acceptance of Terms</h2>
-            <p className="text-neutral-600 leading-relaxed">By accessing or using ClickNsit ("the Platform"), you agree to be bound by these Terms & Conditions. If you do not agree, please do not use our services.</p>
+            <p className="text-neutral-600 leading-relaxed">By accessing or using ClickNsit (&quot;the Platform&quot;), you agree to be bound by these Terms &amp; Conditions. If you do not agree, please do not use our services.</p>
           </section>
 
           <section>
@@ -41,7 +42,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-primary-900 mb-3">4. Fees & Payments</h2>
+            <h2 className="text-xl font-bold text-primary-900 mb-3">4. Fees &amp; Payments</h2>
             <ul className="list-disc list-inside text-neutral-600 space-y-2">
               <li>Service fees are clearly displayed before payment</li>
               <li>Official portal fees are passed through without markup</li>
@@ -77,6 +78,7 @@ export default function TermsPage() {
           </section>
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

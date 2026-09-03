@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ChatSupport } from "@/components/chat-support";
 import { SplashScreen } from "@/components/splash-screen";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 const sora = Sora({
   variable: "--font-display",
@@ -84,6 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SplashScreen />
         <Providers>{children}</Providers>
         <ChatSupport />
+        <WhatsAppButton />
       </body>
     </html>
   );

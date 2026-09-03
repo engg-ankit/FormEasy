@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ContactContent } from '@/components/contact-content';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return <ContactContent />;
+  return (
+    <>
+      <ContactContent />
+      <SiteFooter />
+    </>
+  );
 }

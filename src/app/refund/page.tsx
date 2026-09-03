@@ -1,5 +1,6 @@
 import { RefreshCw, AlertCircle, CheckCircle } from 'lucide-react';
 import { Logo } from '@/components/logo';
+import { SiteFooter } from '@/components/site-footer';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Link from 'next/link';
 
@@ -147,6 +148,7 @@ export default function RefundPage() {
           </CardContent>
         </Card>
       </div>
+      <SiteFooter />
     </div>
   );
 }

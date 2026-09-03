@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -83,6 +84,7 @@ export default function PrivacyPage() {
           </section>
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

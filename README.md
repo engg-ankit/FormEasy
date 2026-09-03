@@ -334,7 +334,7 @@ prisma/
 ## 📞 Support
 
 - **Email**: support@clickandsit.in
-- **Phone**: +91 9650X XXX95
+- **Phone**: +91 9650752995
 
 ---
 

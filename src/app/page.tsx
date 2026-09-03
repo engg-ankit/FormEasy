@@ -315,7 +315,7 @@ export default function Home() {
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-primary-200">
                 <li>support@clickandsit.in</li>
-                <li>+91 9650X XXX95</li>
+                <li>+91 9650752995</li>
               </ul>
             </div>
           </div>

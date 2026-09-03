@@ -80,7 +80,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">8. Contact Us</h2>
-            <p className="text-neutral-600 leading-relaxed">For any privacy-related concerns, contact us at <strong>privacy@clickandsit.in</strong> or call <strong>+91 9650X XXX95</strong>.</p>
+            <p className="text-neutral-600 leading-relaxed">For any privacy-related concerns, contact us at <strong>privacy@clickandsit.in</strong> or call <strong>+91 9650752995</strong>.</p>
           </section>
         </div>
       </div>

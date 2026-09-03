@@ -49,7 +49,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['contact', 'call', 'email', 'support', 'help', 'phone', 'baat', 'mail', 'number', 'reach', 'milna'],
-    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650X XXX95\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.vercel.app/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
+    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650752995\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.vercel.app/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
   },
   {
     keywords: ['document', 'docs', 'paper', 'kagaz', 'upload', 'kya chahiye', 'lagta', 'attach', 'file', 'photo', 'signature', 'marksheet', 'aadhar'],
@@ -85,7 +85,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['problem', 'issue', 'complaint', 'dikkat', 'pareshani', 'galat', 'wrong', 'not working', 'error', 'bug', 'fail'],
-    response: 'Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: support@clickandsit.in\n3️⃣ Ya call karo: +91 9650X XXX95\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!'
+    response: 'Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: support@clickandsit.in\n3️⃣ Ya call karo: +91 9650752995\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!'
   },
   {
     keywords: ['aadhar', 'aadhaar'],

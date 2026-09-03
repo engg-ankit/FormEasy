@@ -124,7 +124,7 @@ export default function RefundPage() {
               </p>
               <ul className="list-none text-neutral-600 mt-3 space-y-1">
                 <li>Email: refunds@clickandsit.in</li>
-                <li>Phone: +91 9650X XXX95</li>
+                <li>Phone: +91 9650752995</li>
                 <li>Subject Line: Refund Request - [Your Application ID]</li>
               </ul>
             </section>

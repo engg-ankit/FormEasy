@@ -42,7 +42,7 @@ export function ContactContent() {
                 <div className="bg-primary-100 rounded-xl p-3"><Phone className="h-6 w-6 text-primary-600" /></div>
                 <div>
                   <h3 className="font-bold text-primary-900">Call Us</h3>
-                  <p className="text-sm text-neutral-600">+91 9650X XXX95</p>
+                  <p className="text-sm text-neutral-600">+91 9650752995</p>
                   <p className="text-xs text-neutral-500">Mon-Sat, 9AM - 8PM</p>
                 </div>
               </CardContent>
@@ -52,7 +52,7 @@ export function ContactContent() {
                 <div className="bg-green-100 rounded-xl p-3"><MessageCircle className="h-6 w-6 text-green-600" /></div>
                 <div>
                   <h3 className="font-bold text-primary-900">WhatsApp</h3>
-                  <p className="text-sm text-neutral-600">+91 9650X XXX95</p>
+                  <p className="text-sm text-neutral-600">+91 9650752995</p>
                   <p className="text-xs text-neutral-500">Quick response within 30 mins</p>
                 </div>
               </CardContent>

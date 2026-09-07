@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Search, Edit, Upload, CheckCircle, Clock, Shield, Users, TrendingUp } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
 import { HomepageHeader } from '@/components/homepage-header';
+import { FadeIn, Stagger, StaggerItem } from '@/components/ui/motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -36,7 +37,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center">
+          <FadeIn className="text-center">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-primary-900 dark:text-white mb-6">
               Your Online Cyber Cafe 🖥️<br />
               <span className="text-primary-600">Click. Sit. Done.</span>
@@ -57,7 +58,7 @@ export default function Home() {
                 </Button>
               </Link>
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -67,22 +68,22 @@ export default function Home() {
           <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
             How It Works
           </h2>
-          <div className="grid md:grid-cols-4 gap-8">
+          <Stagger className="grid md:grid-cols-4 gap-8">
             {[
               { icon: Search, title: 'Browse & Choose', description: 'Find the exam you want to apply for from our curated list.' },
               { icon: Edit, title: 'Fill Form', description: "Fill in your details — we'll guide you through every field." },
               { icon: Upload, title: 'Upload Docs', description: 'Upload required documents like photo, signature, ID proof.' },
               { icon: CheckCircle, title: 'Pay & Done', description: "Pay the fees and we'll submit your form to the official portal." },
             ].map((step, index) => (
-              <div key={index} className="text-center">
+              <StaggerItem key={index} className="text-center">
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <step.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
                 <h3 className="text-base sm:text-xl font-semibold text-primary-900 dark:text-white mb-2">{step.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400">{step.description}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -97,9 +98,10 @@ export default function Home() {
               <Button variant="outline">View All</Button>
             </Link>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredExams.map((exam) => (
-              <Card key={exam.id} className="hover:shadow-medium transition-shadow">
+              <StaggerItem key={exam.id} className="h-full">
+              <Card>
                 <CardHeader>
                   <div className="flex justify-between items-start min-w-0">
                     <div className="min-w-0">
@@ -128,8 +130,9 @@ export default function Home() {
                   </Link>
                 </CardContent>
               </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -144,19 +147,19 @@ export default function Home() {
               ClickNsit is your <strong className="text-primary-700">online cyber cafe</strong> — fill exam forms from your phone or computer, and we submit them on the official portal for you.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <Stagger className="grid md:grid-cols-3 gap-8">
             {[
               { icon: '🏪', title: 'Like a Cyber Cafe', description: 'Same experience as visiting a cyber cafe — but from your home. Just share your details, we do the rest.' },
               { icon: '✍️', title: 'We Fill Your Forms', description: 'Upload your details and documents. Our team fills and submits the form on the official government portal.' },
               { icon: '📱', title: 'Work From Home', description: 'No need to visit a cyber cafe. Pick up your phone, select a form, fill details — done! Form submitted.' },
             ].map((feature, index) => (
-              <div key={index} className="bg-white dark:bg-neutral-800 rounded-xl p-8 border border-neutral-200 dark:border-neutral-700 text-center hover:shadow-medium transition-shadow">
+              <StaggerItem key={index} className="bg-white dark:bg-neutral-800 rounded-xl p-8 border border-neutral-200 dark:border-neutral-700 text-center">
                 <div className="text-4xl mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">{feature.description}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -171,20 +174,20 @@ export default function Home() {
               Just like a cyber cafe — we handle all types of forms
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Stagger className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { emoji: '🏛️', title: 'Govt. Exam Forms', desc: 'SSC, Railway, UPSC, Banking — all forms' },
               { emoji: '🎓', title: 'College Admission', desc: 'University registration, admission forms' },
               { emoji: '💰', title: 'Scholarship Forms', desc: 'NSP, State scholarships, fee waivers' },
               { emoji: '📄', title: 'Certificates', desc: 'Income, Caste, Domicile certificates' },
             ].map((service, i) => (
-              <div key={i} className="bg-primary-50 dark:bg-neutral-700 rounded-xl p-6 text-center border border-primary-100 dark:border-neutral-600">
+              <StaggerItem key={i} className="bg-primary-50 dark:bg-neutral-700 rounded-xl p-6 text-center border border-primary-100 dark:border-neutral-600">
                 <div className="text-3xl mb-3">{service.emoji}</div>
                 <h3 className="font-semibold text-primary-900 dark:text-white mb-1">{service.title}</h3>
                 <p className="text-sm text-neutral-500 dark:text-neutral-400">{service.desc}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -194,40 +197,40 @@ export default function Home() {
           <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white text-center mb-12">
             Why Choose ClickNsit?
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <Stagger className="grid md:grid-cols-3 gap-8">
             {[
               { icon: Shield, title: 'Secure & Reliable', description: 'Your data is encrypted with bank-level security. We never share your information.' },
               { icon: Users, title: 'Expert Team', description: 'Our trained team fills every form accurately — zero mistakes, guaranteed.' },
               { icon: TrendingUp, title: 'Fast Processing', description: 'Forms submitted within 24-48 hours. Real-time status tracking included.' },
             ].map((feature, index) => (
-              <div key={index} className="text-center">
+              <StaggerItem key={index} className="text-center">
                 <div className="bg-primary-100 dark:bg-primary-800 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                   <feature.icon className="h-8 w-8 text-primary-600 dark:text-primary-300" />
                 </div>
                 <h3 className="text-base sm:text-xl font-semibold text-primary-900 dark:text-white mb-2">{feature.title}</h3>
                 <p className="text-neutral-600 dark:text-neutral-400">{feature.description}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Stats Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary-900 dark:bg-primary-950 text-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
+          <Stagger className="grid md:grid-cols-4 gap-8 text-center">
             {[
               { value: '5000+', label: 'Forms Filled' },
               { value: '98%', label: 'Success Rate' },
               { value: '24/7', label: 'Always Online' },
               { value: '50+', label: 'Form Categories' },
             ].map((stat, index) => (
-              <div key={index}>
+              <StaggerItem key={index}>
                 <div className="text-2xl sm:text-4xl font-display font-bold mb-2">{stat.value}</div>
                 <div className="text-primary-200">{stat.label}</div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -238,13 +241,13 @@ export default function Home() {
             <h2 className="text-xl sm:text-3xl font-display font-bold text-primary-900 dark:text-white mb-4">What Our Users Say 💬</h2>
             <p className="text-lg text-neutral-600 dark:text-neutral-400">2000+ students chose ClickNsit over the cyber cafe</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <Stagger className="grid md:grid-cols-3 gap-6">
             {[
               { name: 'Priya Sharma', exam: 'SSC CGL 2024', text: 'I was struggling with the SSC form portal. ClickNsit filled it in 30 minutes! Saved me a trip to the cyber cafe. Amazing service! ⭐⭐⭐⭐⭐', city: 'Meerut' },
               { name: 'Rahul Verma', exam: 'Bank PO 2024', text: 'The whole process was so smooth. I just filled my details, uploaded documents, and boom — form submitted! The dashboard tracking is very helpful. ⭐⭐⭐⭐⭐', city: 'Lucknow' },
               { name: 'Sneha Gupta', exam: 'JEE Main 2025', text: 'I missed my college admission deadline last year. This year, ClickNsit reminded me and filled the form on time. Got my admission! Thank you ClickNsit! ⭐⭐⭐⭐⭐', city: 'Delhi' },
             ].map((testimonial, i) => (
-              <div key={i} className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 border border-neutral-200 dark:border-neutral-600">
+              <StaggerItem key={i} className="bg-neutral-50 dark:bg-neutral-700 rounded-xl p-6 border border-neutral-200 dark:border-neutral-600">
                 <div className="flex items-center gap-1 mb-3">
                   {[1,2,3,4,5].map(s => <span key={s} className="text-yellow-400">★</span>)}
                 </div>
@@ -258,15 +261,15 @@ export default function Home() {
                     <p className="text-xs text-neutral-500 dark:text-neutral-400">{testimonial.exam} \u2022 {testimonial.city}</p>
                   </div>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-accent-500">
-        <div className="max-w-4xl mx-auto text-center">
+        <FadeIn className="max-w-4xl mx-auto text-center">
           <h2 className="text-xl sm:text-3xl font-display font-bold text-white mb-4">
             Ready to Get Started?
           </h2>
@@ -278,7 +281,7 @@ export default function Home() {
               Browse Exam Forms
             </Button>
           </Link>
-        </div>
+        </FadeIn>
       </section>
 
       {/* Footer */}

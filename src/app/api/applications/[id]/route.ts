@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
+import { getAuthUserId } from '@/lib/mobile-auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(
@@ -8,8 +7,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -17,7 +16,7 @@ export async function GET(
     const application = await prisma.application.findFirst({
       where: {
         id,
-        userId: session.user.id,
+        userId,
       },
       include: {
         exam: true,

@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
+import { getAuthUserId } from '@/lib/mobile-auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: userId },
       select: { referralCode: true, referralBonus: true },
     });
 
@@ -21,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     // Get referral stats
     const referrals = await prisma.referral.findMany({
-      where: { referrerId: session.user.id },
+      where: { referrerId: userId },
       include: { referredUser: { select: { fullName: true, createdAt: true } } },
       orderBy: { createdAt: 'desc' },
     });

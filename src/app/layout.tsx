@@ -5,6 +5,8 @@ import { Providers } from "@/components/providers";
 import { ChatSupport } from "@/components/chat-support";
 import { SplashScreen } from "@/components/splash-screen";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { MobileTabBar } from "@/components/mobile-tab-bar";
+import { PwaRegister } from "@/components/pwa-register";
 
 const sora = Sora({
   variable: "--font-display",
@@ -23,6 +25,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -81,9 +84,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="ClickNsit" />
+        <meta name="mobile-web-app-capable" content="yes" />
+      </head>
       <body className={`${sora.variable} ${inter.variable} min-h-full flex flex-col`}>
         <SplashScreen />
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className="flex-1 flex flex-col pb-[calc(68px+env(safe-area-inset-bottom))] md:pb-0">
+            {children}
+          </div>
+          <MobileTabBar />
+        </Providers>
         <ChatSupport />
         <WhatsAppButton />
       </body>

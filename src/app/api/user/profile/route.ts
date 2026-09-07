@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getAuthUserId } from '@/lib/mobile-auth';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession();
-    if (!session?.user?.email) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { id: userId },
       select: {
         id: true,
         fullName: true,
@@ -35,8 +35,8 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
-    const session = await getServerSession();
-    if (!session?.user?.email) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -44,7 +44,7 @@ export async function PUT(request: NextRequest) {
     const { fullName, email, currentPassword, newPassword } = body;
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { id: userId },
     });
 
     if (!user) {
@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Check if email is already taken by another user
-    if (email && email !== session.user.email) {
+    if (email && email !== user.email) {
       const existing = await prisma.user.findUnique({ where: { email } });
       if (existing) {
         return NextResponse.json({ error: 'Email already in use' }, { status: 400 });

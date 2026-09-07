@@ -229,7 +229,7 @@ export function ChatSupport() {
       {/* Floating Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[60] w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 bg-primary-600 hover:bg-primary-700"
+        className="fixed bottom-[5.5rem] md:bottom-6 right-6 z-[60] w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 bg-primary-600 hover:bg-primary-700"
         aria-label={isOpen ? 'Close chat' : 'Open chat support'}
       >
         <MessageCircle className="h-6 w-6 text-white" />
@@ -238,7 +238,7 @@ export function ChatSupport() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[370px] max-w-[calc(100vw-3rem)] bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden flex flex-col" style={{ maxHeight: 'min(600px, calc(100vh - 160px))' }}>
+        <div className="fixed bottom-[9.5rem] md:bottom-24 right-6 z-50 w-[370px] max-w-[calc(100vw-3rem)] bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden flex flex-col" style={{ maxHeight: 'min(600px, calc(100vh - 200px))' }}>
           {/* Header */}
           <div className="bg-primary-600 text-white px-4 py-3 flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">

@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ExamCardSkeleton } from '@/components/ui/skeleton';
+import { Stagger, StaggerItem } from '@/components/ui/motion';
 import { Search, Filter, Clock, LayoutDashboard, BookOpen, Phone } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
@@ -75,10 +77,20 @@ export function ExamsContent() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-neutral-600">Loading forms...</p>
+      <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white dark:from-primary-950 dark:to-neutral-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="mb-8">
+            <div className="h-8 w-56 bg-neutral-200 dark:bg-neutral-700 animate-pulse rounded-lg mb-2" />
+            <div className="h-4 w-80 max-w-full bg-neutral-200 dark:bg-neutral-700 animate-pulse rounded-lg" />
+          </div>
+          <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-soft p-6 mb-8">
+            <div className="h-11 w-full bg-neutral-200 dark:bg-neutral-700 animate-pulse rounded-md" />
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <ExamCardSkeleton key={i} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -187,9 +199,10 @@ export function ExamsContent() {
             </Button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Stagger className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredExams.map((exam) => (
-              <Card key={exam.id} className="hover:shadow-medium transition-shadow dark:bg-neutral-800 dark:border-neutral-700">
+              <StaggerItem key={exam.id}>
+              <Card className="dark:bg-neutral-800 dark:border-neutral-700 h-full">
                 <CardHeader>
                   <div className="flex justify-between items-start min-w-0">
                     <div className="min-w-0">
@@ -218,8 +231,9 @@ export function ExamsContent() {
                   </Link>
                 </CardContent>
               </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         )}
       </div>
     </div>

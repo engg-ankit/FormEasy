@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { notifyPaymentConfirmed } from '@/lib/notifications';
 import { notifyPaymentDone } from '@/lib/admin-notifications';
 import { notifyUserPaymentReceived } from '@/lib/user-notifications';
+import { sendPushToUser } from '@/lib/push';
 
 export async function POST(request: NextRequest) {
   try {
@@ -66,6 +67,7 @@ export async function POST(request: NextRequest) {
       notifyPaymentConfirmed(app.user.email, app.user.fullName, app.exam.title, payment.amount).catch(console.error);
       notifyPaymentDone(app.user.id, app.user.fullName, app.exam.title, payment.amount).catch(console.error);
       notifyUserPaymentReceived(app.user.id, app.exam.title, payment.amount).catch(console.error);
+      sendPushToUser(app.user.id, 'Payment Received 💳', `Payment of ₹${(payment.amount / 100).toFixed(2)} confirmed for ${app.exam.title}. We're on it!`).catch(console.error);
     }
 
     return NextResponse.json({

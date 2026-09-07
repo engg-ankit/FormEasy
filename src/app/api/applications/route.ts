@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
+import { getAuthUserId } from '@/lib/mobile-auth';
 import { prisma } from '@/lib/prisma';
 import { notifyApplicationSubmitted } from '@/lib/notifications';
 import { notifyFormSubmitted } from '@/lib/admin-notifications';
 import { notifyUserFormSubmitted } from '@/lib/user-notifications';
+import { sendPushToUser } from '@/lib/push';
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     // Delete any existing DRAFT for this user+exam (cleanup leftover drafts)
     await prisma.application.deleteMany({
       where: {
-        userId: session.user.id,
+        userId,
         examId,
         status: 'DRAFT',
       },
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     // Create application
     const application = await prisma.application.create({
       data: {
-        userId: session.user.id,
+        userId,
         examId,
         formData: JSON.stringify(formDataWithAmount),
         status: 'SUBMITTED',
@@ -51,12 +51,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Send notification
-    const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     const exam = await prisma.exam.findUnique({ where: { id: examId } });
     if (user && exam) {
       notifyApplicationSubmitted(user.email, user.fullName, exam.title).catch(console.error);
       notifyFormSubmitted(user.id, user.fullName, exam.title).catch(console.error);
       notifyUserFormSubmitted(user.id, exam.title).catch(console.error);
+      sendPushToUser(user.id, 'Application Submitted ✅', `We received your ${exam.title} application. Pay the fees to start processing.`).catch(console.error);
     }
 
     return NextResponse.json({ applicationId: application.id });

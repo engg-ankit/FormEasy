@@ -82,10 +82,26 @@ export default function DashboardPage() {
   // Show loading while session is being checked (prevents flash redirect on refresh)
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-neutral-600 dark:text-neutral-400">Loading...</p>
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {[1,2,3,4].map(i => (
+                <div key={i} className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 animate-pulse">
+                  <div className="h-4 bg-neutral-200 dark:bg-neutral-600 rounded w-24 mb-3" />
+                  <div className="h-8 bg-neutral-200 dark:bg-neutral-600 rounded w-16" />
+                </div>
+              ))}
+            </div>
+            <div className="bg-white dark:bg-neutral-800 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 animate-pulse">
+              <div className="h-6 bg-neutral-200 dark:bg-neutral-600 rounded w-40 mb-4" />
+              <div className="space-y-3">
+                {[1,2,3].map(j => (
+                  <div key={j} className="h-16 bg-neutral-100 dark:bg-neutral-700 rounded-lg" />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

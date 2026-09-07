@@ -1,16 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { razorpay } from '@/lib/razorpay-server';
 import { prisma } from '@/lib/prisma';
+import { getAuthUserId } from '@/lib/mobile-auth';
 
 export async function POST(request: NextRequest) {
   try {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { applicationId, amount: requestedAmount } = await request.json();
 
     if (!applicationId) {
       return NextResponse.json({ error: 'Missing applicationId' }, { status: 400 });
     }
 
-    // Verify application exists with exam fees
+    // Verify application exists, belongs to this user, and has exam fees
     const application = await prisma.application.findUnique({
       where: { id: applicationId },
       include: { payment: true, exam: true },
@@ -18,6 +24,10 @@ export async function POST(request: NextRequest) {
 
     if (!application) {
       return NextResponse.json({ error: 'Application not found' }, { status: 404 });
+    }
+
+    if (application.userId !== userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
 
     // Check if payment already exists and is successful

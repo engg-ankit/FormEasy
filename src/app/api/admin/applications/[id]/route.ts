@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { notifyStatusChanged } from '@/lib/notifications';
 import { notifyStatusUpdated } from '@/lib/admin-notifications';
 import { notifyUserStatusUpdate } from '@/lib/user-notifications';
+import { sendPushToUser } from '@/lib/push';
 
 export async function GET(
   request: NextRequest,
@@ -90,6 +91,8 @@ export async function PATCH(
         notifyStatusChanged(fullApp.user.email, fullApp.user.fullName, fullApp.exam.title, body.status).catch(console.error);
         notifyStatusUpdated(fullApp.exam.title, fullApp.user.fullName, body.status).catch(console.error);
         notifyUserStatusUpdate(fullApp.userId, fullApp.exam.title, body.status).catch(console.error);
+        const statusLabel = (body.status || '').replace(/_/g, ' ').toLowerCase();
+        sendPushToUser(fullApp.userId, 'Status Updated 📍', `Your ${fullApp.exam.title} application is now: ${statusLabel}`).catch(console.error);
       }
     }
 

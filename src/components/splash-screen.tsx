@@ -8,9 +8,15 @@ export function SplashScreen() {
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    // Only show splash on very first visit (per browser tab)
+    // Only show splash on very first visit (per browser tab).
+    // Handles StrictMode's double-invoke: if the flag is already set (e.g.
+    // the effect re-ran after cleanup cleared our timers), force-hide.
     const alreadyShown = sessionStorage.getItem('splash-shown');
-    if (alreadyShown) return;
+    if (alreadyShown) {
+      setVisible(false);
+      setFadeOut(false);
+      return;
+    }
 
     sessionStorage.setItem('splash-shown', 'true');
     setVisible(true);

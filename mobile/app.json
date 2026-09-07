@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "ClickNsit",
+    "slug": "clicknsit",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "clicknsit",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "in.clicknsit.app",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "in.clicknsit.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1B2559",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1B2559",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 120
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "color": "#4f46e5"
+        }
+      ]
+    ],
+    "experiments": {
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "22d0f621-5b05-482f-a730-12b398792e46"
+      }
+    },
+    "owner": "akki0329"
+  }
+}

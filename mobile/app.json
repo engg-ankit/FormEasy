@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "clicknsit",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "bundleIdentifier": "in.clicknsit.app",
       "supportsTablet": true

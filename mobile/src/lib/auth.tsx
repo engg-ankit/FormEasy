@@ -9,6 +9,7 @@ interface AuthContextValue {
   user: UserProfile | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithToken: (token: string) => Promise<void>;
   signup: (data: {
     fullName: string;
     mobile: string;
@@ -66,12 +67,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [applyToken]
   );
 
+  const loginWithToken = useCallback(
+    async (token: string) => {
+      await applyToken(token);
+      try {
+        const { user: profile } = await profileApi.me();
+        setUser(profile);
+      } catch {
+        // Token invalid — clear it
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+        setAuthToken(null);
+      }
+    },
+    [applyToken]
+  );
+
   const signup = useCallback(
     async (data: { fullName: string; mobile: string; email: string; password: string; referralCode?: string }) => {
-      await authApi.signup(data);
-      await login(data.email, data.password);
+      const res = await authApi.signup(data);
+      // Backend returns token — auto-login after signup
+      if (res.token) {
+        await applyToken(res.token);
+        setUser(res.user);
+      } else {
+        // Fallback: login separately if no token returned
+        await login(data.email, data.password);
+      }
     },
-    [login]
+    [applyToken, login]
   );
 
   const logout = useCallback(async () => {
@@ -100,8 +123,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, login, signup, logout, refreshProfile }),
-    [user, loading, login, signup, logout, refreshProfile]
+    () => ({ user, loading, login, loginWithToken, signup, logout, refreshProfile }),
+    [user, loading, login, loginWithToken, signup, logout, refreshProfile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

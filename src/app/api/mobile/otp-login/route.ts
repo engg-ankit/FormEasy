@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { signUserToken } from '@/lib/mobile-auth';
 import { verifyOtp } from '@/lib/otp';
 
 export async function POST(request: NextRequest) {
   try {
-    const { mobile, email, otp, purpose } = await request.json();
+    const { mobile, email, otp } = await request.json();
 
     // Support both mobile and email (email takes priority for OTP)
     const identifier = email || mobile;
 
-    // Validate required fields
     if (!identifier || !otp) {
       return NextResponse.json(
         { error: 'Email/mobile and OTP are required' },
@@ -32,33 +33,47 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate OTP format
-    if (!/^\d{6}$/.test(otp)) {
-      return NextResponse.json(
-        { error: 'OTP must be 6 digits' },
-        { status: 400 }
-      );
-    }
-
     // Verify OTP
-    const result = await verifyOtp(identifier, otp, purpose || 'SIGNUP');
+    const otpResult = await verifyOtp(identifier, otp, 'LOGIN');
 
-    if (!result.success) {
+    if (!otpResult.success) {
       return NextResponse.json(
-        { error: result.error || 'OTP verification failed' },
-        { status: 400 }
+        { error: otpResult.error || 'Invalid OTP' },
+        { status: 401 }
       );
     }
+
+    // Find user by email or mobile
+    const user = email
+      ? await prisma.user.findUnique({ where: { email: email.toLowerCase() } })
+      : await prisma.user.findUnique({ where: { mobile } });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'No account found. Please sign up first.' },
+        { status: 404 }
+      );
+    }
+
+    // Generate JWT token
+    const token = await signUserToken({ id: user.id, email: user.email });
 
     return NextResponse.json({
       success: true,
-      message: 'OTP verified successfully',
+      token,
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        mobile: user.mobile,
+        referralCode: user.referralCode,
+        referralBonus: user.referralBonus,
+      },
     });
-
   } catch (error) {
-    console.error('Verify OTP error:', error);
+    console.error('OTP login error:', error);
     return NextResponse.json(
-      { error: 'Failed to verify OTP. Please try again.' },
+      { error: 'Login failed. Please try again.' },
       { status: 500 }
     );
   }

@@ -7,6 +7,7 @@ import {
   TextInput,
   TextInputProps,
   View,
+  type StyleProp,
   type ViewStyle,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,7 +20,7 @@ export function Screen({
   scroll,
 }: {
   children: React.ReactNode;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   scroll?: boolean;
 }) {
   const { isDark } = useTheme();
@@ -52,7 +53,7 @@ export function Button({
   variant?: ButtonVariant;
   disabled?: boolean;
   loading?: boolean;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }) {
   const { isDark } = useTheme();
   const palette: Record<ButtonVariant, { bg: string; fg: string; border?: string }> = {
@@ -127,7 +128,7 @@ export function StatusBadge({ status }: { status: string }) {
   );
 }
 
-export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
+export function Card({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
   const { isDark } = useTheme();
   return (
     <View

@@ -1,12 +1,15 @@
-// ClickNsit brand — matches the web app (navy + indigo + orange)
+// ClickNsit brand — mirrors the web app (navy + indigo + orange)
 
 export const colors = {
-  navy: '#1B2559',
-  primary: '#4f46e5',
+  // Brand
+  navy: '#1B2559', // header / hero (web theme_color)
+  navyDeep: '#111736', // deeper navy for hero layers
+  primary: '#4f46e5', // indigo — main action color (web primary-600)
   primaryDark: '#4338ca',
   primaryLight: '#eef2ff',
-  accent: '#f26338',
+  accent: '#f26338', // orange (web accent-500)
   accentLight: '#fef3e2',
+
   success: '#16a34a',
   warning: '#d97706',
   danger: '#dc2626',
@@ -14,16 +17,18 @@ export const colors = {
 
   text: '#111827',
   textMuted: '#6b7280',
-  background: '#f8fafc',
+  background: '#f4f6ff', // cool light tint like web primary-50
   card: '#ffffff',
-  border: '#e5e7eb',
+  border: '#e3e8f7',
+  header: '#1B2559',
 
   dark: {
-    text: '#f9fafb',
-    textMuted: '#9ca3af',
-    background: '#111827',
-    card: '#1f2937',
-    border: '#374151',
+    text: '#fafaf9',
+    textMuted: '#a8a29e',
+    background: '#1c1917', // web neutral-900
+    card: '#292524', // web neutral-800
+    border: '#44403c', // web neutral-700
+    header: '#171235',
   },
 } as const;
 

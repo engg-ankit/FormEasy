@@ -24,6 +24,7 @@ export default function TabsLayout() {
           backgroundColor: isDark ? colors.dark.card : '#ffffff',
           borderTopColor: isDark ? colors.dark.border : colors.border,
           paddingTop: 4,
+          paddingBottom: 6,
         },
         headerStyle: { backgroundColor: isDark ? colors.dark.card : '#ffffff' },
         headerShadowVisible: false,
@@ -33,6 +34,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: tabIcon('home') }} />
       <Tabs.Screen name="forms" options={{ title: 'Forms', tabBarIcon: tabIcon('search') }} />
+      <Tabs.Screen name="notifications" options={{ title: 'Updates', tabBarIcon: tabIcon('notifications') }} />
       <Tabs.Screen
         name="applications"
         options={{ title: 'My Forms', tabBarIcon: tabIcon('document-text') }}

@@ -1,38 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendOtp, OtpPurpose } from '@/lib/otp';
+import { sendOtp } from '@/lib/otp';
 
 export async function POST(request: NextRequest) {
   try {
-    const { mobile, purpose } = await request.json();
+    const { mobile, email, purpose } = await request.json();
+
+    // Support both mobile and email (email takes priority for OTP)
+    const identifier = email || mobile;
 
     // Validate required fields
-    if (!mobile) {
+    if (!identifier) {
       return NextResponse.json(
-        { error: 'Mobile number is required' },
+        { error: 'Email or mobile number is required' },
         { status: 400 }
       );
     }
 
-    // Validate mobile format
-    if (!/^\d{10}$/.test(mobile)) {
+    // Validate email format if email is provided
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      return NextResponse.json(
+        { error: 'Valid email is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate mobile format if mobile is provided (and no email)
+    if (!email && !/^\d{10}$/.test(mobile)) {
       return NextResponse.json(
         { error: 'Mobile number must be 10 digits' },
         { status: 400 }
       );
     }
 
-    // Validate purpose
-    const validPurposes: OtpPurpose[] = ['SIGNUP', 'FORM_FILL', 'LOGIN'];
-    const otpPurpose: OtpPurpose = purpose && validPurposes.includes(purpose) 
-      ? purpose 
-      : 'FORM_FILL';
-
-    // Send OTP
-    const result = await sendOtp(mobile, otpPurpose);
+    // Send OTP via email (100% FREE!)
+    const result = await sendOtp(identifier, purpose || 'SIGNUP');
 
     if (!result.success) {
       return NextResponse.json(
-        { error: result.message, cooldownSeconds: result.cooldownSeconds },
+        { error: result.message },
         { status: 400 }
       );
     }
@@ -40,6 +45,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: result.message,
+      // Include OTP in dev mode for testing
+      ...(result.devOtp && { devOtp: result.devOtp }),
     });
 
   } catch (error) {

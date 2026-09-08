@@ -105,8 +105,30 @@ export const examsApi = {
 export const authApi = {
   login: (email: string, password: string) =>
     api.post<{ success: boolean; token: string; user: UserProfile }>('/api/mobile/login', { email, password }),
+  otpLogin: (identifier: string, otp: string) =>
+    api.post<{ success: boolean; token: string; user: UserProfile }>('/api/mobile/otp-login', { 
+      // Send as email if it contains @, otherwise as mobile
+      ...(identifier.includes('@') ? { email: identifier } : { mobile: identifier }),
+      otp 
+    }),
   signup: (data: { fullName: string; mobile: string; email: string; password: string; referralCode?: string }) =>
-    api.post<{ success: boolean; user: UserProfile }>('/api/auth/signup', data),
+    api.post<{ success: boolean; token: string; user: UserProfile }>('/api/auth/signup', data),
+};
+
+export const otpApi = {
+  send: (identifier: string, purpose: 'LOGIN' | 'SIGNUP' | 'FORM_FILL' = 'LOGIN') =>
+    api.post<{ success: boolean; message: string; cooldownSeconds?: number; devOtp?: string }>('/api/otp/send', { 
+      // Send as email if it contains @, otherwise as mobile
+      ...(identifier.includes('@') ? { email: identifier } : { mobile: identifier }),
+      purpose 
+    }),
+  verify: (identifier: string, otp: string, purpose: 'LOGIN' | 'SIGNUP' | 'FORM_FILL' = 'LOGIN') =>
+    api.post<{ success: boolean; message: string }>('/api/otp/verify', { 
+      // Send as email if it contains @, otherwise as mobile
+      ...(identifier.includes('@') ? { email: identifier } : { mobile: identifier }),
+      otp, 
+      purpose 
+    }),
 };
 
 export const applicationsApi = {

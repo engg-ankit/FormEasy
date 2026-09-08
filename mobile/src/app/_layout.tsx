@@ -60,6 +60,7 @@ function RootNavigator() {
         <Stack.Screen name="payment/[applicationId]" options={{ title: 'Pay & Submit' }} />
         <Stack.Screen name="applications-detail/[id]" options={{ title: 'Application', headerBackButtonDisplayMode: 'minimal' }} />
         <Stack.Screen name="login" options={{ title: 'Login', presentation: 'modal' }} />
+        <Stack.Screen name="otp-login" options={{ title: 'OTP Login', presentation: 'modal' }} />
         <Stack.Screen name="signup" options={{ title: 'Create Account', presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

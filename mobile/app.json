@@ -4,7 +4,7 @@
     "slug": "clicknsit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+      "icon": "./assets/images/icon.png",
     "scheme": "clicknsit",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
@@ -16,7 +16,9 @@
       "package": "in.clicknsit.app",
       "adaptiveIcon": {
         "backgroundColor": "#1B2559",
-        "foregroundImage": "./assets/images/android-icon-foreground.png"
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true
     },

@@ -4,12 +4,34 @@ import crypto from 'crypto';
 
 // Send OTP email using existing notifications setup
 import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = process.env.RESEND_API_KEY
-  ? new Resend(process.env.RESEND_API_KEY)
+// Reject obviously invalid/placeholder keys like "re_XXXXXXXXXXX" or quoted values
+function isValidResendKey(key: string | undefined): boolean {
+  if (!key) return false;
+  const k = key.trim().replace(/^"|"$/g, '');
+  return k.startsWith('re_') && k.length > 20 && !/^re_[Xx]+\.*$/.test(k);
+}
+
+const resend = isValidResendKey(process.env.RESEND_API_KEY)
+  ? new Resend(process.env.RESEND_API_KEY!.trim().replace(/^"|"$/g, ''))
   : null;
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'ClickNsit <onboarding@resend.dev>';
+// Gmail SMTP fallback so OTP delivery keeps working on Resend free tier / unverified domain
+const gmailTransporter =
+  process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD
+    ? nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD.replace(/\s+/g, ''),
+        },
+      })
+    : null;
+
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || `ClickNsit <${process.env.GMAIL_USER || 'onboarding@resend.dev'}>`;
 
 interface OtpResult {
   success: boolean;
@@ -80,23 +102,51 @@ async function sendOtpEmail(
 </body>
 </html>`;
 
-  if (!resend) {
+  if (!resend && !gmailTransporter) {
     console.log(`📧 [DEV MODE] OTP Email to: ${email} | OTP: ${otp}`);
     return { success: true };
   }
 
+  // Primary: Resend HTTP API. Fallback: Gmail SMTP (works even on Resend free tier / unverified domain).
+  if (resend) {
+    let resendError: string | null = null;
+    try {
+      // The Resend SDK resolves errors via result.error instead of throwing,
+      // so both paths must be handled here.
+      const { data, error } = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: [email],
+        subject: `🔐 Your OTP for ${purposeLabel} - ClickNsit`,
+        html,
+      });
+      if (error) {
+        resendError = error.message || JSON.stringify(error);
+      } else {
+        console.log(`✅ OTP email sent via Resend to ${email} (id: ${data?.id})`);
+        return { success: true };
+      }
+    } catch (error: any) {
+      resendError = error?.message || String(error);
+    }
+    console.error(`❌ OTP email via Resend failed to ${email}:`, resendError);
+    if (!gmailTransporter) {
+      return { success: false, error: resendError || 'Email send failed' };
+    }
+    console.log('↩️ Falling back to Gmail SMTP...');
+  }
+
   try {
-    const result = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: [email],
+    await gmailTransporter!.sendMail({
+      from: `ClickNsit <${process.env.GMAIL_USER}>`,
+      to: email,
       subject: `🔐 Your OTP for ${purposeLabel} - ClickNsit`,
       html,
     });
-    console.log(`✅ OTP email sent to ${email} (id: ${result.data?.id})`);
+    console.log(`✅ OTP email sent via Gmail SMTP to ${email}`);
     return { success: true };
   } catch (error: any) {
-    console.error(`❌ OTP email failed to ${email}:`, error.message || error);
-    return { success: false, error: error.message };
+    console.error(`❌ OTP email via Gmail failed to ${email}:`, error.message || error);
+    return { success: false, error: error.message || 'Email send failed' };
   }
 }
 

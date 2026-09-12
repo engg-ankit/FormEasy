@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Linking,
+  Pressable,
   ScrollView,
   Share,
   StyleSheet,
@@ -141,7 +142,7 @@ export default function ProfileScreen() {
             icon="document-text"
             label="My Applications"
             subtitle="Track all your form submissions"
-            onPress={() => router.push('/(tabs)/applications')}
+            onPress={() => router.push('/applications')}
             color={colors.primary}
             muted={muted}
             text={text}
@@ -151,7 +152,7 @@ export default function ProfileScreen() {
             icon="search"
             label="Browse Forms"
             subtitle="Find exam, college & scholarship forms"
-            onPress={() => router.push('/(tabs)/forms')}
+            onPress={() => router.push('/forms')}
             color={colors.accent}
             muted={muted}
             text={text}
@@ -309,7 +310,15 @@ function MenuItem({
   text: string;
 }) {
   return (
-    <View style={styles.menuItem}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.menuItem,
+        { backgroundColor: pressed ? 'rgba(0,0,0,0.04)' : 'transparent' },
+      ]}
+      android_ripple={{ color: 'rgba(0,0,0,0.06)' }}
+      accessibilityRole="button"
+    >
       <View style={[styles.menuIconBg, { backgroundColor: `${color}15` }]}>
         <Ionicons name={icon as any} size={18} color={color} />
       </View>
@@ -318,7 +327,7 @@ function MenuItem({
         {subtitle && <Text style={[styles.menuSubtitle, { color: muted }]}>{subtitle}</Text>}
       </View>
       <Ionicons name="chevron-forward" size={16} color={muted} />
-    </View>
+    </Pressable>
   );
 }
 

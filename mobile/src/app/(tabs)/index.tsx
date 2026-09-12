@@ -292,7 +292,7 @@ export default function HomeScreen() {
               <View style={styles.sectionHeader}>
                 <Text style={[styles.sectionTitle, { color: text }]}>Recent Applications</Text>
                 {apps.length > 0 && (
-                  <Pressable onPress={() => router.push('/(tabs)/applications')}>
+                  <Pressable onPress={() => router.push('/applications')}>
                     <Text style={[styles.seeAll, { color: colors.primary }]}>View All →</Text>
                   </Pressable>
                 )}
@@ -363,8 +363,8 @@ export default function HomeScreen() {
               <Text style={[styles.sectionTitle, { color: text }]}>Quick Actions</Text>
               {[
                 { icon: 'search', color: colors.primary, bg: colors.primaryLight, title: 'Browse Forms', desc: 'Find exams & registrations', route: '/forms' },
-                { icon: 'call', color: colors.success, bg: '#dcfce7', title: 'Contact Support', desc: 'Get help with your application', route: '/(tabs)/profile' },
-                { icon: 'gift', color: colors.accent, bg: colors.accentLight, title: 'Refer & Earn ₹25', desc: 'Share your code with friends', route: '/(tabs)/profile' },
+                { icon: 'call', color: colors.success, bg: '#dcfce7', title: 'Contact Support', desc: 'Get help with your application', route: '/profile' },
+                { icon: 'gift', color: colors.accent, bg: colors.accentLight, title: 'Refer & Earn ₹25', desc: 'Share your code with friends', route: '/profile' },
               ].map((a) => (
                 <Pressable key={a.title} onPress={() => router.push(a.route as any)}>
                   <Card style={[styles.actionCard, { backgroundColor: cardBg, borderColor }]}>

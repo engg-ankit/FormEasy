@@ -62,7 +62,7 @@ export default function PaymentHistoryScreen() {
           <Text style={[styles.centerSub, { color: muted }]}>
             Login to see your payment history.
           </Text>
-          <Button title="Go to Profile → Login" onPress={() => {}} style={styles.wide} />
+          <Button title="Go to Profile → Login" onPress={() => router.push('/profile')} style={styles.wide} />
         </View>
       </Screen>
     );

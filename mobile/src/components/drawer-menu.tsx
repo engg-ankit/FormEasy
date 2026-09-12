@@ -81,22 +81,22 @@ export function DrawerMenu({
 
   const items: DrawerItem[] = user
     ? [
-        { icon: 'home', label: 'Dashboard', onPress: () => router.push('/(tabs)') },
-        { icon: 'search', label: 'Browse Forms', onPress: () => router.push('/(tabs)/forms') },
+        { icon: 'home', label: 'Dashboard', onPress: () => router.push('/') },
+        { icon: 'search', label: 'Browse Forms', onPress: () => router.push('/forms') },
         { icon: 'add-circle', label: 'Request Form', onPress: () => router.push('/request-form') },
-        { icon: 'document-text', label: 'My Applications', onPress: () => router.push('/(tabs)/applications') },
+        { icon: 'document-text', label: 'My Applications', onPress: () => router.push('/applications') },
         { icon: 'card', label: 'Payment History', onPress: () => router.push('/payment-history') },
-        { icon: 'gift', label: 'Refer & Earn', onPress: () => router.push('/(tabs)/profile') },
-        { icon: 'notifications', label: 'Notifications', onPress: () => router.push('/(tabs)/notifications') },
-        { icon: 'person', label: 'Profile', onPress: () => router.push('/(tabs)/profile') },
-        { icon: 'call', label: 'Contact Support', onPress: () => router.push('/(tabs)/profile') },
+        { icon: 'gift', label: 'Refer & Earn', onPress: () => router.push('/profile') },
+        { icon: 'notifications', label: 'Notifications', onPress: () => router.push('/notifications') },
+        { icon: 'person', label: 'Profile', onPress: () => router.push('/profile') },
+        { icon: 'call', label: 'Contact Support', onPress: () => router.push('/profile') },
         { icon: 'log-out', label: 'Logout', onPress: () => logout(), danger: true },
       ]
     : [
-        { icon: 'search', label: 'Browse Forms', onPress: () => router.push('/(tabs)/forms') },
+        { icon: 'search', label: 'Browse Forms', onPress: () => router.push('/forms') },
         { icon: 'log-in', label: 'Login', onPress: () => router.push('/login') },
         { icon: 'person-add', label: 'Sign Up', onPress: () => router.push('/signup') },
-        { icon: 'call', label: 'Contact', onPress: () => router.push('/(tabs)/profile') },
+        { icon: 'call', label: 'Contact', onPress: () => router.push('/profile') },
       ];
 
   return (

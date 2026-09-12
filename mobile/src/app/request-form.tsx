@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 import { Screen, Card, Button } from '@/components/ui';
 import { colors, formatDate, radius, spacing } from '@/constants/theme';
@@ -39,6 +39,7 @@ const STATUS_META: Record<string, { color: string; bg: string }> = {
 };
 
 export default function RequestFormScreen() {
+  const router = useRouter();
   const { isDark } = useTheme();
   const { user } = useAuth();
   const [requests, setRequests] = useState<FormRequest[]>([]);
@@ -109,7 +110,7 @@ export default function RequestFormScreen() {
           <Text style={[styles.centerSub, { color: muted }]}>
             Request a form feature needs an account.
           </Text>
-          <Button title="Go to Profile → Login" onPress={() => {}} style={styles.wide} />
+          <Button title="Go to Profile → Login" onPress={() => router.push('/profile')} style={styles.wide} />
         </View>
       </Screen>
     );

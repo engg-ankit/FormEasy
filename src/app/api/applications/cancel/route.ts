@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
+import { getAuthUserId } from '@/lib/mobile-auth';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = await getAuthUserId(request);
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -19,7 +18,7 @@ export async function POST(request: NextRequest) {
     const application = await prisma.application.findFirst({
       where: {
         id: applicationId,
-        userId: session.user.id,
+        userId,
       },
     });
 
@@ -43,8 +42,8 @@ export async function POST(request: NextRequest) {
         applicationId,
         oldStatus: 'SUBMITTED',
         newStatus: 'REJECTED',
-        changedBy: session.user.id,
-        changedByName: session.user.name || 'User',
+        changedBy: userId,
+        changedByName: 'User',
         note: 'Cancelled by user',
       },
     });

@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
+  Pressable,
   RefreshControl,
   StyleSheet,
   Text,
@@ -9,60 +11,20 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 
-import { Screen, Card, EmptyState } from '@/components/ui';
+import { Screen, Card, Button, EmptyState } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { useAuth } from '@/lib/auth';
+import { notificationsApi, type UserNotification } from '@/lib/api';
 
-interface NotificationItem {
-  id: string;
-  title: string;
-  body: string;
-  type: 'info' | 'success' | 'warning' | 'error';
-  read: boolean;
-  createdAt: string;
-}
-
-// Mock data - in real app this would come from an API
-const MOCK_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: '1',
-    title: 'Form Submitted Successfully',
-    body: 'Your JEE Main application has been submitted. Our team will process it within 24 hours.',
-    type: 'success',
-    read: false,
-    createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-  },
-  {
-    id: '2',
-    title: 'Payment Confirmed',
-    body: 'Payment of ₹1,250 for GATE 2024 form has been received successfully.',
-    type: 'success',
-    read: true,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-  },
-  {
-    id: '3',
-    title: 'Document Verification',
-    body: 'Your uploaded documents are being verified. We will notify you once verified.',
-    type: 'info',
-    read: true,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-  },
-  {
-    id: '4',
-    title: 'Form Deadline Approaching',
-    body: 'NEET 2024 registration closes in 3 days. Apply now before it\'s too late!',
-    type: 'warning',
-    read: true,
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-  },
-];
-
-const TYPE_CONFIG = {
-  info: { icon: 'information-circle', color: colors.info },
-  success: { icon: 'checkmark-circle', color: colors.success },
-  warning: { icon: 'warning', color: colors.warning },
-  error: { icon: 'close-circle', color: colors.danger },
+const TYPE_CONFIG: Record<string, { icon: string; color: string }> = {
+  INFO: { icon: 'information-circle', color: colors.info },
+  SUCCESS: { icon: 'checkmark-circle', color: colors.success },
+  WARNING: { icon: 'warning', color: colors.warning },
+  ERROR: { icon: 'close-circle', color: colors.danger },
+  PAYMENT: { icon: 'wallet', color: colors.success },
+  APPLICATION: { icon: 'document-text', color: colors.primary },
+  FORM_REQUEST: { icon: 'document-attach', color: colors.accent },
 };
 
 function formatTimeAgo(dateString: string): string {
@@ -79,14 +41,28 @@ function formatTimeAgo(dateString: string): string {
 
 export default function NotificationsScreen() {
   const { isDark } = useTheme();
-  const [notifications, setNotifications] = useState<NotificationItem[]>(MOCK_NOTIFICATIONS);
+  const { user } = useAuth();
+  const [notifications, setNotifications] = useState<UserNotification[]>([]);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [marking, setMarking] = useState(false);
 
   const load = useCallback(async () => {
-    // In real app, fetch from API
-    setNotifications(MOCK_NOTIFICATIONS);
-    setRefreshing(false);
-  }, []);
+    if (!user) {
+      setLoading(false);
+      setRefreshing(false);
+      return;
+    }
+    try {
+      const d = await notificationsApi.list();
+      setNotifications(d.notifications || []);
+    } catch {
+      setNotifications([]);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, [user]);
 
   useFocusEffect(
     useCallback(() => {
@@ -99,13 +75,28 @@ export default function NotificationsScreen() {
     load();
   };
 
+  const markAllRead = async () => {
+    setMarking(true);
+    try {
+      await notificationsApi.markAllRead();
+      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+    } catch {
+      // ignore
+    } finally {
+      setMarking(false);
+    }
+  };
+
   const muted = isDark ? colors.dark.textMuted : colors.textMuted;
   const text = isDark ? colors.dark.text : colors.text;
   const cardBg = isDark ? colors.dark.card : colors.card;
   const border = isDark ? colors.dark.border : colors.border;
 
-  const renderItem = ({ item }: { item: NotificationItem }) => {
-    const config = TYPE_CONFIG[item.type];
+  const renderItem = ({ item }: { item: UserNotification }) => {
+    const config = TYPE_CONFIG[item.type?.toUpperCase?.()] || TYPE_CONFIG.INFO || {
+      icon: 'notifications',
+      color: colors.primary,
+    };
 
     return (
       <Card
@@ -113,8 +104,8 @@ export default function NotificationsScreen() {
           styles.notificationCard,
           {
             backgroundColor: cardBg,
-            borderColor: item.read ? border : `${config.color}30`,
-            borderLeftWidth: item.read ? 1 : 3,
+            borderColor: item.isRead ? border : `${config.color}30`,
+            borderLeftWidth: item.isRead ? 1 : 3,
           },
         ]}
       >
@@ -130,7 +121,7 @@ export default function NotificationsScreen() {
               {formatTimeAgo(item.createdAt)}
             </Text>
           </View>
-          {!item.read && <View style={styles.unreadDot} />}
+          {!item.isRead && <View style={styles.unreadDot} />}
         </View>
         <Text style={[styles.notificationBody, { color: muted }]} numberOfLines={3}>
           {item.body}
@@ -139,15 +130,33 @@ export default function NotificationsScreen() {
     );
   };
 
+  if (!user) {
+    return (
+      <Screen edges={[]}>
+        <View style={styles.center}>
+          <Ionicons name="lock-closed-outline" size={48} color={colors.primary} />
+          <Text style={[styles.centerTitle, { color: text }]}>Login to see updates</Text>
+          <Text style={[styles.centerSub, { color: muted }]}>
+            Form status updates aur payment confirmations yahan dikhenge.
+          </Text>
+        </View>
+      </Screen>
+    );
+  }
+
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+
   return (
-    <Screen>
+    <Screen edges={[]}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.headerTitle, { color: text }]}>Notifications</Text>
-        {notifications.some((n) => !n.read) && (
-          <Text style={[styles.unreadCount, { color: colors.primary }]}>
-            {notifications.filter((n) => !n.read).length} unread
-          </Text>
+        {unreadCount > 0 && (
+          <Pressable onPress={markAllRead} disabled={marking} hitSlop={8}>
+            <Text style={[styles.unreadCount, { color: colors.primary, fontWeight: '700' }]}>
+              {marking ? 'Marking…' : `Mark all read (${unreadCount})`}
+            </Text>
+          </Pressable>
         )}
       </View>
 
@@ -160,11 +169,15 @@ export default function NotificationsScreen() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />
         }
         ListEmptyComponent={
-          <EmptyState
-            icon="🔔"
-            title="No notifications"
-            subtitle="You're all caught up! We'll notify you about form updates."
-          />
+          loading ? (
+            <ActivityIndicator color={colors.primary} style={{ marginVertical: 40 }} />
+          ) : (
+            <EmptyState
+              icon="🔔"
+              title="No notifications"
+              subtitle="You're all caught up! We'll notify you about form updates."
+            />
+          )
         }
       />
     </Screen>
@@ -181,6 +194,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: 20, fontWeight: '800' },
   unreadCount: { fontSize: 13, fontWeight: '600' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 },
+  centerTitle: { fontSize: 20, fontWeight: '800' },
+  centerSub: { fontSize: 14, textAlign: 'center', lineHeight: 20 },
   list: { paddingHorizontal: spacing.md, paddingBottom: 32, gap: 10 },
   notificationCard: { borderWidth: 1 },
   notificationHeader: {

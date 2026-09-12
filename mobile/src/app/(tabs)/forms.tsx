@@ -141,7 +141,7 @@ export default function FormsScreen() {
 
   if (loading) {
     return (
-      <Screen>
+      <Screen edges={[]}>
         <View style={styles.loadingWrap}>
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={[styles.loadingText, { color: muted }]}>Loading forms…</Text>

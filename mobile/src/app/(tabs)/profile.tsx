@@ -13,6 +13,7 @@ import * as Clipboard from 'expo-clipboard';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Screen, Card, Button } from '@/components/ui';
+import { EditProfileModal, ContactSupportModal } from '@/components/profile-modals';
 import { colors, formatINR, radius, spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAuth } from '@/lib/auth';
@@ -23,6 +24,8 @@ export default function ProfileScreen() {
   const { isDark } = useTheme();
   const { user, loading, logout, refreshProfile } = useAuth();
   const [referral, setReferral] = useState<{ referralCode: string; referralBonus: number; totalReferrals: number } | null>(null);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -46,7 +49,7 @@ export default function ProfileScreen() {
 
   if (!user) {
     return (
-      <Screen>
+      <Screen edges={[]}>
         <View style={styles.centerBlock}>
           <View style={[styles.loginIcon, { backgroundColor: `${colors.primary}15` }]}>
             <Ionicons name="person-circle-outline" size={64} color={colors.primary} />
@@ -138,7 +141,7 @@ export default function ProfileScreen() {
             icon="document-text"
             label="My Applications"
             subtitle="Track all your form submissions"
-            onPress={() => router.push('/applications')}
+            onPress={() => router.push('/(tabs)/applications')}
             color={colors.primary}
             muted={muted}
             text={text}
@@ -148,8 +151,38 @@ export default function ProfileScreen() {
             icon="search"
             label="Browse Forms"
             subtitle="Find exam, college & scholarship forms"
-            onPress={() => router.push('/forms')}
+            onPress={() => router.push('/(tabs)/forms')}
             color={colors.accent}
+            muted={muted}
+            text={text}
+          />
+          <MenuDivider border={border} />
+          <MenuItem
+            icon="add-circle"
+            label="Request a Form"
+            subtitle="Can't find a form? Ask us to add it"
+            onPress={() => router.push('/request-form')}
+            color={colors.info}
+            muted={muted}
+            text={text}
+          />
+          <MenuDivider border={border} />
+          <MenuItem
+            icon="card"
+            label="Payment History"
+            subtitle="All your transactions in one place"
+            onPress={() => router.push('/payment-history')}
+            color={colors.success}
+            muted={muted}
+            text={text}
+          />
+          <MenuDivider border={border} />
+          <MenuItem
+            icon="settings"
+            label="Edit Profile"
+            subtitle="Update name, email or password"
+            onPress={() => setShowEdit(true)}
+            color={colors.primaryDark}
             muted={muted}
             text={text}
           />
@@ -157,6 +190,16 @@ export default function ProfileScreen() {
 
         {/* Support & Help */}
         <Card style={[styles.card, { backgroundColor: cardBg, borderColor: border }]}>
+          <MenuItem
+            icon="chatbubble-ellipses"
+            label="Contact Form"
+            subtitle="Send us a message — we reply fast"
+            onPress={() => setShowContact(true)}
+            color={colors.accent}
+            muted={muted}
+            text={text}
+          />
+          <MenuDivider border={border} />
           <MenuItem
             icon="chatbubble-ellipses"
             label="WhatsApp Support"
@@ -233,6 +276,17 @@ export default function ProfileScreen() {
 
         <Button title="Logout" variant="ghost" onPress={confirmLogout} />
       </ScrollView>
+
+      {/* Edit Profile + Contact modals (web parity) */}
+      <EditProfileModal
+        visible={showEdit}
+        onClose={() => setShowEdit(false)}
+        onSaved={() => {
+          setShowEdit(false);
+          refreshProfile();
+        }}
+      />
+      <ContactSupportModal visible={showContact} onClose={() => setShowContact(false)} />
     </Screen>
   );
 }

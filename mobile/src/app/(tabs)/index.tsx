@@ -155,7 +155,7 @@ export default function HomeScreen() {
   const showMarketing = !user;
 
   return (
-    <Screen>
+    <Screen edges={[]}>
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}

@@ -1,8 +1,10 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useColorScheme, type ColorValue } from 'react-native';
+import { useColorScheme, View, type ColorValue } from 'react-native';
 import { colors } from '@/constants/theme';
 import { useAuth } from '@/lib/auth';
+import { AppHeader } from '@/components/app-header';
+import { DrawerMenu, useDrawer } from '@/components/drawer-menu';
 
 function tabIcon(name: keyof typeof Ionicons.glyphMap) {
   return ({ color, size, focused }: { color: ColorValue; size: number; focused: boolean }) => (
@@ -15,9 +17,16 @@ export default function TabsLayout() {
   const isDark = scheme === 'dark';
   const { user } = useAuth();
 
+  const drawer = useDrawer();
+
   return (
+    <View style={{ flex: 1 }}>
+      {/* Web app jaisa navy header + sidebar drawer — sab tabs pe */}
+      <AppHeader onMenu={drawer.openDrawer} />
+      <DrawerMenu open={drawer.open} onClose={drawer.closeDrawer} />
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: isDark ? '#9ca3af' : '#6b7280',
         tabBarStyle: {
@@ -44,5 +53,6 @@ export default function TabsLayout() {
         options={{ title: user ? 'Profile' : 'Login', tabBarIcon: tabIcon('person-circle') }}
       />
     </Tabs>
+    </View>
   );
 }

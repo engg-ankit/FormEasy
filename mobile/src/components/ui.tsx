@@ -18,15 +18,17 @@ export function Screen({
   children,
   style,
   scroll,
+  edges = ['top'] as const,
 }: {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   scroll?: boolean;
+  edges?: ('top' | 'bottom' | 'left' | 'right')[];
 }) {
   const { isDark } = useTheme();
   return (
     <SafeAreaView
-      edges={['top']}
+      edges={edges as any}
       style={[
         styles.screen,
         { backgroundColor: isDark ? colors.dark.background : colors.background },

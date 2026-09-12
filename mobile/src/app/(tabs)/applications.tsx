@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Pressable,
   RefreshControl,
@@ -16,7 +17,13 @@ import { Screen, Card, Button, StatusBadge, EmptyState } from '@/components/ui';
 import { colors, formatINR, formatDate, radius, spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useAuth } from '@/lib/auth';
-import { applicationsApi, type Application } from '@/lib/api';
+import { applicationsApi, paymentApi, type Application } from '@/lib/api';
+
+const FLOW = ['SUBMITTED', 'IN_PROCESS', 'FORM_FILLED', 'COMPLETED'];
+function progressPct(status: string) {
+  const idx = FLOW.indexOf(status);
+  return idx < 0 ? 0 : ((idx + 1) / FLOW.length) * 100;
+}
 
 export default function ApplicationsScreen() {
   const router = useRouter();
@@ -50,6 +57,39 @@ export default function ApplicationsScreen() {
     load();
   };
 
+  const verifyPayment = async (appId: string) => {
+    try {
+      const res = await paymentApi.checkStatus(appId);
+      if (res.status === 'SUCCESS') {
+        Alert.alert('Payment verified ✓', 'Payment successfully confirm ho gaya!');
+      } else {
+        Alert.alert('Still pending', 'Agar aapne pay kiya hai, 1 minute baad try karein.');
+      }
+      load();
+    } catch {
+      Alert.alert('Failed', 'Payment status check nahi ho paya.');
+    }
+  };
+
+  const cancelApp = (appId: string) => {
+    Alert.alert('Cancel application?', 'Ye application cancel ho jayegi.', [
+      { text: 'No', style: 'cancel' },
+      {
+        text: 'Yes, cancel',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await applicationsApi.cancel(appId);
+            Alert.alert('Cancelled', 'Application cancel ho gayi.');
+            load();
+          } catch (e: any) {
+            Alert.alert('Failed', e?.message || 'Cancel nahi ho paya.');
+          }
+        },
+      },
+    ]);
+  };
+
   const muted = isDark ? colors.dark.textMuted : colors.textMuted;
   const text = isDark ? colors.dark.text : colors.text;
   const cardBg = isDark ? colors.dark.card : colors.card;
@@ -57,7 +97,7 @@ export default function ApplicationsScreen() {
 
   if (!user) {
     return (
-      <Screen>
+      <Screen edges={[]}>
         <View style={styles.centerBlock}>
           <View style={[styles.loginIcon, { backgroundColor: `${colors.primary}15` }]}>
             <Ionicons name="lock-closed-outline" size={48} color={colors.primary} />
@@ -91,6 +131,18 @@ export default function ApplicationsScreen() {
             <StatusBadge status={item.status} />
           </View>
 
+          {/* Progress bar (web parity) */}
+          {item.status !== 'REJECTED' && (
+            <View style={styles.progressRow}>
+              <View style={[styles.progressTrack, { backgroundColor: isDark ? '#3f3f46' : '#e5e7eb' }]}>
+                <View style={[styles.progressFill, { width: `${progressPct(item.status)}%` }]} />
+              </View>
+              <Text style={[styles.progressPct, { color: colors.primary }]}>
+                {Math.round(progressPct(item.status))}%
+              </Text>
+            </View>
+          )}
+
           <View style={[styles.appDivider, { backgroundColor: border }]} />
 
           <View style={styles.appFooter}>
@@ -109,6 +161,22 @@ export default function ApplicationsScreen() {
               <Ionicons name="chevron-forward" size={14} color={colors.primary} />
             </View>
           </View>
+
+          {/* Actions (web parity): verify payment + cancel */}
+          {(item.payment?.status === 'PENDING' || item.status === 'SUBMITTED') && (
+            <View style={[styles.actionRow, { borderTopColor: border }]}>
+              {item.payment?.status === 'PENDING' && (
+                <Pressable onPress={() => verifyPayment(item.id)} hitSlop={6}>
+                  <Text style={[styles.actionText, { color: colors.info }]}>Verify Payment</Text>
+                </Pressable>
+              )}
+              {item.status === 'SUBMITTED' && (
+                <Pressable onPress={() => cancelApp(item.id)} hitSlop={6}>
+                  <Text style={[styles.actionText, { color: colors.danger }]}>Cancel</Text>
+                </Pressable>
+              )}
+            </View>
+          )}
         </Card>
       </Pressable>
     );
@@ -219,6 +287,23 @@ const styles = StyleSheet.create({
   paymentText: { fontSize: 13, fontWeight: '600' },
   viewRow: { flexDirection: 'row', alignItems: 'center', gap: 2 },
   viewText: { fontSize: 13, fontWeight: '700', color: colors.primary },
+
+  // Progress
+  progressRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 10 },
+  progressTrack: { flex: 1, height: 6, borderRadius: 3, overflow: 'hidden' },
+  progressFill: { height: 6, borderRadius: 3, backgroundColor: colors.primary },
+  progressPct: { fontSize: 11, fontWeight: '800' },
+
+  // Actions
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 20,
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+  },
+  actionText: { fontSize: 13, fontWeight: '700' },
 
   // Loading
   loadingWrap: { alignItems: 'center', paddingVertical: 48 },

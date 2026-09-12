@@ -136,9 +136,13 @@ export const applicationsApi = {
   detail: (id: string) => api.get<{ application: ApplicationDetail }>(`/api/applications/${id}`),
   create: (examId: string, formData: unknown, totalAmount: number) =>
     api.post<{ applicationId: string }>('/api/applications', { examId, formData, totalAmount }),
+  cancel: (applicationId: string) =>
+    api.post<{ success: boolean }>('/api/applications/cancel', { applicationId }),
 };
 
 export const paymentApi = {
+  checkStatus: (applicationId: string) =>
+    api.post<{ success: boolean; status: string; message?: string }>('/api/payment/check-status', { applicationId }),
   createOrder: (applicationId: string, amount?: number) =>
     api.post<{
       success: boolean;
@@ -154,8 +158,57 @@ export const paymentApi = {
   }) => api.post<{ success: boolean }>('/api/payment/verify', data),
 };
 
+export interface UserNotification {
+  id: string;
+  title: string;
+  body: string;
+  type: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export const notificationsApi = {
+  list: () =>
+    api.get<{ notifications: UserNotification[]; unreadCount: number }>('/api/user/notifications'),
+  markAllRead: () => api.patch('/api/user/notifications', { markAll: true }),
+};
+
+export const formRequestsApi = {
+  list: () => api.get<{ requests: FormRequest[] }>('/api/form-requests'),
+  create: (data: {
+    formName: string;
+    category: string;
+    portalName?: string;
+    description?: string;
+    contactNumber: string;
+  }) => api.post<{ success: boolean }>('/api/form-requests', data),
+};
+
+export interface FormRequest {
+  id: string;
+  formName: string;
+  category: string;
+  portalName: string | null;
+  description: string | null;
+  status: string;
+  adminNote: string | null;
+  estimatedFee: number | null;
+  createdAt: string;
+}
+
+export const contactApi = {
+  send: (data: { name: string; email: string; subject: string; message: string }) =>
+    api.post<{ success: boolean; message: string }>('/api/contact', data),
+};
+
 export const profileApi = {
   me: () => api.get<{ user: UserProfile }>('/api/user/profile'),
+  update: (data: {
+    fullName?: string;
+    email?: string;
+    currentPassword?: string;
+    newPassword?: string;
+  }) => api.put<{ user: UserProfile }>('/api/user/profile', data),
 };
 
 export const referralApi = {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +24,6 @@ interface Payment {
 }
 
 export default function AdminPaymentsPage() {
-  const router = useRouter();
   const [payments, setPayments] = useState<Payment[]>([]);
   const [filteredPayments, setFilteredPayments] = useState<Payment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +53,7 @@ export default function AdminPaymentsPage() {
 
       setPayments(data.payments);
       setFilteredPayments(data.payments);
-    } catch (error) {
+    } catch {
       console.error('Error fetching payments:', error);
     } finally {
       setIsLoading(false);

@@ -5,11 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  ArrowLeft, FileText, Clock, CheckCircle, AlertCircle,
-  User, Calendar, IndianRupee, Download, Phone, Shield,
-  FileCheck, AlertTriangle, Loader2, CreditCard, CheckSquare
-} from 'lucide-react';
+import { ArrowLeft, FileText, Clock, CheckCircle, AlertCircle, User, Calendar, IndianRupee, Download, Phone, FileCheck, AlertTriangle, Loader2, CreditCard } from 'lucide-react';
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { MobileMenu } from '@/components/mobile-menu';
@@ -55,7 +51,7 @@ interface ApplicationDetail {
 }
 
 export default function ApplicationDetailPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const params = useParams();
   const [application, setApplication] = useState<ApplicationDetail | null>(null);
@@ -102,7 +98,7 @@ export default function ApplicationDetailPage() {
       }
 
       setApplication(data.application);
-    } catch (error) {
+    } catch {
       setError('Network error. Please check your connection.');
     } finally {
       setIsLoading(false);
@@ -599,7 +595,7 @@ export default function ApplicationDetailPage() {
                             alert('Payment still pending. If you paid, try again in a minute.');
                           }
                           fetchApplication();
-                        } catch (err) {
+                        } catch {
                           alert('Failed to check payment status.');
                         }
                       }}
@@ -656,7 +652,7 @@ export default function ApplicationDetailPage() {
                         const data = await res.json();
                         alert(data.error || 'Failed to cancel application.');
                       }
-                    } catch (err) {
+                    } catch {
                       alert('Network error. Please try again.');
                     }
                   }}

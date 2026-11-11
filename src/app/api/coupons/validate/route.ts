@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
-    const { code, examId, amount } = await request.json();
+    const { code, amount } = await request.json();
 
     const coupon = await prisma.coupon.findUnique({
       where: { code: code.toUpperCase() },

@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { signUserToken } from '@/lib/mobile-auth';
+import {
+  enforceRateLimits,
+  getClientIp,
+  rateLimitedResponse,
+  resetRateLimit,
+} from '@/lib/rate-limit';
+
+const WINDOW_MS = 15 * 60 * 1000;
+const EMAIL_LIMIT = 5;
+const IP_LIMIT = 15;
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +21,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { email: String(email).toLowerCase() } });
+    const normalizedEmail = String(email).toLowerCase();
+    const emailKey = `login:email:${normalizedEmail}`;
+
+    const gate = await enforceRateLimits([
+      { key: `login:ip:${getClientIp(request)}`, limit: IP_LIMIT, windowMs: WINDOW_MS },
+      { key: emailKey, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
+    ]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
+    }
+
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (!user) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
@@ -20,6 +41,9 @@ export async function POST(request: NextRequest) {
     if (!isValid) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
+
+    // Successful login clears the failure counter for this account.
+    await resetRateLimit(emailKey);
 
     const token = await signUserToken({ id: user.id, email: user.email });
 

@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 }
 
 // User views their own requests
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {

@@ -1,5 +1,5 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -60,7 +60,7 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
         setServiceFee(data.exam.serviceFee);
       }
       setIsLoading(false);
-    } catch (error) {
+    } catch {
       setError('Failed to initiate payment');
       setIsLoading(false);
     }
@@ -103,7 +103,7 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
       if (rzp) {
         rzp.open();
       }
-    } catch (error) {
+    } catch {
       setError('Failed to load payment gateway');
       setIsProcessing(false);
     }
@@ -133,7 +133,7 @@ export default function PaymentPage({ params }: { params: Promise<{ applicationI
         setError(data.error || 'Payment verification failed');
         setIsProcessing(false);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to verify payment');
       setIsProcessing(false);
     }

@@ -61,7 +61,7 @@ const staggerItem: Variants = {
   },
 };
 
-interface StaggerProps extends MotionProps {}
+type StaggerProps = MotionProps;
 
 /** Parent container that staggers its <StaggerItem> children. */
 export function Stagger({ children, className, once = true }: StaggerProps) {

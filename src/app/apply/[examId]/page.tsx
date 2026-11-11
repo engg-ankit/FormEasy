@@ -1,5 +1,5 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
@@ -104,7 +104,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
           })),
         }));
       }
-    } catch (error) {
+    } catch {
       console.error('Error fetching exam:', error);
     }
   };
@@ -116,7 +116,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       if (response.ok && data.draft) {
         setFormData(JSON.parse(data.draft.formData));
       }
-    } catch (error) {
+    } catch {
       console.error('Error loading draft:', error);
     }
   };
@@ -129,7 +129,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ formData }),
       });
-    } catch (error) {
+    } catch {
       console.error('Error saving draft:', error);
     } finally {
       setIsSaving(false);
@@ -193,7 +193,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       } else {
         setError(data.error || 'Failed to upload file');
       }
-    } catch (error) {
+    } catch {
       setError('Failed to upload file');
     }
   };
@@ -218,7 +218,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       } else {
         setError(data.error || 'Invalid coupon code');
       }
-    } catch (error) {
+    } catch {
       setError('Failed to validate coupon');
     }
   };
@@ -245,7 +245,7 @@ export default function ApplicationWizardPage({ params }: { params: Promise<{ ex
       } else {
         setError(data.error || 'Failed to submit application');
       }
-    } catch (error) {
+    } catch {
       setError('Failed to submit application');
     } finally {
       setIsLoading(false);

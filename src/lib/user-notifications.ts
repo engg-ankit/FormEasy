@@ -77,7 +77,7 @@ export async function notifyUserFormRequestReceived(userId: string, formName: st
   });
 }
 
-export async function notifyUserReceiptUploaded(userId: string, applicationId: string, fileUrl: string) {
+export async function notifyUserReceiptUploaded(userId: string) {
   return createUserNotification({
     userId,
     type: 'RECEIPT_UPLOADED',

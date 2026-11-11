@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/logo';
+
 import { MobileMenu } from '@/components/mobile-menu';
 import { Search, FileText, Phone, BookOpen, LayoutDashboard, Plus, CreditCard } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';

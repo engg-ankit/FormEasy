@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, TrendingUp, Users, IndianRupee, CheckCircle, Clock, BarChart3, PieChart } from 'lucide-react';
@@ -36,10 +36,7 @@ interface AnalyticsData {
   };
 }
 
-const COLORS = ['#8B5CF6', '#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
-
 export default function AdminAnalyticsPage() {
-  const router = useRouter();
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -61,7 +58,7 @@ export default function AdminAnalyticsPage() {
       }
 
       setAnalytics(data);
-    } catch (error) {
+    } catch {
       console.error('Error fetching analytics:', error);
     } finally {
       setIsLoading(false);

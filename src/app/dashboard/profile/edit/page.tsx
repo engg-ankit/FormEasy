@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,6 @@ import { MobileMenu } from '@/components/mobile-menu';
 
 export default function ProfileEditPage() {
   const { data: session, update: updateSession } = useSession();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [success, setSuccess] = useState('');
@@ -43,7 +42,7 @@ export default function ProfileEditPage() {
           mobile: data.user.mobile,
         }));
       }
-    } catch (error) {
+    } catch {
       console.error('Error fetching profile:', error);
     } finally {
       setIsLoading(false);
@@ -95,7 +94,7 @@ export default function ProfileEditPage() {
       }
 
       setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setIsSaving(false);

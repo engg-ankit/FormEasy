@@ -1,12 +1,12 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Clock, FileText, IndianRupee, CheckCircle, LayoutDashboard } from 'lucide-react';
+import { Clock, CheckCircle, LayoutDashboard } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
@@ -47,7 +47,7 @@ export default function ExamDetailPage({ params }: { params: Promise<{ id: strin
       }
 
       setExam(data.exam);
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);

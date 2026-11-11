@@ -440,7 +440,7 @@ A full Android & iOS app lives in [`mobile/`](mobile/README.md) and reuses the s
 - **Apply flow** with photo/signature/ID upload + **Razorpay** checkout
 - **Status tracking** with push notifications on every admin status change
 
-One-time setup after pulling: `npx prisma db push` (adds the `PushToken` table), then create `mobile/.env` with `EXPO_PUBLIC_API_URL`. See `mobile/README.md` for run/build instructions.
+One-time setup after pulling: `npx prisma db push` (adds the `PushToken` and `RateLimit` tables), then create `mobile/.env` with `EXPO_PUBLIC_API_URL`. See `mobile/README.md` for run/build instructions.
 
 ---
 

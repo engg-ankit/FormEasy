@@ -3,6 +3,11 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { verifyMobileToken } from '@/lib/mobile-auth';
+import { enforceRateLimits, resetRateLimit } from '@/lib/rate-limit';
+
+// 5 failed web logins per account per 15 minutes.
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const LOGIN_EMAIL_LIMIT = 5;
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -41,6 +46,16 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
+          const emailKey = `login:email:${credentials.email.toLowerCase()}`;
+
+          const gate = await enforceRateLimits([
+            { key: emailKey, limit: LOGIN_EMAIL_LIMIT, windowMs: LOGIN_WINDOW_MS },
+          ]);
+          if (!gate.allowed) {
+            console.log('[Auth] Login rate limited:', credentials.email);
+            return null;
+          }
+
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
@@ -60,6 +75,7 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
+          await resetRateLimit(emailKey);
           console.log('[Auth] Login successful:', credentials.email);
           return {
             id: user.id,

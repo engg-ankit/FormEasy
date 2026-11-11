@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArrowLeft, CheckCircle, Clock, FileText, Download, User, Upload, Calendar, IndianRupee, AlertCircle, ExternalLink, Copy, Check, Smartphone } from 'lucide-react';
+
+import { ArrowLeft, CheckCircle, Clock, FileText, Download, User, Upload, IndianRupee, AlertCircle, ExternalLink, Copy, Check, Smartphone } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
 import { PdfExport } from '@/components/pdf-export';
 import { getPortalLink, FORM_FIELD_LABELS } from '@/lib/portal-links';
@@ -62,7 +62,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
       }
 
       setApplication({ ...data.application, statusHistory: data.statusHistory });
-    } catch (error) {
+    } catch {
       console.error('Error fetching application:', error);
       setError('Failed to load application');
     } finally {
@@ -93,7 +93,7 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
       setSuccess('Status updated successfully');
       setApplication(prev => prev ? { ...prev, status: newStatus } : null);
       setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
+    } catch {
       setError('Failed to update status');
     } finally {
       setIsUpdating(false);
@@ -129,21 +129,10 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
       setSuccess('Refund processed successfully');
       fetchApplication(applicationId);
       setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
+    } catch {
       setError('Failed to process refund');
     } finally {
       setIsUpdating(false);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'SUBMITTED': return 'bg-blue-100 text-blue-700';
-      case 'IN_PROCESS': return 'bg-yellow-100 text-yellow-700';
-      case 'FORM_FILLED': return 'bg-purple-100 text-purple-700';
-      case 'COMPLETED': return 'bg-green-100 text-green-700';
-      case 'REJECTED': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
     }
   };
 
@@ -277,11 +266,11 @@ export default function AdminApplicationDetailPage({ params }: { params: Promise
                 <p className="font-medium text-primary-900">{formData.gender || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">Father's Name</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Father&apos;s Name</p>
                 <p className="font-medium text-primary-900">{formData.fatherName || 'N/A'}</p>
               </div>
               <div>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">Mother's Name</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300">Mother&apos;s Name</p>
                 <p className="font-medium text-primary-900">{formData.motherName || 'N/A'}</p>
               </div>
             </div>
@@ -756,7 +745,7 @@ function OtpRelaySection({ applicationId, portalName }: { applicationId: string;
       } else {
         alert(data.error || 'Failed to request OTP');
       }
-    } catch (err) {
+    } catch {
       alert('Network error. Please try again.');
     } finally {
       setIsRequesting(false);

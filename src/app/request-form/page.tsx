@@ -8,12 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PageHead } from '@/components/page-head';
 import { Logo } from '@/components/logo';
-import { SiteNav } from '@/components/site-nav';
+
 import { MobileMenu } from '@/components/mobile-menu';
-import {
-  FileText, Send, Clock, CheckCircle, XCircle, AlertCircle,
-  Search, Phone, LayoutDashboard, Loader2, Plus, ChevronRight
-} from 'lucide-react';
+import { FileText, Send, Clock, CheckCircle, XCircle, AlertCircle, Search, Phone, LayoutDashboard, Loader2, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 interface FormRequest {
@@ -77,7 +74,7 @@ export default function RequestFormPage() {
       const res = await fetch('/api/form-requests');
       const data = await res.json();
       setMyRequests(data.requests || []);
-    } catch (err) {
+    } catch {
       console.error('Failed to fetch requests');
     } finally {
       setIsLoading(false);
@@ -109,7 +106,7 @@ export default function RequestFormPage() {
       setFormData({ formName: '', category: '', portalName: '', description: '', contactNumber: '' });
       fetchMyRequests();
       setTimeout(() => setSuccess(''), 5000);
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     }
     setIsSubmitting(false);
@@ -188,7 +185,7 @@ export default function RequestFormPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-display font-bold text-primary-900 mb-2">Request a Form</h1>
           <p className="text-neutral-600">
-            Can't find the form you need? Tell us about it and we'll add it for you!
+            Can&apos;t find the form you need? Tell us about it and we&apos;ll add it for you!
           </p>
         </div>
 
@@ -323,7 +320,7 @@ export default function RequestFormPage() {
               <div className="text-center py-8">
                 <FileText className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
                 <p className="text-neutral-500">No requests yet</p>
-                <p className="text-sm text-neutral-400 mt-1">Click "Request New Form" to get started</p>
+                <p className="text-sm text-neutral-400 mt-1">Click &quot;Request New Form&quot; to get started</p>
               </div>
             ) : (
               <div className="space-y-3">

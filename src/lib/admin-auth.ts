@@ -18,7 +18,7 @@ export async function getAdminSession() {
     });
 
     return admin;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

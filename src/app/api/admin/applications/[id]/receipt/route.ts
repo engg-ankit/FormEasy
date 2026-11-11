@@ -84,11 +84,7 @@ export async function POST(
     }
 
     // Send notification to user
-    notifyUserReceiptUploaded(
-      application.userId,
-      applicationId,
-      `${uploadedDocs.length} document(s)`
-    ).catch(console.error);
+    notifyUserReceiptUploaded(application.userId).catch(console.error);
 
     return NextResponse.json({
       success: true,

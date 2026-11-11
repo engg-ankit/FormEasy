@@ -1,8 +1,8 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -10,7 +10,6 @@ import { AlertCircle } from 'lucide-react';
 import { Logo } from '@/components/logo';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -44,7 +43,7 @@ export default function AdminLoginPage() {
 
       // Force full page reload so cookie is sent with request
       window.location.href = '/admin';
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
       setIsLoading(false);
     }

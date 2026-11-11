@@ -1,5 +1,5 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -42,7 +42,7 @@ export default function SignupPage() {
   };
 
   // ---- Step 1: Send OTP to email ----
-  const sendOtp = async (isResend = false) => {
+  const sendOtp = async () => {
     setErrors({});
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setErrors({ email: 'Please enter a valid email address' });
@@ -147,7 +147,7 @@ export default function SignupPage() {
 
       router.push('/dashboard');
       router.refresh();
-    } catch (error) {
+    } catch {
       setErrors({ form: 'An error occurred. Please try again.' });
       setBusy(false);
     }
@@ -270,7 +270,7 @@ export default function SignupPage() {
                 type="button"
                 className="w-full text-sm text-primary-600 hover:underline disabled:text-neutral-400 disabled:no-underline"
                 disabled={cooldown > 0 || busy}
-                onClick={() => sendOtp(true)}
+                onClick={() => sendOtp()}
               >
                 {cooldown > 0 ? `Resend OTP in ${cooldown}s` : 'Resend OTP'}
               </button>

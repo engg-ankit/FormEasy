@@ -68,7 +68,7 @@ export default function EditExamPage() {
 
       const docs = JSON.parse(exam.requiredDocuments || '[]');
       setRequiredDocuments(docs.length > 0 ? docs : ['']);
-    } catch (error) {
+    } catch {
       console.error('Error fetching exam:', error);
       setError('An error occurred while loading the exam');
     } finally {
@@ -129,7 +129,7 @@ export default function EditExamPage() {
       }
 
       router.push('/admin/exams');
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
       setIsSubmitting(false);
     }

@@ -21,8 +21,7 @@ const MSG91_SMS_URL = 'https://api.msg91.com/api/v5/otp';
  */
 async function sendOtpMsg91(
   mobile: string,
-  otp: string,
-  templateName: string = 'OTP'
+  otp: string
 ): Promise<{ success: boolean; message: string }> {
   const apiKey = process.env.MSG91_API_KEY;
   const senderId = process.env.MSG91_SENDER_ID || 'FORMES';
@@ -194,7 +193,7 @@ export async function sendVerificationOtp(
   mobile: string,
   otp: string
 ): Promise<{ success: boolean; message: string }> {
-  return sendOtpMsg91(mobile, otp, 'OTP');
+  return sendOtpMsg91(mobile, otp);
 }
 
 export default {

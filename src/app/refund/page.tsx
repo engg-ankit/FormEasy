@@ -67,7 +67,7 @@ export default function RefundPage() {
               </p>
               <ul className="list-disc list-inside text-neutral-600 space-y-2">
                 <li><strong>Change of Mind:</strong> If you decide not to proceed after service has been initiated</li>
-                <li><strong>Missed Deadlines:</strong> If application couldn't be submitted due to missed exam deadlines</li>
+                <li><strong>Missed Deadlines:</strong> If application couldn&apos;t be submitted due to missed exam deadlines</li>
                 <li><strong>Incorrect Information:</strong> If application was rejected due to incorrect information provided by you</li>
                 <li><strong>Document Issues:</strong> If application was rejected due to invalid or missing documents</li>
                 <li><strong>Service Fee:</strong> The service fee portion is non-refundable once work has begun</li>
@@ -142,7 +142,7 @@ export default function RefundPage() {
               <p className="text-sm text-primary-900">
                 <strong>Note:</strong> This refund policy is designed to be fair to both customers and our service. 
                 We understand each situation is unique and encourage you to reach out to our support team 
-                if you have specific circumstances you'd like us to consider.
+                if you have specific circumstances you&apos;d like us to consider.
               </p>
             </div>
           </CardContent>

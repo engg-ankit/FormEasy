@@ -248,3 +248,13 @@ model OtpRelay {
   @@index([applicationId])
   @@index([status])
 }
+
+// Fixed-window counters for API rate limiting (e.g. password reset requests)
+model RateLimit {
+  key       String   @id
+  count     Int      @default(0)
+  windowEnd DateTime
+  updatedAt DateTime @updatedAt
+
+  @@index([windowEnd])
+}

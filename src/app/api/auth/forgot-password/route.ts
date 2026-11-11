@@ -1,34 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+import {
+  createResetToken,
+  sendPasswordResetEmail,
+  getAppUrl,
+} from '@/lib/password-reset';
+import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
+
+const GENERIC_MESSAGE =
+  'If an account exists for that email, a password reset link has been sent.';
+
+// 3 reset emails per address and 10 per IP, per 15 minutes.
+const WINDOW_MS = 15 * 60 * 1000;
+const EMAIL_LIMIT = 3;
+const IP_LIMIT = 10;
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
 
-    if (!email) {
+    if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      // Don't reveal if user exists
-      return NextResponse.json({ success: true, message: 'If an account exists, a reset link has been sent.' });
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // Per client IP first (one caller can't flood many addresses), then per
+    // email address (one inbox can't be flooded).
+    const gate = await enforceRateLimits([
+      { key: `forgot:ip:${getClientIp(request)}`, limit: IP_LIMIT, windowMs: WINDOW_MS },
+      { key: `forgot:email:${normalizedEmail}`, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
+    ]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
     }
 
-    // Generate a simple reset token (in production, use a proper token library)
-    const resetToken = Buffer.from(`${user.id}:${Date.now()}`).toString('base64');
-    const tokenHash = await bcrypt.hash(resetToken, 4); // Low rounds for speed
-
-    // Store the token hash in a simple way - using the user's passwordHash temporarily
-    // In production, use a dedicated reset_tokens table
-    // For now, we'll return the token directly (for demo purposes)
-    return NextResponse.json({
-      success: true,
-      message: 'Reset token generated',
-      resetToken, // In production: send via email, don't return in response
-      userId: user.id,
+    const user = await prisma.user.findFirst({
+      where: { email: { equals: normalizedEmail, mode: 'insensitive' } },
     });
+
+    // Never reveal whether the account exists.
+    if (!user) {
+      return NextResponse.json({ success: true, message: GENERIC_MESSAGE });
+    }
+
+    const token = createResetToken(user.id, user.passwordHash);
+    const resetUrl = `${getAppUrl()}/forgot-password?token=${encodeURIComponent(token)}`;
+
+    const result = await sendPasswordResetEmail(user.email, user.fullName, resetUrl);
+
+    if (!result.success) {
+      console.error('Password reset email failed:', result.error);
+      return NextResponse.json(
+        { error: 'Could not send the reset email. Please try again later.' },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ success: true, message: GENERIC_MESSAGE });
   } catch (error) {
     console.error('Forgot password error:', error);
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });

@@ -1,5 +1,5 @@
 'use client';
-import { PageHead } from '@/components/page-head';
+
 
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
@@ -646,7 +646,7 @@ export default function DashboardPage() {
                                     alert('Payment still pending. If you paid, try again in a minute.');
                                   }
                                   fetchApplications();
-                                } catch (err) {
+                                } catch {
                                   alert('Failed to check payment status.');
                                 }
                               }}

@@ -90,7 +90,7 @@ export default function NewExamPage() {
       }
 
       router.push('/admin/exams');
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
       setIsSubmitting(false);
     }

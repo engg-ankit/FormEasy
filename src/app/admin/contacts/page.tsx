@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, ArrowLeft, CheckCircle, Archive, Trash2, MessageSquare, Loader2 } from 'lucide-react';
+import { Mail, ArrowLeft, CheckCircle, Archive, MessageSquare, Loader2 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import Link from 'next/link';
 
@@ -19,7 +19,6 @@ interface ContactMessage {
 }
 
 export default function AdminContactsPage() {
-  const router = useRouter();
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -40,7 +39,7 @@ export default function AdminContactsPage() {
       }
       const data = await response.json();
       setMessages(data.messages || []);
-    } catch (err) {
+    } catch {
       setError('Failed to load messages');
     } finally {
       setIsLoading(false);
@@ -56,7 +55,7 @@ export default function AdminContactsPage() {
         body: JSON.stringify({ status }),
       });
       setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m));
-    } catch (err) {
+    } catch {
       console.error('Failed to update status');
     }
   };

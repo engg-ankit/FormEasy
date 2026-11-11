@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,6 @@ interface Coupon {
 }
 
 export default function AdminCouponsPage() {
-  const router = useRouter();
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -52,7 +51,7 @@ export default function AdminCouponsPage() {
       }
 
       setCoupons(data.coupons);
-    } catch (error) {
+    } catch {
       console.error('Error fetching coupons:', error);
     } finally {
       setIsLoading(false);
@@ -92,7 +91,7 @@ export default function AdminCouponsPage() {
       setShowAddForm(false);
       fetchCoupons();
       setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
+    } catch {
       setError('Failed to add coupon');
     }
   };
@@ -127,7 +126,7 @@ export default function AdminCouponsPage() {
       setFormData({ code: '', discountType: 'PERCENTAGE', discountValue: '', expiryDate: '', usageLimit: '' });
       fetchCoupons();
       setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
+    } catch {
       setError('Failed to update coupon');
     }
   };

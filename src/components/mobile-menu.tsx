@@ -66,7 +66,7 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-neutral-100 dark:border-neutral-700">
-          <Logo size="sm" />
+          <Logo size="sm" white={logoWhite} />
           <button
             onClick={closeMenu}
             className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-neutral-100 transition-colors"

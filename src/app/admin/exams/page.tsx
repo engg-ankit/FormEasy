@@ -40,7 +40,7 @@ export default function AdminExamsPage() {
       }
 
       setExams(data.exams);
-    } catch (error) {
+    } catch {
       setError('Network error. Please check your connection.');
     } finally {
       setIsLoading(false);
@@ -58,7 +58,7 @@ export default function AdminExamsPage() {
       if (response.ok) {
         setExams(exams.filter(exam => exam.id !== id));
       }
-    } catch (error) {
+    } catch {
       console.error('Error deleting exam:', error);
     }
   };

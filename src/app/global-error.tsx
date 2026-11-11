@@ -20,7 +20,7 @@ export default function GlobalError({
         <div style={{ textAlign: 'center', padding: '2rem' }}>
           <p style={{ color: '#666', marginBottom: '1rem' }}>Something went wrong.</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => reset()}
             style={{
               padding: '0.5rem 1.5rem',
               borderRadius: '0.5rem',

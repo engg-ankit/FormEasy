@@ -103,6 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Providers>
         <ChatSupport />
         <WhatsAppButton />
+        <PwaRegister />
       </body>
     </html>
   );

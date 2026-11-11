@@ -33,7 +33,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-display font-bold">Our Mission</h2>
           </div>
           <p className="text-lg text-white/90 leading-relaxed">
-            To make form filling effortless for every Indian student. Whether it's a government exam, college admission, scholarship, or any official form — we handle it so you can focus on what matters: <strong>preparing for your future.</strong>
+            To make form filling effortless for every Indian student. Whether it&apos;s a government exam, college admission, scholarship, or any official form — we handle it so you can focus on what matters: <strong>preparing for your future.</strong>
           </p>
         </div>
 
@@ -77,13 +77,13 @@ export default function AboutPage() {
               ClickNsit was born from a real problem. Our founder, like millions of Indian students, saw firsthand how difficult it was to fill exam application forms. The long queues at cyber cafes, the confusion of different portal formats, the panic of missing deadlines — we experienced it all.
             </p>
             <p>
-              We asked ourselves: <strong className="text-primary-700">Why can't this be simpler?</strong> Why can't a student sit at home, fill their details once, and have their forms submitted automatically?
+              We asked ourselves: <strong className="text-primary-700">Why can&apos;t this be simpler?</strong> Why can&apos;t a student sit at home, fill their details once, and have their forms submitted automatically?
             </p>
             <p>
-              That's how ClickNsit was born — your online cyber cafe! Today, we help thousands of students across India fill their exam forms, college admissions, scholarship applications, and more — all from the comfort of their homes.
+              That&apos;s how ClickNsit was born — your online cyber cafe! Today, we help thousands of students across India fill their exam forms, college admissions, scholarship applications, and more — all from the comfort of their homes.
             </p>
             <p className="font-medium text-primary-900">
-              We're not just a form filling service. We're your partner in building your future. 🚀
+              We&apos;re not just a form filling service. We&apos;re your partner in building your future. 🚀
             </p>
           </div>
         </div>

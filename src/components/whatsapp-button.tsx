@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageCircle } from 'lucide-react';
+
 import { useState, useEffect } from 'react';
 
 const WHATSAPP_NUMBER = '919650752995';

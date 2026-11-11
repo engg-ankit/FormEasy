@@ -5,12 +5,28 @@ import { notifyWelcome } from '@/lib/notifications';
 import { notifyNewSignup } from '@/lib/admin-notifications';
 import { notifyUserWelcome } from '@/lib/user-notifications';
 import { signUserToken } from '@/lib/mobile-auth';
+import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
 // Supabase handles OTP verification internally.
 // If verifyOtp succeeds in the frontend/backend flow,
 // we trust the phone is verified.
 
+// 5 new accounts per IP per hour — enough for a shared connection, too few for abuse.
+const SIGNUP_WINDOW_MS = 60 * 60 * 1000;
+const SIGNUP_IP_LIMIT = 5;
+
 export async function POST(request: NextRequest) {
   try {
+    const gate = await enforceRateLimits([
+      {
+        key: `signup:ip:${getClientIp(request)}`,
+        limit: SIGNUP_IP_LIMIT,
+        windowMs: SIGNUP_WINDOW_MS,
+      },
+    ]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
+    }
+
     const { fullName, mobile, email, password, referralCode: inputReferralCode } = await request.json();
 
     // Validation

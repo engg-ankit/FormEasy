@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LogoIcon } from '@/components/logo-icon';
 import Link from 'next/link';
-import {
-  ArrowLeft, Clock, CheckCircle, XCircle, FileText, User,
-  Phone, Loader2, Trash2, ExternalLink, IndianRupee
-} from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, FileText, User, Phone, Loader2, Trash2, ExternalLink, IndianRupee } from 'lucide-react';
 
 interface FormRequest {
   id: string;
@@ -46,7 +43,7 @@ export default function AdminFormRequestsPage() {
       }
       const data = await res.json();
       setRequests(data.requests || []);
-    } catch (error) {
+    } catch {
       console.error('Failed to fetch requests');
     } finally {
       setIsLoading(false);
@@ -73,7 +70,7 @@ export default function AdminFormRequestsPage() {
         setShowActionModal(null);
         setActionData({ status: '', adminNote: '', estimatedFee: '' });
       }
-    } catch (error) {
+    } catch {
       console.error('Failed to update request');
     }
     setProcessingId(null);
@@ -84,7 +81,7 @@ export default function AdminFormRequestsPage() {
     try {
       await fetch(`/api/admin/form-requests/${id}`, { method: 'DELETE' });
       setRequests(prev => prev.filter(r => r.id !== id));
-    } catch (error) {
+    } catch {
       console.error('Failed to delete');
     }
   };
@@ -179,7 +176,7 @@ export default function AdminFormRequestsPage() {
                         </p>
                       )}
                       {req.description && (
-                        <p className="text-sm text-neutral-600 mb-2">"{req.description}"</p>
+                        <p className="text-sm text-neutral-600 mb-2">&quot;{req.description}&quot;</p>
                       )}
                       {req.adminNote && (
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-2">

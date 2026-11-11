@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ArrowLeft, Filter, Search, Download } from 'lucide-react';
 import { LogoIcon } from '@/components/logo-icon';
@@ -17,7 +17,6 @@ interface Application {
 }
 
 export default function AdminApplicationsPage() {
-  const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -58,7 +57,7 @@ export default function AdminApplicationsPage() {
 
       setApplications(data.applications);
       setTotalPages(data.pagination?.totalPages || 1);
-    } catch (error) {
+    } catch {
       console.error('Error fetching applications:', error);
     } finally {
       setIsLoading(false);

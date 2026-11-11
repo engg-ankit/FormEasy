@@ -1,11 +1,6 @@
 // ─── ClickNsit Telegram Bot — Complete Handler ──────────────────
 import { prisma } from './prisma';
-import {
-  mainMenuKeyboard, examListKeyboard, examDetailKeyboard,
-  applicationListKeyboard, applicationDetailKeyboard,
-  paymentKeyboard, confirmKeyboard, adminAppKeyboard,
-  cancelConfirmKeyboard,
-} from './telegram-keyboards';
+import { mainMenuKeyboard, examListKeyboard, examDetailKeyboard, applicationListKeyboard, applicationDetailKeyboard, adminAppKeyboard, cancelConfirmKeyboard } from './telegram-keyboards';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 
@@ -46,20 +41,6 @@ async function send(chatId: number, text: string, replyMarkup?: any) {
   } catch (err: any) {
     console.error('[TG] Send error:', err.message);
   }
-}
-
-async function editMessage(chatId: number, messageId: number, text: string, replyMarkup?: any) {
-  if (!BOT_TOKEN) return;
-  try {
-    const body: any = { chat_id: chatId, message_id: messageId, text, parse_mode: 'HTML' };
-    if (replyMarkup) body.reply_markup = replyMarkup;
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(10000),
-    });
-  } catch {}
 }
 
 async function answerCallback(callbackId: number, text?: string) {
@@ -178,7 +159,6 @@ export async function handleCallback(callbackQuery: any) {
   const chatId = callbackQuery.message?.chat.id;
   const data = callbackQuery.data;
   const telegramId = String(callbackQuery.from?.id || '');
-  const messageId = callbackQuery.message?.message_id;
 
   if (!chatId || !data) return;
   await answerCallback(callbackQuery.id);
@@ -1150,7 +1130,6 @@ async function cmdAdminRevenue(chatId: number) {
 
 export async function handleDocument(message: any) {
   const chatId = message.chat.id;
-  const telegramId = String(message.from?.id || '');
   const conv = conversations.get(chatId);
 
   if (!conv || conv.step !== 'admin_upload_receipt') return;
@@ -1190,19 +1169,6 @@ export async function handleDocument(message: any) {
         fileData: base64,
       },
     });
-
-    // Notify user
-    const app = await prisma.application.findUnique({
-      where: { id: conv.applicationId },
-      include: { user: true },
-    });
-
-    if (app) {
-      // Send notification to user via their Telegram if linked
-      const userTelegram = await prisma.user.findFirst({
-        where: { referralCode: { startsWith: 'TG_' } },
-      });
-    }
 
     conversations.delete(chatId);
     await send(chatId,

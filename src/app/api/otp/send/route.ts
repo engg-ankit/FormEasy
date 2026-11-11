@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendOtp } from '@/lib/otp';
+import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
+
+// 3 OTP emails per address / 10 per IP, per 15 minutes (covers resend spam).
+const WINDOW_MS = 15 * 60 * 1000;
+const IDENTIFIER_LIMIT = 3;
+const IP_LIMIT = 10;
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,6 +36,22 @@ export async function POST(request: NextRequest) {
         { error: 'Mobile number must be 10 digits' },
         { status: 400 }
       );
+    }
+
+    const gate = await enforceRateLimits([
+      {
+        key: `otp:ip:${getClientIp(request)}`,
+        limit: IP_LIMIT,
+        windowMs: WINDOW_MS,
+      },
+      {
+        key: `otp:send:${String(identifier).toLowerCase()}`,
+        limit: IDENTIFIER_LIMIT,
+        windowMs: WINDOW_MS,
+      },
+    ]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
     }
 
     // Send OTP via email (100% FREE!)

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+
 import { Logo } from '@/components/logo';
 import { CheckCircle, AlertCircle, Clock, Smartphone } from 'lucide-react';
 
@@ -55,7 +55,7 @@ export default function OtpEntryPage({ params }: { params: Promise<{ id: string 
       setTimeLeft(diff);
 
       setIsLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to load OTP request');
       setIsLoading(false);
     }
@@ -106,7 +106,7 @@ export default function OtpEntryPage({ params }: { params: Promise<{ id: string 
 
       setIsSubmitted(true);
       setIsSubmitting(false);
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
       setIsSubmitting(false);
     }

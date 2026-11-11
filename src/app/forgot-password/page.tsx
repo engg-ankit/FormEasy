@@ -20,10 +20,14 @@ export default function ForgotPasswordPage() {
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Reset links carry the token in the query string
+  // Reset links carry the token in the query string. Read it once, then drop it
+  // from the address bar so it does not linger in history or leak via Referer.
   useEffect(() => {
     const fromUrl = new URLSearchParams(window.location.search).get('token');
-    if (fromUrl) setToken(fromUrl);
+    if (!fromUrl) return;
+
+    setToken(fromUrl);
+    window.history.replaceState({}, '', window.location.pathname);
   }, []);
 
   const handleRequestReset = async (e: React.FormEvent) => {

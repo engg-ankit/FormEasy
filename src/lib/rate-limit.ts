@@ -109,19 +109,28 @@ export interface RateLimitRule {
  * missing table or DB hiccup cannot lock everyone out of the app.
  */
 export async function enforceRateLimits(
-  rules: RateLimitRule[],
+  rules: Array<RateLimitRule | null>,
   store?: RateLimitStore
 ): Promise<RateLimitResult> {
+  let remaining = Number.POSITIVE_INFINITY;
+
   for (const rule of rules) {
+    if (!rule) continue;
+
     try {
       const result = await consumeRateLimit(rule.key, rule.limit, rule.windowMs, store);
       if (!result.allowed) return result;
+      remaining = Math.min(remaining, result.remaining);
     } catch (error) {
       console.error('Rate limit check failed (allowing request):', error);
     }
   }
 
-  return { allowed: true, remaining: 0, retryAfter: 0 };
+  return {
+    allowed: true,
+    remaining: Number.isFinite(remaining) ? remaining : 0,
+    retryAfter: 0,
+  };
 }
 
 /** Clear a counter, e.g. after a successful login. */
@@ -142,11 +151,26 @@ export function rateLimitedResponse(retryAfter: number): NextResponse {
   );
 }
 
-export function getClientIp(request: Request): string {
+export function getClientIp(request: Request): string | null {
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
     const first = forwarded.split(',')[0].trim();
     if (first) return first;
   }
-  return request.headers.get('x-real-ip')?.trim() || 'unknown';
+  return request.headers.get('x-real-ip')?.trim() || null;
+}
+
+/**
+ * Per-IP rule for this request, or null when no proxy reported the client IP.
+ * Skipping is deliberate: one shared "unknown" bucket would let a single noisy
+ * client exhaust the quota for every user.
+ */
+export function ipRule(
+  request: Request,
+  scope: string,
+  limit: number,
+  windowMs: number
+): RateLimitRule | null {
+  const ip = getClientIp(request);
+  return ip ? { key: `${scope}:ip:${ip}`, limit, windowMs } : null;
 }

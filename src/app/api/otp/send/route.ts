@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendOtp } from '@/lib/otp';
-import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
+import { enforceRateLimits, ipRule, rateLimitedResponse } from '@/lib/rate-limit';
 
 // 3 OTP emails per address / 10 per IP, per 15 minutes (covers resend spam).
 const WINDOW_MS = 15 * 60 * 1000;
@@ -39,11 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     const gate = await enforceRateLimits([
-      {
-        key: `otp:ip:${getClientIp(request)}`,
-        limit: IP_LIMIT,
-        windowMs: WINDOW_MS,
-      },
+      ipRule(request, 'otp', IP_LIMIT, WINDOW_MS),
       {
         key: `otp:send:${String(identifier).toLowerCase()}`,
         limit: IDENTIFIER_LIMIT,

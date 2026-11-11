@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { verifyResetToken, matchesPasswordVersion } from '@/lib/password-reset';
+import { enforceRateLimits, ipRule, rateLimitedResponse } from '@/lib/rate-limit';
+
+// Token guessing is already infeasible; this only caps bulk abuse of the endpoint.
+const WINDOW_MS = 15 * 60 * 1000;
+const IP_LIMIT = 10;
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,6 +18,11 @@ export async function POST(request: NextRequest) {
 
     if (newPassword.length < 6) {
       return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 });
+    }
+
+    const gate = await enforceRateLimits([ipRule(request, 'reset', IP_LIMIT, WINDOW_MS)]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
     }
 
     const claims = verifyResetToken(token);

@@ -5,7 +5,7 @@ import {
   sendPasswordResetEmail,
   getAppUrl,
 } from '@/lib/password-reset';
-import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
+import { enforceRateLimits, ipRule, rateLimitedResponse } from '@/lib/rate-limit';
 
 const GENERIC_MESSAGE =
   'If an account exists for that email, a password reset link has been sent.';
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     // Per client IP first (one caller can't flood many addresses), then per
     // email address (one inbox can't be flooded).
     const gate = await enforceRateLimits([
-      { key: `forgot:ip:${getClientIp(request)}`, limit: IP_LIMIT, windowMs: WINDOW_MS },
+      ipRule(request, 'forgot', IP_LIMIT, WINDOW_MS),
       { key: `forgot:email:${normalizedEmail}`, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
     ]);
     if (!gate.allowed) {

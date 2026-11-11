@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import {
   enforceRateLimits,
-  getClientIp,
+  ipRule,
   rateLimitedResponse,
   resetRateLimit,
 } from '@/lib/rate-limit';
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     const emailKey = `admin-login:email:${String(email).toLowerCase()}`;
     const gate = await enforceRateLimits([
-      { key: `admin-login:ip:${getClientIp(request)}`, limit: IP_LIMIT, windowMs: WINDOW_MS },
+      ipRule(request, 'admin-login', IP_LIMIT, WINDOW_MS),
       { key: emailKey, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
     ]);
     if (!gate.allowed) {

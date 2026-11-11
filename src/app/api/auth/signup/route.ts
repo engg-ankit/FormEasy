@@ -5,7 +5,7 @@ import { notifyWelcome } from '@/lib/notifications';
 import { notifyNewSignup } from '@/lib/admin-notifications';
 import { notifyUserWelcome } from '@/lib/user-notifications';
 import { signUserToken } from '@/lib/mobile-auth';
-import { enforceRateLimits, getClientIp, rateLimitedResponse } from '@/lib/rate-limit';
+import { enforceRateLimits, ipRule, rateLimitedResponse } from '@/lib/rate-limit';
 // Supabase handles OTP verification internally.
 // If verifyOtp succeeds in the frontend/backend flow,
 // we trust the phone is verified.
@@ -16,17 +16,6 @@ const SIGNUP_IP_LIMIT = 5;
 
 export async function POST(request: NextRequest) {
   try {
-    const gate = await enforceRateLimits([
-      {
-        key: `signup:ip:${getClientIp(request)}`,
-        limit: SIGNUP_IP_LIMIT,
-        windowMs: SIGNUP_WINDOW_MS,
-      },
-    ]);
-    if (!gate.allowed) {
-      return rateLimitedResponse(gate.retryAfter);
-    }
-
     const { fullName, mobile, email, password, referralCode: inputReferralCode } = await request.json();
 
     // Validation
@@ -48,6 +37,15 @@ export async function POST(request: NextRequest) {
 
     // Note: OTP verification happens via /api/otp/verify before calling signup.
     // Supabase Auth internally tracks phone verification status.
+
+    // Rate limit only well-formed attempts, so a client spamming garbage cannot
+    // burn the signup quota for everyone else sharing its IP.
+    const gate = await enforceRateLimits([
+      ipRule(request, 'signup', SIGNUP_IP_LIMIT, SIGNUP_WINDOW_MS),
+    ]);
+    if (!gate.allowed) {
+      return rateLimitedResponse(gate.retryAfter);
+    }
 
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({

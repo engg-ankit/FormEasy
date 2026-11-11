@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { signUserToken } from '@/lib/mobile-auth';
 import {
   enforceRateLimits,
-  getClientIp,
+  ipRule,
   rateLimitedResponse,
   resetRateLimit,
 } from '@/lib/rate-limit';
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const emailKey = `login:email:${normalizedEmail}`;
 
     const gate = await enforceRateLimits([
-      { key: `login:ip:${getClientIp(request)}`, limit: IP_LIMIT, windowMs: WINDOW_MS },
+      ipRule(request, 'login', IP_LIMIT, WINDOW_MS),
       { key: emailKey, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
     ]);
     if (!gate.allowed) {

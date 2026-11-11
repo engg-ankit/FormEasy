@@ -11,7 +11,8 @@ import { Home, Search, LayoutDashboard, Phone } from 'lucide-react';
  */
 export function MobileTabBar() {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { status } = useSession();
+  const isLoggedIn = status === 'authenticated';
 
   // Hide on admin (has its own nav), auth, and splash pages
   if (
@@ -26,14 +27,15 @@ export function MobileTabBar() {
   const tabs = [
     { label: 'Home', href: '/', icon: Home, match: (p: string) => p === '/' },
     { label: 'Forms', href: '/exams', icon: Search, match: (p: string) => p.startsWith('/exams') },
-    session
+    // Logged-in users get their dashboard here; the Login tab only exists for guests.
+    isLoggedIn
       ? {
-          label: 'Dashboard',
+          label: 'My Forms',
           href: '/dashboard',
           icon: LayoutDashboard,
           match: (p: string) => p.startsWith('/dashboard'),
         }
-      : { label: 'Login', href: '/login', icon: LayoutDashboard, match: (p: string) => p.startsWith('/dashboard') },
+      : { label: 'Login', href: '/login', icon: LayoutDashboard, match: (p: string) => p.startsWith('/login') },
     { label: 'Contact', href: '/contact', icon: Phone, match: (p: string) => p.startsWith('/contact') },
   ];
 

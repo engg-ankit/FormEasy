@@ -1,12 +1,19 @@
-/* ClickNsit service worker — v1 */
-const CACHE = 'clicknsit-v1';
+/* ClickNsit service worker — v2 */
+const CACHE = 'clicknsit-v2';
 const APP_SHELL = ['/', '/exams', '/login', '/signup'];
+
+// Never cache signed-in pages: they contain personal data and go stale.
+const PRIVATE_PREFIXES = ['/dashboard', '/admin', '/payment', '/api', '/otp'];
+
+// In local development chunk URLs are not content-hashed, so cache-first would
+// keep serving old JavaScript after every edit. Stay out of the way there.
+const isDev = ['localhost', '127.0.0.1', '0.0.0.0'].includes(self.location.hostname);
+
+const isPrivate = (pathname) => PRIVATE_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((cache) => cache.addAll(APP_SHELL))
+    (isDev ? Promise.resolve() : caches.open(CACHE).then((cache) => cache.addAll(APP_SHELL)))
       .then(() => self.skipWaiting())
   );
 });
@@ -26,6 +33,8 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  if (isPrivate(url.pathname)) return;
+  if (isDev) return;
 
   // Hashed build assets + static resources: cache-first (safe, versioned)
   if (

@@ -31,10 +31,8 @@ export const SiteNav = () => {
   return (
     <>
       {/* Desktop buttons — hidden on mobile */}
+      {/* Admin has no entry point in the UI on purpose — staff open /admin/login directly. */}
       <div className="hidden sm:flex items-center gap-4">
-        <Link href="/admin/login" className="text-sm text-neutral-500 hover:text-primary-600 transition-colors">
-          Admin
-        </Link>
         {session ? (
           <div className="flex items-center gap-3">
             <UserNotificationBell />

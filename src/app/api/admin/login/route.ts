@@ -34,7 +34,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
-    const emailKey = `admin-login:email:${String(email).toLowerCase()}`;
+    // Autofill and copy-paste regularly bring a trailing space or a capital
+    // letter; the email column is case-sensitive, so normalise before lookup.
+    const emailKey = `admin-login:email:${String(email).trim().toLowerCase()}`;
     const gate = await enforceRateLimits([
       ipRule(request, 'admin-login', IP_LIMIT, WINDOW_MS),
       { key: emailKey, limit: EMAIL_LIMIT, windowMs: WINDOW_MS },
@@ -45,7 +47,9 @@ export async function POST(request: NextRequest) {
 
     // Find admin (with retry for connection pool issues)
     const admin = await withRetry(() =>
-      prisma.admin.findUnique({ where: { email } })
+      prisma.admin.findFirst({
+        where: { email: { equals: String(email).trim(), mode: 'insensitive' } },
+      })
     );
 
     if (!admin) {

@@ -7,6 +7,7 @@ import {
   rateLimitedResponse,
   resetRateLimit,
 } from '@/lib/rate-limit';
+import { ADMIN_COOKIE, ADMIN_SESSION_TTL_MS, createAdminSessionToken } from '@/lib/admin-session';
 
 const WINDOW_MS = 15 * 60 * 1000;
 const EMAIL_LIMIT = 5;
@@ -59,8 +60,8 @@ export async function POST(request: NextRequest) {
 
     await resetRateLimit(emailKey);
 
-    // Create session token (simple approach)
-    const sessionToken = Buffer.from(`${admin.id}:${Date.now()}`).toString('base64');
+    // Signed, expiring session token — the cookie cannot be forged or replayed forever.
+    const sessionToken = createAdminSessionToken(admin.id);
 
     const response = NextResponse.json({ 
       success: true,
@@ -72,11 +73,11 @@ export async function POST(request: NextRequest) {
     });
 
     // Set admin session cookie
-    response.cookies.set('admin_session', sessionToken, {
+    response.cookies.set(ADMIN_COOKIE, sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
+      sameSite: 'strict',
+      maxAge: Math.floor(ADMIN_SESSION_TTL_MS / 1000),
       path: '/',
     });
 

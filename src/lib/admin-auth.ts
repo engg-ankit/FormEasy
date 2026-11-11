@@ -1,23 +1,19 @@
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
+import { ADMIN_COOKIE, verifyAdminSessionToken } from '@/lib/admin-session';
 
 export async function getAdminSession() {
   const cookieStore = await cookies();
-  const sessionToken = cookieStore.get('admin_session')?.value;
+  const token = cookieStore.get(ADMIN_COOKIE)?.value;
 
-  if (!sessionToken) {
-    return null;
-  }
+  if (!token) return null;
+
+  // Signature + expiry are checked before the id is trusted at all.
+  const adminId = verifyAdminSessionToken(token);
+  if (!adminId) return null;
 
   try {
-    const decoded = Buffer.from(sessionToken, 'base64').toString('utf-8');
-    const [adminId] = decoded.split(':');
-
-    const admin = await prisma.admin.findUnique({
-      where: { id: adminId },
-    });
-
-    return admin;
+    return await prisma.admin.findUnique({ where: { id: adminId } });
   } catch {
     return null;
   }

@@ -19,6 +19,8 @@ model User {
   referralCode   String         @unique @default("")
   referredBy     String?
   referralBonus  Int            @default(0) // bonus in paise
+  // Bumped on password reset so already-issued tokens stop being accepted.
+  sessionVersion Int            @default(0)
   createdAt      DateTime       @default(now())
   applications   Application[]
   referralsGiven Referral[]     @relation("Referrer")

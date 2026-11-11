@@ -270,36 +270,54 @@ npx prisma generate
 npx prisma db push
 
 # Seed database (creates admin + sample exams)
+# The first admin's password is either ADMIN_SEED_PASSWORD or a random one
+# printed once to the console — there is no default password.
 npx tsx prisma/seed.ts
 
 # Start dev server
 npm run dev
+
+# Run the unit tests
+npm test
 ```
 
 Open http://localhost:3000
 
 ### Environment Variables
 
-```env
-DATABASE_URL="postgresql://postgres:password@db.xxx.supabase.co:5432/postgres?sslmode=require"
-NEXTAUTH_SECRET="your-random-32-char-secret"
-NEXTAUTH_URL="http://localhost:3000"
-RAZORPAY_KEY_ID="rzp_test_xxx"
-RAZORPAY_KEY_SECRET="your_razorpay_secret"
-NEXT_PUBLIC_RAZORPAY_KEY_ID="rzp_test_xxx"
+[`.env.example`](.env.example) is the source of truth — copy it to `.env` and fill it in.
 
-# Telegram Bot (optional)
-TELEGRAM_BOT_TOKEN="your-bot-token-from-botfather"
-TELEGRAM_CHAT_ID="your-chat-id"
-TELEGRAM_ADMIN_IDS="your-chat-id"
-TELEGRAM_WEBHOOK_URL="https://your-domain.vercel.app/api/telegram/webhook"
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `DATABASE_URL` | ✅ | PostgreSQL connection string |
+| `NEXTAUTH_SECRET` | ✅ | Signs auth tokens + reset links (min 24 chars) |
+| `NEXTAUTH_URL` / `NEXT_PUBLIC_APP_URL` | ✅ | Public origin, used in callbacks and reset links |
+| `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` / `NEXT_PUBLIC_RAZORPAY_KEY_ID` | ✅ for payments | Razorpay checkout + webhook signature checks |
+| `GMAIL_USER` / `GMAIL_APP_PASSWORD` | ✅ for email | Gmail SMTP for OTPs, reset links, status updates |
+| `ADMIN_SESSION_SECRET` | optional | Separate signing key for the admin cookie (falls back to `NEXTAUTH_SECRET`) |
+| `ADMIN_SEED_EMAIL` / `ADMIN_SEED_PASSWORD` | optional | First admin created by the seed |
+| `MSG91_*` | optional | SMS delivery (falls back to email/logging) |
+| `TELEGRAM_*` | optional | Telegram bot + staff alerts |
+| `EXPO_PUBLIC_API_URL` | optional | API origin used by the Expo app in `mobile/` |
+
+> ⚠️ In production `NEXTAUTH_SECRET` is mandatory: if it is missing or shorter than 24
+> characters the app throws instead of signing tokens with a public fallback secret.
+
+### Admin Credentials
+
+There is **no default admin password**. The seed either uses `ADMIN_SEED_PASSWORD` or
+prints a generated password once. Afterwards you can change or set it with:
+
+```bash
+npx tsx scripts/set-admin-password.ts            # prompts for email + new password
+# or from the UI: Admin → Settings → Change password
 ```
 
-### Default Credentials
+### Tests
 
-| Account | Email | Password |
-|---------|-------|----------|
-| Admin | admin@clickandsit.in | admin123 |
+```bash
+npm test        # vitest: password reset, admin sessions, rate limiting, secrets
+```
 
 ---
 
@@ -316,14 +334,26 @@ TELEGRAM_WEBHOOK_URL="https://your-domain.vercel.app/api/telegram/webhook"
 
 ## 🔒 Security
 
-- Passwords hashed with bcrypt
-- NextAuth.js session management
+- Passwords hashed with bcrypt (cost 10)
+- NextAuth.js session management; mobile tokens signed with the same secret
+- Production refuses to start with a missing/short `NEXTAUTH_SECRET` (no baked-in fallback)
+- Password reset links are HMAC-signed, single-use (bound to the password hash) and expire
+- Admin sessions use httpOnly, sameSite cookies; changing a password invalidates them
+- Rate limiting on login, signup, OTP and password-reset endpoints
 - Prisma ORM (SQL injection prevention)
-- Razorpay secure payment processing
-- Environment variable protection (.env not committed)
-- httpOnly cookies for admin sessions
-- Base64 document storage (Vercel-compatible)
-- Database connection pooling (connection_limit=1 per function)
+- Razorpay webhook signature verification
+- Environment variable protection (`.env` not committed)
+- GitHub Actions security check: dependency audit + lint + tests
+
+---
+
+## 🧪 Local CI
+
+```bash
+npm run lint
+npm test
+npm run build
+```
 
 ---
 

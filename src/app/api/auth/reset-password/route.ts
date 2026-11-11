@@ -45,7 +45,8 @@ export async function POST(request: NextRequest) {
     const passwordHash = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({
       where: { id: user.id },
-      data: { passwordHash },
+      // Bumping the version revokes every session and mobile token issued before now.
+      data: { passwordHash, sessionVersion: { increment: 1 } },
     });
 
     return NextResponse.json({ success: true, message: 'Password updated successfully' });

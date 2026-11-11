@@ -48,7 +48,15 @@ next-env.d.ts
 prisma/dev.db
 prisma/migrations/
 public/uploads/
-scripts/
-.env.production
+# local helper scripts, except the ops tool the README points at
+scripts/*
+!scripts/set-admin-password.ts
 .env.production
 .env.vercel
+
+# Local admin credentials written by the rotation script
+ADMIN-CREDENTIALS.txt
+
+# test + build artifacts
+/test-results
+/playwright-report

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     // Successful login clears the failure counter for this account.
     await resetRateLimit(emailKey);
 
-    const token = await signUserToken({ id: user.id, email: user.email });
+    const token = await signUserToken({ id: user.id, email: user.email, sessionVersion: user.sessionVersion });
 
     return NextResponse.json({
       success: true,

@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
@@ -92,13 +93,26 @@ const examsData: ExamSeed[] = [
 
 export async function seedDatabase() {
   try {
-    // Create admin
-    const adminPassword = await bcrypt.hash('admin123', 10);
-    await prisma.admin.upsert({
-      where: { email: 'admin@clickandsit.in' },
-      update: {},
-      create: { name: 'Admin User', email: 'admin@clickandsit.in', passwordHash: adminPassword },
-    });
+    // Create the first admin. Never a hardcoded password: take ADMIN_SEED_PASSWORD
+    // or generate a random one and print it once, so the account is not guessable.
+    const existingAdmin = await prisma.admin.findFirst({ select: { id: true } });
+    let generatedAdminPassword: string | null = null;
+
+    if (!existingAdmin) {
+      let password = process.env.ADMIN_SEED_PASSWORD;
+      if (!password) {
+        generatedAdminPassword = crypto.randomBytes(9).toString('base64url');
+        password = generatedAdminPassword;
+      }
+
+      await prisma.admin.create({
+        data: {
+          name: 'Admin User',
+          email: process.env.ADMIN_SEED_EMAIL || 'admin@clickandsit.in',
+          passwordHash: await bcrypt.hash(password, 10),
+        },
+      });
+    }
 
     // Create exams (idempotent by title)
     let created = 0;
@@ -134,9 +148,16 @@ export async function seedDatabase() {
       }
     }
 
+    const adminNote = generatedAdminPassword
+      ? `\n\n⚠️  Admin created — email: ${process.env.ADMIN_SEED_EMAIL || 'admin@clickandsit.in'}` +
+        `\n⚠️  Generated password (shown once, save it now): ${generatedAdminPassword}`
+      : '';
+
     return {
       success: true,
-      message: `Database seeded successfully — ${created} new forms, ${deactivated.count} expired forms hidden`,
+      message:
+        `Database seeded successfully — ${created} new forms, ${deactivated.count} expired forms hidden` +
+        adminNote,
     };
   } catch (error) {
     console.error('Seed error:', error);

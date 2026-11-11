@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { SignJWT, jwtVerify } from 'jose';
 import { authOptions } from '@/lib/auth-options';
+import { prisma } from '@/lib/prisma';
+import { getAuthSecret } from '@/lib/auth-secret';
 
 /**
  * Mobile (Expo) authentication.
@@ -12,37 +14,63 @@ import { authOptions } from '@/lib/auth-options';
  *
  * Every user-facing API route below resolves the user id through
  * getAuthUserId(request), so both web sessions and mobile tokens work.
+ *
+ * Tokens carry the user's `sessionVersion`; resetting the password bumps it,
+ * which invalidates every token issued before the reset.
  */
 
 export interface MobileTokenPayload {
   uid: string;
   email: string;
+  sv: number;
 }
+
+const TOKEN_TTL = '30d';
 
 function getSecret(): Uint8Array {
-  const secret = process.env.NEXTAUTH_SECRET || 'fallback-secret-change-in-production';
-  return new TextEncoder().encode(secret);
+  return new TextEncoder().encode(getAuthSecret());
 }
 
-/** Sign a JWT for a user (used by /api/mobile/login). */
-export async function signUserToken(user: { id: string; email: string }): Promise<string> {
-  return new SignJWT({ uid: user.id, email: user.email })
+/** Sign a JWT for a user (used by /api/mobile/login and /api/auth/signup). */
+export async function signUserToken(user: {
+  id: string;
+  email: string;
+  sessionVersion?: number;
+}): Promise<string> {
+  return new SignJWT({ uid: user.id, email: user.email, sv: user.sessionVersion ?? 0 })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('30d')
+    .setExpirationTime(TOKEN_TTL)
     .sign(getSecret());
 }
 
-/** Verify a Bearer token, returning the user id or null. */
+/** Verify a Bearer token, returning its claims or null. */
 export async function verifyMobileToken(token: string): Promise<MobileTokenPayload | null> {
   try {
     const { payload } = await jwtVerify(token, getSecret());
-    if (typeof payload.uid === 'string') {
-      return { uid: payload.uid, email: (payload.email as string) || '' };
-    }
-    return null;
+    if (typeof payload.uid !== 'string') return null;
+
+    return {
+      uid: payload.uid,
+      email: (payload.email as string) || '',
+      // Tokens minted before sessionVersion existed count as version 0.
+      sv: typeof payload.sv === 'number' ? payload.sv : 0,
+    };
   } catch {
     return null;
+  }
+}
+
+/** True when the token's session version still matches the user's current one. */
+export async function isSessionCurrent(payload: MobileTokenPayload): Promise<boolean> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: payload.uid },
+      select: { sessionVersion: true },
+    });
+    return !!user && user.sessionVersion === payload.sv;
+  } catch {
+    return false;
   }
 }
 
@@ -56,7 +84,7 @@ function getBearerToken(request: NextRequest): string | null {
 
 /**
  * Resolve the authenticated user id from either a NextAuth session or a
- * mobile Bearer JWT. Returns null when unauthenticated.
+ * mobile Bearer JWT. Returns null when unauthenticated or revoked.
  */
 export async function getAuthUserId(request: NextRequest): Promise<string | null> {
   // 1) Web: NextAuth session
@@ -71,7 +99,9 @@ export async function getAuthUserId(request: NextRequest): Promise<string | null
   const token = getBearerToken(request);
   if (token) {
     const payload = await verifyMobileToken(token);
-    return payload?.uid || null;
+    if (!payload) return null;
+    if (!(await isSessionCurrent(payload))) return null;
+    return payload.uid;
   }
 
   return null;

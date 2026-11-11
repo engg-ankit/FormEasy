@@ -14,11 +14,15 @@ declare module 'next-auth' {
     id: string;
     email: string;
     name: string;
+    /** Bumped on password reset; the JWT is dropped when it no longer matches. */
+    sessionVersion?: number;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
-    id: string;
+    /** Cleared when the session has been revoked. */
+    id?: string;
+    sv?: number;
   }
 }

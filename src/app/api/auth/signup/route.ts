@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     notifyUserWelcome(user.id).catch(console.error);
 
     // Generate JWT token for auto-login
-    const token = await signUserToken({ id: user.id, email: user.email });
+    const token = await signUserToken({ id: user.id, email: user.email, sessionVersion: user.sessionVersion });
 
     return NextResponse.json({
       success: true,

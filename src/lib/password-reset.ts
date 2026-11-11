@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { sendMail, escapeHtml } from '@/lib/mailer';
+import { getAuthSecret } from '@/lib/auth-secret';
 
 /**
  * Password reset tokens are stateless HMAC-signed tokens — no DB table needed.
@@ -13,12 +14,8 @@ import { sendMail, escapeHtml } from '@/lib/mailer';
 const TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
 function getSecret(): string {
-  const secret = process.env.NEXTAUTH_SECRET;
-  if (!secret) {
-    // Never sign tokens with a guessable default.
-    throw new Error('NEXTAUTH_SECRET is not configured');
-  }
-  return secret;
+  // Never sign tokens with a guessable default; throws in production when unset.
+  return getAuthSecret();
 }
 
 function sign(payload: string): string {

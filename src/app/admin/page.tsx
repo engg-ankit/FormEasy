@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, BarChart3, Tag, AlertCircle, ChevronRight, Bell, Mail } from 'lucide-react';
+import { Users, FileText, Clock, CheckCircle, TrendingUp, LogOut, Loader2, BarChart3, Tag, AlertCircle, ChevronRight, Bell, Mail, KeyRound } from 'lucide-react';
 import { Logo } from '@/components/logo';
 
 import { MobileMenu } from '@/components/mobile-menu';
@@ -172,6 +172,13 @@ export default function AdminDashboardPage() {
             </div>
             <div className="hidden sm:flex items-center gap-2">
               <ThemeToggle className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white" />
+              <Link
+                href="/admin/settings"
+                className="text-white hover:bg-white/10 font-medium flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-lg transition-colors"
+              >
+                <KeyRound className="h-5 w-5" />
+                <span>Password</span>
+              </Link>
               <button 
                 onClick={handleLogout}
                 className="text-white hover:bg-white/10 font-medium flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-lg transition-colors"
@@ -190,6 +197,7 @@ export default function AdminDashboardPage() {
                   { label: 'Coupons', href: '/admin/coupons', icon: <Tag className="h-5 w-5" /> },
                   { label: 'Requests', href: '/admin/form-requests', icon: <FileText className="h-5 w-5" /> },
                   { label: 'Notifications', href: '/admin/notifications', icon: <Bell className="h-5 w-5" /> },
+                  { label: 'Change Password', href: '/admin/settings', icon: <KeyRound className="h-5 w-5" /> },
                 ]}
                 footer={
                   <button

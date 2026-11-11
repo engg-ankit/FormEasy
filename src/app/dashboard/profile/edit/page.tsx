@@ -128,7 +128,6 @@ export default function ProfileEditPage() {
             </div>
             <div className="sm:hidden">
               <MobileMenu
-                logoWhite
                 items={[
                   { label: 'Dashboard', href: '/dashboard', icon: <User className="h-5 w-5" /> },
                   { label: 'Browse Forms', href: '/exams' },

@@ -168,7 +168,6 @@ export default function RequestFormPage() {
             </div>
             <div className="sm:hidden">
               <MobileMenu
-                logoWhite
                 items={[
                   { label: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
                   { label: 'Browse Forms', href: '/exams', icon: <Search className="h-5 w-5" /> },

@@ -14,13 +14,16 @@ interface MenuItem {
 
 interface MobileMenuProps {
   items: MenuItem[];
-  logoWhite?: boolean;
   cta?: { label: string; href: string };
   footer?: React.ReactNode;
   themeToggle?: React.ReactNode;
 }
 
-export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle }: MobileMenuProps) => {
+/**
+ * Slide-in menu for small screens. Drawer background is its own (white in light
+ * theme, neutral-900 in dark), so the logo always renders in its normal colours.
+ */
+export const MobileMenu = ({ items, cta, footer, themeToggle }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export const MobileMenu = ({ items, logoWhite = false, cta, footer, themeToggle 
       >
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-neutral-100 dark:border-neutral-700">
-          <Logo size="sm" white={logoWhite} />
+          <Logo size="sm" />
           <button
             onClick={closeMenu}
             className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-neutral-100 transition-colors"

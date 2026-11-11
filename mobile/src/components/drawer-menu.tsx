@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -43,6 +44,7 @@ export function DrawerMenu({
 }) {
   const router = useRouter();
   const { isDark } = useTheme();
+  const insets = useSafeAreaInsets();
   const { user, logout } = useAuth();
   const slide = useRef(new Animated.Value(-320)).current;
   const fade = useRef(new Animated.Value(0)).current;
@@ -111,7 +113,8 @@ export function DrawerMenu({
         ]}
       >
         {/* Header — brand + user (web drawer jaisa) */}
-        <View style={[styles.header, { borderBottomColor: border }]}>
+        {/* Top padding follows the status bar / notch so the brand stays visible. */}
+        <View style={[styles.header, { borderBottomColor: border, paddingTop: insets.top + 12 }]}>
           <View style={styles.brandRow}>
             <View style={styles.brandBadge}>
               <Text style={styles.brandCursor}>➤</Text>
@@ -210,7 +213,6 @@ const styles = StyleSheet.create({
     elevation: 16,
   },
   header: {
-    paddingTop: 54,
     paddingHorizontal: spacing.md,
     paddingBottom: 16,
     borderBottomWidth: 1,

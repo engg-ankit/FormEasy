@@ -20,10 +20,12 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
   const badgeStroke = white ? 'rgba(255,255,255,0.3)' : '#4338ca';
   const cursorColor = '#FFFFFF';
   const accentDot = '#f26338';
-  // Text colors
-  const clickColor = white ? '#FFFFFF' : '#312e81';
-  const nsitColor = white ? '#f26338' : '#f26338';
-  const tagColor = white ? 'rgba(255,255,255,0.6)' : '#94a3b8';
+  // Wordmark colours follow the theme (unless the logo sits on a forced-dark bar),
+  // otherwise a dark wordmark disappears on dark backgrounds and vice versa.
+  const clickClass = white ? undefined : 'fill-[#312e81] dark:fill-white';
+  const tagClass = white ? undefined : 'fill-[#94a3b8] dark:fill-neutral-400';
+  const clickFill = white ? '#FFFFFF' : undefined;
+  const tagFill = white ? 'rgba(255,255,255,0.6)' : undefined;
 
   return (
     <svg
@@ -66,8 +68,8 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontFamily="'Sora','Poppins',sans-serif"
           className="logo-word"
         >
-          <tspan fill={clickColor}>Click</tspan>
-          <tspan fill={nsitColor}>Nsit</tspan>
+          <tspan className={clickClass} fill={clickFill}>Click</tspan>
+          <tspan fill="#f26338">Nsit</tspan>
         </text>
         <text
           x="2"
@@ -75,9 +77,9 @@ export const Logo = ({ className = '', size = 'md', white = false }: LogoProps) 
           fontSize="12"
           fontWeight="500"
           letterSpacing="2.5"
-          fill={tagColor}
+          className={`logo-tagline ${tagClass ?? ''}`}
+          fill={tagFill}
           fontFamily="'Inter',sans-serif"
-          className="logo-tagline"
         >
           CLICK. SIT. DONE.
         </text>

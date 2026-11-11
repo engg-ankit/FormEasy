@@ -5,7 +5,6 @@ import { Providers } from "@/components/providers";
 import { ChatSupport } from "@/components/chat-support";
 import { SplashScreen } from "@/components/splash-screen";
 import { WhatsAppButton } from "@/components/whatsapp-button";
-import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { PwaRegister } from "@/components/pwa-register";
 
 const sora = Sora({
@@ -96,10 +95,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${sora.variable} ${inter.variable} min-h-full flex flex-col`}>
         <SplashScreen />
         <Providers>
-          <div className="flex-1 flex flex-col pb-[calc(68px+env(safe-area-inset-bottom))] md:pb-0">
+          <div className="flex-1 flex flex-col">
             {children}
           </div>
-          <MobileTabBar />
         </Providers>
         <ChatSupport />
         <WhatsAppButton />

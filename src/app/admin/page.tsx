@@ -182,7 +182,6 @@ export default function AdminDashboardPage() {
             </div>
             <div className="sm:hidden">
               <MobileMenu
-                logoWhite
                 items={[
                   { label: 'Applications', href: '/admin/applications', icon: <Users className="h-5 w-5" /> },
                   { label: 'Forms', href: '/admin/exams', icon: <FileText className="h-5 w-5" /> },

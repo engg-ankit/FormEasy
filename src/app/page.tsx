@@ -8,6 +8,7 @@ import { HomepageHeader } from '@/components/homepage-header';
 import { FadeIn, Stagger, StaggerItem } from '@/components/ui/motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, MAILTO_URL } from '@/lib/site';
 
 interface Exam {
   id: string;
@@ -317,8 +318,16 @@ export default function Home() {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-primary-200">
-                <li>support@clickandsit.in</li>
-                <li>+91 9650752995</li>
+                <li>
+                  <a href={MAILTO_URL} className="hover:text-white break-all">
+                    {CONTACT_EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-white">
+                    {CONTACT_PHONE}
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

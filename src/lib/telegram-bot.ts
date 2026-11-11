@@ -1,6 +1,7 @@
 // ─── ClickNsit Telegram Bot — Complete Handler ──────────────────
 import { prisma } from './prisma';
 import { mainMenuKeyboard, examListKeyboard, examDetailKeyboard, applicationListKeyboard, applicationDetailKeyboard, adminAppKeyboard, cancelConfirmKeyboard } from './telegram-keyboards';
+import { CONTACT_EMAIL } from './site';
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 
@@ -185,7 +186,7 @@ export async function handleCallback(callbackQuery: any) {
   } else if (data === 'contact_support') {
     await send(chatId,
       `💬 <b>Contact Support</b>\n\n` +
-      `📧 Email: support@clickandsit.vercel.app\n` +
+      `📧 Email: ${CONTACT_EMAIL}\n` +
       `🌐 Web: clickandsit.vercel.app/contact\n\n` +
       `⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)`
     );
@@ -321,7 +322,7 @@ async function cmdHelp(chatId: number) {
     `4️⃣ Pay — we submit your form!\n` +
     `5️⃣ Track status anytime\n\n` +
     `<b>Need help?</b>\n` +
-    `📧 support@clickandsit.vercel.app\n` +
+    `📧 ${CONTACT_EMAIL}\n` +
     `🌐 clickandsit.vercel.app/contact`
   );
 }

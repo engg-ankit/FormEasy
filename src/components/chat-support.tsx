@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/site';
 
 interface Message {
   id: string;
@@ -45,11 +46,11 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['refund', 'money back', 'return', 'paisa wapas', 'cancel', 'wapas', 'raam', 'refund kaise', 'paise', 'cancelation', 'cancellation'],
-    response: 'Refund Policy 💸\n\n✅ Full refund agar form submit nahi hua\n✅ Partial refund agar processing mein cancel karo\n❌ No refund agar form portal pe submit ho chuka hai\n\nRefund request ke liye:\n📧 support@clickandsit.in pe mail karo\nYa dashboard se cancel karo\n\nRefund 5-7 working days mein aa jayega! 🏦'
+    response: `Refund Policy 💸\n\n✅ Full refund agar form submit nahi hua\n✅ Partial refund agar processing mein cancel karo\n❌ No refund agar form portal pe submit ho chuka hai\n\nRefund request ke liye:\n📧 ${CONTACT_EMAIL} pe mail karo\nYa dashboard se cancel karo\n\nRefund 5-7 working days mein aa jayega! 🏦`
   },
   {
     keywords: ['contact', 'call', 'email', 'support', 'help', 'phone', 'baat', 'mail', 'number', 'reach', 'milna'],
-    response: 'Humse baat karo! 📞\n\n📧 Email: support@clickandsit.in\n📱 Phone: +91 9650752995\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.vercel.app/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours'
+    response: `Humse baat karo! 📞\n\n📧 Email: ${CONTACT_EMAIL}\n📱 Phone: ${CONTACT_PHONE}\n💬 WhatsApp: Same number pe\n🌐 Website: clickandsit.vercel.app/contact\n\n⏰ Support Hours: 9 AM - 9 PM (Mon-Sat)\n⚡ Response Time: 2-4 hours`
   },
   {
     keywords: ['document', 'docs', 'paper', 'kagaz', 'upload', 'kya chahiye', 'lagta', 'attach', 'file', 'photo', 'signature', 'marksheet', 'aadhar'],
@@ -85,7 +86,7 @@ const TOPICS: TopicMatch[] = [
   },
   {
     keywords: ['problem', 'issue', 'complaint', 'dikkat', 'pareshani', 'galat', 'wrong', 'not working', 'error', 'bug', 'fail'],
-    response: 'Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: support@clickandsit.in\n3️⃣ Ya call karo: +91 9650752995\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!'
+    response: `Sorry for the inconvenience! 😟\n\nAapki problem ka solution karte hain:\n\n1️⃣ Screenshot lo (agar possible)\n2️⃣ Email karo: ${CONTACT_EMAIL}\n3️⃣ Ya call karo: ${CONTACT_PHONE}\n\n💡 Detail mein batayo toh hum jaldi solve kar payenge!`
   },
   {
     keywords: ['aadhar', 'aadhaar'],

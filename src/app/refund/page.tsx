@@ -3,6 +3,7 @@ import { Logo } from '@/components/logo';
 import { SiteFooter } from '@/components/site-footer';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Link from 'next/link';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, MAILTO_URL } from '@/lib/site';
 
 export default function RefundPage() {
   return (
@@ -80,7 +81,10 @@ export default function RefundPage() {
                 To request a refund, please follow these steps:
               </p>
               <ol className="list-decimal list-inside text-neutral-600 space-y-2">
-                <li>Contact our support team at support@clickandsit.in</li>
+                <li>
+                  Contact our support team at{' '}
+                  <a href={MAILTO_URL} className="text-primary-600 hover:underline break-all">{CONTACT_EMAIL}</a>
+                </li>
                 <li>Provide your application ID and reason for refund request</li>
                 <li>Our team will review your request within 5-7 business days</li>
                 <li>If approved, refund will be processed to your original payment method</li>
@@ -123,8 +127,14 @@ export default function RefundPage() {
                 For refund-related queries, please contact:
               </p>
               <ul className="list-none text-neutral-600 mt-3 space-y-1">
-                <li>Email: refunds@clickandsit.in</li>
-                <li>Phone: +91 9650752995</li>
+                <li>
+                  Email:{' '}
+                  <a href={MAILTO_URL} className="text-primary-600 hover:underline break-all">{CONTACT_EMAIL}</a>
+                </li>
+                <li>
+                  Phone:{' '}
+                  <a href={`tel:${CONTACT_PHONE_TEL}`} className="text-primary-600 hover:underline">{CONTACT_PHONE}</a>
+                </li>
                 <li>Subject Line: Refund Request - [Your Application ID]</li>
               </ul>
             </section>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { SiteNav } from '@/components/site-nav';
 import { SiteFooter } from '@/components/site-footer';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, MAILTO_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -80,7 +81,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-primary-900 mb-3">8. Contact Us</h2>
-            <p className="text-neutral-600 leading-relaxed">For any privacy-related concerns, contact us at <strong>privacy@clickandsit.in</strong> or call <strong>+91 9650752995</strong>.</p>
+            <p className="text-neutral-600 leading-relaxed">
+              For any privacy-related concerns, contact us at{' '}
+              <a href={MAILTO_URL} className="text-primary-600 hover:underline break-all font-semibold">{CONTACT_EMAIL}</a>{' '}
+              or call{' '}
+              <a href={`tel:${CONTACT_PHONE_TEL}`} className="text-primary-600 hover:underline font-semibold">{CONTACT_PHONE}</a>.
+            </p>
           </section>
         </div>
       </div>

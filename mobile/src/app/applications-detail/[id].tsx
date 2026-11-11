@@ -6,6 +6,7 @@ import { Screen, Card, StatusBadge } from '@/components/ui';
 import { colors, formatDate, formatINR, statusInfo } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { applicationsApi, type ApplicationDetail } from '@/lib/api';
+import { CONTACT_EMAIL, CONTACT_PHONE } from '@/constants/contact';
 
 const FLOW = ['SUBMITTED', 'IN_PROCESS', 'FORM_FILLED', 'COMPLETED'];
 
@@ -137,7 +138,7 @@ export default function ApplicationDetailScreen() {
         )}
 
         <Text style={[styles.help, { color: muted }]}>
-          Need help? WhatsApp us at +91 9650752995 or email support@clickandsit.in
+          {`Need help? WhatsApp us at ${CONTACT_PHONE} or email ${CONTACT_EMAIL}`}
         </Text>
       </ScrollView>
     </Screen>

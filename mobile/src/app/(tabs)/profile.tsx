@@ -16,6 +16,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Screen, Card, Button } from '@/components/ui';
 import { EditProfileModal, ContactSupportModal } from '@/components/profile-modals';
 import { colors, formatINR, radius, spacing } from '@/constants/theme';
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  CONTACT_PHONE,
+  CONTACT_PHONE_TEL,
+  WEB_APP_URL,
+  WHATSAPP_URL,
+} from '@/constants/contact';
 import { useTheme } from '@/hooks/use-theme';
 import { useAuth } from '@/lib/auth';
 import { referralApi } from '@/lib/api';
@@ -205,7 +213,7 @@ export default function ProfileScreen() {
             icon="chatbubble-ellipses"
             label="WhatsApp Support"
             subtitle="Chat with us on WhatsApp"
-            onPress={() => Linking.openURL('https://wa.me/919650752995')}
+            onPress={() => Linking.openURL(WHATSAPP_URL)}
             color={colors.success}
             muted={muted}
             text={text}
@@ -214,8 +222,8 @@ export default function ProfileScreen() {
           <MenuItem
             icon="call"
             label="Call Support"
-            subtitle="+91 9650752995"
-            onPress={() => Linking.openURL('tel:+919650752995')}
+            subtitle={CONTACT_PHONE}
+            onPress={() => Linking.openURL(CONTACT_PHONE_TEL)}
             color={colors.info}
             muted={muted}
             text={text}
@@ -224,8 +232,8 @@ export default function ProfileScreen() {
           <MenuItem
             icon="mail"
             label="Email Support"
-            subtitle="support@clickandsit.in"
-            onPress={() => Linking.openURL('mailto:support@clickandsit.in')}
+            subtitle={CONTACT_EMAIL}
+            onPress={() => Linking.openURL(CONTACT_MAILTO)}
             color={colors.primaryDark}
             muted={muted}
             text={text}
@@ -253,7 +261,7 @@ export default function ProfileScreen() {
             icon="shield-checkmark"
             label="Privacy Policy"
             subtitle="How we protect your data"
-            onPress={() => Linking.openURL('https://clickandsit.in/privacy')}
+            onPress={() => Linking.openURL(`${WEB_APP_URL}/privacy`)}
             color={colors.success}
             muted={muted}
             text={text}
@@ -263,7 +271,7 @@ export default function ProfileScreen() {
             icon="document-text"
             label="Terms of Service"
             subtitle="Our terms and conditions"
-            onPress={() => Linking.openURL('https://clickandsit.in/terms')}
+            onPress={() => Linking.openURL(`${WEB_APP_URL}/terms`)}
             color={colors.textMuted}
             muted={muted}
             text={text}

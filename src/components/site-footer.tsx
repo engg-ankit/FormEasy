@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LogoIcon } from '@/components/logo-icon';
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, MAILTO_URL } from '@/lib/site';
 
 export function SiteFooter() {
   return (
@@ -35,8 +36,16 @@ export function SiteFooter() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-sm text-primary-200">
-              <li>support@clickandsit.in</li>
-              <li>+91 9650752995</li>
+              <li>
+                <a href={MAILTO_URL} className="hover:text-white break-all">
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${CONTACT_PHONE_TEL}`} className="hover:text-white">
+                  {CONTACT_PHONE}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
